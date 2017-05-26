@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using System.IO.Ports;
 
-public class ArduinoConnector : MonoBehaviour {
+public class SerialCom : MonoBehaviour {
 
     /* The serial port where the Arduino is connected. */
     [Tooltip("The serial port where the Arduino is connected")]
@@ -55,7 +55,7 @@ public class ArduinoConnector : MonoBehaviour {
 
     public string ReadFromArduino(int timeout = 0)
     {
-        serialPortReadTimeout = timeout;
+        serialPort.ReadTimeout = timeout;
         try
         {
             return serialPort.ReadLine();
