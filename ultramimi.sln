@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point_and_Click", "Assembly-CSharp.csproj", "{FEC22CF3-1031-6233-E1B7-E588016C30A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ultramimi", "Assembly-CSharp.csproj", "{78672857-B500-9B42-BED1-D0C11D45E06A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEC22CF3-1031-6233-E1B7-E588016C30A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEC22CF3-1031-6233-E1B7-E588016C30A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEC22CF3-1031-6233-E1B7-E588016C30A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEC22CF3-1031-6233-E1B7-E588016C30A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78672857-B500-9B42-BED1-D0C11D45E06A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78672857-B500-9B42-BED1-D0C11D45E06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78672857-B500-9B42-BED1-D0C11D45E06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78672857-B500-9B42-BED1-D0C11D45E06A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
