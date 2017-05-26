@@ -8,7 +8,7 @@ public class SerialHandler : MonoBehaviour {
 
 	private const int farmSwipe = 1;
     private const int rumahSwipe = 0;
-    private const int rumahTouch = 0;
+    //private const int rumahTouch = 0;
 	private const int nutrisiTouch = 1;
 	private const int CowTouch = 3;
 	private const int factoryTouch = 2;
