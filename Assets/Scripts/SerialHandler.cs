@@ -5,7 +5,13 @@ using UnityEngine;
 using System.Text;
 
 public class SerialHandler : MonoBehaviour {
-	
+
+	private const int farmSwipe = 1;
+	private const int CowTouch = 2;
+	private const int factoryTouch = 3;
+	private const int storeTouch = 4;
+	private const int anakTiup = 1;
+
 	/**/
 	[Tooltip("The serial port where the Arduino is connected")]
 	public static string port = "COM3";
@@ -15,21 +21,46 @@ public class SerialHandler : MonoBehaviour {
 
 	public bool farm = false;
 	public bool factory = false;
-	public bool asi = false;
+	public bool store = false;
 	public bool telo = false;
 	public bool let = false;
 
-
 	public SerialPort serialPort = new SerialPort(port,baudrate);
-
-
 	char buff;
+
+	int checkTouch(string input, int index)
+	{
+		if (input [index] == '0')
+			return 0;
+		else
+			return 1;
+	}
+
+	int checkSwipe(string input, int index)
+	{
+		if (input [2 * index + 1] == '0' && input [2 * index] == '0')
+			return 0;
+		else if (input [2 * index + 1] == '1' && input [2 * index] == '0')
+			return -1;
+		else if (input [2 * index + 1] == '0' && input [2 * index] == '1')
+			return 1;
+		else
+			return 2;	
+	}
+
+	int checkTiup(string input, int index)
+	{
+		if (input [index] == '0')
+			return 0;
+		else
+			return 1;
+	}
 
 	string intToBin(byte n)
 	{
 		
 		string output = "";
-		for (int i = 7; i > 0; i--) {
+		for (int i = 0; i < 8; i++) {
 			if ((n >> i) % 2 == 1) {
 				output += "1";
 			} else {
@@ -88,8 +119,13 @@ public class SerialHandler : MonoBehaviour {
 		for (int i = 0; i < 7; i++) {
 			// Mask each bit in the byte and store it
 			Debug.Log(intToBin(arr[i]));
-
 		}
+		string dataTouch = intToBin (arr[2]);
+		string dataSwipe = intToBin (arr[4]);
+		string dataTiup = intToBin (arr [6]);
 
+		farm = checkSwipe (dataSwipe, farmSwipe)==1;
+		factory = checkTouch (dataTouch, factoryTouch)==1;
+		store = checkTouch (dataTouch, storeTouch)==1;
 	}
 }
