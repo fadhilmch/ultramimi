@@ -30,8 +30,8 @@ public class Controller : MonoBehaviour {
             rumah = !rumah;
 
         if (Input.GetKeyDown(KeyCode.Q))
-            change = true;
-        else if (Input.GetKeyUp(KeyCode.Q))
-            change = false;
+            change = !change;
+        //else if (Input.GetKeyUp(KeyCode.Q))
+            //change = false;
     }
 }
