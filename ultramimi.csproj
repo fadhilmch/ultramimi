@@ -90,6 +90,7 @@
     <Compile Include="Assets\Script\Farm.cs" />
     <Compile Include="Assets\Script\Nutrisi.cs" />
     <Compile Include="Assets\Script\Rumah.cs" />
+    <Compile Include="Assets\Script\Swipe.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

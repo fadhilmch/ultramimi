@@ -31,7 +31,6 @@ public class Controller : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Q))
             change = !change;
-        //else if (Input.GetKeyUp(KeyCode.Q))
-            //change = false;
+        
     }
 }

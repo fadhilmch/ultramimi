@@ -9,20 +9,22 @@ Direct3D:
 Begin MonoManager ReloadAssembly
 Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\Labtek Indie\ultramimi\tes_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
 Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading E:\Labtek Indie\ultramimi\tes_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.100 seconds
+- Completed reload, in  0.063 seconds
 Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: E:\Labtek Indie\ultramimi\tes_Data\Managed\System.dll (this message is harmless)
-desktop: 3840x2160 60Hz; virtual: 10240x2160 at 0,0
+desktop: 1280x800 59Hz; virtual: 6400x2160 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 4.810670 ms
+UnloadTime: 5.263806 ms
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: b64 -> priority: 1 
-  Thread -> id: 2b4c -> priority: 1 
-  Thread -> id: 3c18 -> priority: 1 
-  Thread -> id: 3dec -> priority: 1 
+  Thread -> id: 395c -> priority: 1 
+  Thread -> id: 39e4 -> priority: 1 
+  Thread -> id: 5360 -> priority: 1 
+  Thread -> id: c50 -> priority: 1 
