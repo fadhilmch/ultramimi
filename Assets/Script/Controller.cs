@@ -10,6 +10,9 @@ public class Controller : MonoBehaviour {
     public bool rumah = false;
     public bool change = false;
 
+	private SerialHandler serialHandler;
+	public GameObject gameObject;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -32,5 +35,11 @@ public class Controller : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Q))
             change = !change;
         
+		if (gameObject.GetComponent<SerialHandler>().serial_is_open) {
+			if (gameObject.GetComponent<SerialHandler>().farm_is_swiped)
+				farm = !farm;
+			if (gameObject.GetComponent<SerialHandler>().factory_is_touched)
+				factory = !factory;
+		}
     }
 }

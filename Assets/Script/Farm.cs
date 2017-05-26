@@ -19,5 +19,6 @@ public class Farm : MonoBehaviour {
             animator.SetInteger("AnimState", 1);
         else if (controller.farm == false)
             animator.SetInteger("AnimState", 0);
+        
 	}
 }
