@@ -87,10 +87,12 @@
     <Compile Include="Assets\Script\ChangeScene.cs" />
     <Compile Include="Assets\Script\Controller.cs" />
     <Compile Include="Assets\Script\Factory.cs" />
+    <Compile Include="Assets\Script\Fading.cs" />
     <Compile Include="Assets\Script\Farm.cs" />
-    <Compile Include="Assets\Script\Nutrisi.cs" />
+    <Compile Include="Assets\Script\Photo.cs" />
     <Compile Include="Assets\Script\Rumah.cs" />
     <Compile Include="Assets\Script\SerialHandler.cs" />
+    <Compile Include="Assets\Script\Store.cs" />
     <Compile Include="Assets\Script\Swipe.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

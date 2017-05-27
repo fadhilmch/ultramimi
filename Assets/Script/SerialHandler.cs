@@ -6,14 +6,13 @@ using System.Text;
 
 public class SerialHandler : MonoBehaviour {
 
-	private const int farmSwipe = 1;
+    private const int prologTouch = 1;
+    private const int farmSwipe = 1;
+    private const int factoryTouch = 2;
+    private const int storeTouch = 4;
     private const int rumahSwipe = 0;
-    //private const int rumahTouch = 0;
-	private const int nutrisiTouch = 1;
-	private const int CowTouch = 3;
-	private const int factoryTouch = 2;
-	private const int storeTouch = 4;
 	private const int anakTiup = 0;
+    private const int changeTouch = 5;
 
 	/**/
 	[Tooltip("The serial port where the Arduino is connected")]
@@ -28,22 +27,24 @@ public class SerialHandler : MonoBehaviour {
 	public bool store_is_touched = false;
 	public bool anak_is_tiuped = false;
 	public bool rumah_is_swiped= false;
-	public bool nutrisi_is_touched  = false;
-
+	public bool prolog_is_touched  = false;
+    public bool change_is_touched = false;
 
 	private bool farm = false;
 	private bool factory = false;
 	private bool store = false;
 	private bool rumah = false;
-	private bool nutrisi = false;
+	private bool prolog = false;
 	private bool anak = false;
+    private bool change = false;
 
 	private bool lastFarm = false;
 	private bool lastFactory = false;
 	private bool lastStore = false;
 	private bool lastRumah = false;
-	private bool lastNutrisi = false;
+	private bool lastprolog = false;
 	private bool lastAnak = false;
+    private bool lastChange = false;
 
 	public SerialPort serialPort = new SerialPort(port,baudrate);
 	char buff;
@@ -138,9 +139,10 @@ public class SerialHandler : MonoBehaviour {
 		lastFarm = farm;
 		lastFactory = factory;
 		lastStore = store;
-		lastNutrisi = nutrisi;
+		lastprolog = prolog;
 		lastRumah = rumah;
 		lastAnak = anak;
+        lastChange = change;
 
 		byte[] cmd = {0x6A};
 		serialPort.Write (cmd, 0, cmd.Length);
@@ -150,7 +152,7 @@ public class SerialHandler : MonoBehaviour {
 
 		byte []arr = System.Text.Encoding.ASCII.GetBytes(temp);
         
-
+ 
 		//Debug.Log (temp);
 
 		for (int i = 0; i < 7; i++) {
@@ -166,22 +168,25 @@ public class SerialHandler : MonoBehaviour {
 		anak = checkTiup (dataTiup, anakTiup) == 1;
 		factory = checkTouch (dataTouch, factoryTouch)==1;
 		store = checkTouch (dataTouch, storeTouch)==1;
-		nutrisi = checkTouch (dataTouch, nutrisiTouch) == 1;
+		prolog = checkTouch (dataTouch, prologTouch) == 1;
 		rumah = checkSwipe (dataSwipe, rumahSwipe) == 1;
-        Debug.Log("Swipe " + dataSwipe);
+        change = checkTouch(dataTouch, storeTouch) == 1;
+
+        //Debug.Log("Swipe " + dataSwipe);
         Debug.Log("farm " + farm);
-        //Debug.Log("factory " + factory);
-        //Debug.Log("store " + store);
-        //Debug.Log("nutrisi " + nutrisi);
-        //Debug.Log("rumah " + rumah);
+        Debug.Log("factory " + factory);
+        Debug.Log("store " + store);
+        Debug.Log("prolog " + prolog);
+        Debug.Log("rumah " + rumah);
+        Debug.Log("change" + change);
 
 
         anak_is_tiuped = checkState (anak, lastAnak);
 		farm_is_swiped = checkState (farm, lastFarm);
 		factory_is_touched = checkState (factory, lastFactory);
 		store_is_touched = checkState (store, lastStore);
-		nutrisi_is_touched = checkState (nutrisi, lastNutrisi);
-		rumah_is_swiped = checkState (rumah, lastRumah); 
-
+		prolog_is_touched = checkState (prolog, lastprolog);
+		rumah_is_swiped = checkState (rumah, lastRumah);
+        change_is_touched = checkState(change, lastChange);
 	}
 }
