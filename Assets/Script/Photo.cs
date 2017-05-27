@@ -19,20 +19,20 @@ public class Photo : MonoBehaviour {
 	void Update () {
         if (state == 0 && controller.factory == true)
         {
-            Debug.Log("Masuk");
             animator.SetInteger("AnimState", 1);
             state = 1;
-            //Reset();
         }
-        else if (state == 1 && controller.factory == false )
+        if (state == 1 && controller.factory == false && controller.jawaban==false)
         {
-            animator.SetBool("Jawaban", false);
+            Debug.Log("Masuk");
+            animator.SetInteger("Jawaban", 1);
             state = 2;
             Reset();
         }
-        else if (state == 1 && controller.jawaban == true)
+        if (state == 1 && controller.jawaban == true && controller.factory == true)
         {
-            animator.SetBool("Jawaban", true);
+            Debug.Log("Masuk 2");
+            animator.SetInteger("Jawaban", 2);
             state = 2;
             Reset();
         }
@@ -42,5 +42,6 @@ public class Photo : MonoBehaviour {
     {
         controller.factory = false;
         controller.jawaban = false;
+        //animator.SetInteger("Jawaban", 0);
     }
 }
