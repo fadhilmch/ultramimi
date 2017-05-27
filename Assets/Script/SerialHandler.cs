@@ -71,7 +71,7 @@ public class SerialHandler : MonoBehaviour {
 		if (input [2 * index + 1] == '0' && input [2 * index] == '0')
 			return 0;
 		else if (input [2 * index + 1] == '1' && input [2 * index] == '0')
-			return -1;
+			return 1;
 		else if (input [2 * index + 1] == '0' && input [2 * index] == '1')
 			return 1;
 		else

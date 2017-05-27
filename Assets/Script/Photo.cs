@@ -6,8 +6,8 @@ public class Photo : MonoBehaviour {
 
     private Animator animator;
     private Controller controller;
-
-    private int state = 0;
+	public GameObject plane;
+	private int state = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +36,11 @@ public class Photo : MonoBehaviour {
             state = 2;
             Reset();
         }
+		if (animator.GetInteger ("AnimState") == 5) {
+			plane.SetActive (true);
+		} else {
+			plane.SetActive (false);
+		}
 	}
 
     private void Reset()
