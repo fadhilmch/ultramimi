@@ -22,15 +22,15 @@ public class Photo : MonoBehaviour {
             Debug.Log("Masuk");
             animator.SetInteger("AnimState", 1);
             state = 1;
-            Reset();
+            //Reset();
         }
-        if (state == 1 && controller.factory == true )
+        else if (state == 1 && controller.factory == false )
         {
             animator.SetBool("Jawaban", false);
             state = 2;
             Reset();
         }
-        if (state == 1 && controller.jawaban == true)
+        else if (state == 1 && controller.jawaban == true)
         {
             animator.SetBool("Jawaban", true);
             state = 2;
