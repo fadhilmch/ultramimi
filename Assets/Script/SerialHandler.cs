@@ -6,13 +6,13 @@ using System.Text;
 
 public class SerialHandler : MonoBehaviour {
 
-    private const int prologTouch = 1;
+    private const int prologTouch = 3;
     private const int farmSwipe = 1;
     private const int factoryTouch = 2;
-    private const int storeTouch = 4;
+    private const int storeTouch = 1;
     private const int rumahSwipe = 0;
 	private const int anakTiup = 0;
-    private const int changeTouch = 5;
+    private const int changeTouch = 0;
 
 	/**/
 	[Tooltip("The serial port where the Arduino is connected")]
