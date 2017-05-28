@@ -6,13 +6,16 @@ public class Photo : MonoBehaviour {
 
     private Animator animator;
     private Controller controller;
+	private PlayWebCam webCam;
 	public GameObject plane;
+	public bool play = true;
 	private int state = 0;
 
 	// Use this for initialization
 	void Start () {
         animator = GetComponent<Animator>();
         controller = GetComponent<Controller>();
+		webCam = plane.GetComponent<PlayWebCam> ();
 	}
 	
 	// Update is called once per frame
@@ -36,8 +39,18 @@ public class Photo : MonoBehaviour {
             state = 2;
             Reset();
         }
-		if (animator.GetInteger ("AnimState") == 5) {
+		if (animator.GetInteger ("AnimState") == 5 ||animator.GetInteger ("AnimState") == 6 ) {
 			plane.SetActive (true);
+			if (play) {
+				plane.GetComponent<PlayWebCam> ().camStream.Play ();
+			} else {
+				plane.GetComponent<PlayWebCam> ().camStream.Pause ();
+			}
+			if (controller.factory) {
+				StartCoroutine (webCam.CapturePNG());
+				animator.SetInteger ("AnimState", 6);
+				Debug.Log("AnimState = " + animator.GetInteger ("AnimState")); 
+			}
 		} else {
 			plane.SetActive (false);
 		}

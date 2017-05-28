@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour {
     public bool prolog = false;
     public bool anak = false;
     public bool jawaban = false;
+    public bool bendera = false;
 
 
 	private SerialHandler serialHandler;
@@ -45,6 +46,9 @@ public class Controller : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Z))
             jawaban = !jawaban;
 
+        if (Input.GetKeyDown(KeyCode.E))
+            bendera = !bendera;
+
         if (gameObject.GetComponent<SerialHandler>().serial_is_open) {
 			if (gameObject.GetComponent<SerialHandler>().farm_is_swiped)
 				farm = !farm;
@@ -56,8 +60,12 @@ public class Controller : MonoBehaviour {
                 rumah = !rumah;
             if (gameObject.GetComponent<SerialHandler>().prolog_is_touched)
                 prolog = !prolog;
-            //if (gameObject.GetComponent<SerialHandler>().change_is_touched)
-             //   change = !change;
+            if (gameObject.GetComponent<SerialHandler>().change_is_touched)
+                change = !change;
+            if (gameObject.GetComponent<SerialHandler>().jawaban_is_touched)
+                jawaban = !jawaban;
+            if (gameObject.GetComponent<SerialHandler>().bendera_is_touched)
+                bendera = !bendera;
         }
     }
 }

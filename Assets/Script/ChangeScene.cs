@@ -24,7 +24,7 @@ public class ChangeScene : MonoBehaviour {
             NewScene();
 	}
 
-    void NewScene()
+    public void NewScene()
     {
         float fadeTime =fading.BeginFade(1);
         //yield return new WaitForSeconds(fadeTime);
