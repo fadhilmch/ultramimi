@@ -10,6 +10,7 @@ public class PlayWebCam : MonoBehaviour {
 	public IEnumerator CapturePNG()
 	{
 		yield return new WaitForEndOfFrame ();
+		camStream.Pause ();
 		Texture2D _TextureFromCamera = new Texture2D (GetComponent<Renderer> ().material.mainTexture.width, GetComponent<Renderer> ().material.mainTexture.height);
 		_TextureFromCamera.SetPixels ((GetComponent<Renderer> ().material.mainTexture as WebCamTexture).GetPixels ());
 		_TextureFromCamera.Apply ();
@@ -22,7 +23,7 @@ public class PlayWebCam : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         device = WebCamTexture.devices;
-        camStream = new WebCamTexture(device[1].name);
+		camStream = new WebCamTexture(device[device.Length-1].name);
 		myRender = GetComponent<Renderer> ();
 		myRender.material.mainTexture = camStream;
 		camStream.Play ();

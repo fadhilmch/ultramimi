@@ -8,7 +8,8 @@ public class Photo : MonoBehaviour {
     private Controller controller;
 	private PlayWebCam webCam;
 	public GameObject plane;
-	public bool play = true;
+	public bool captureWebcam = false;
+	//public bool play = true;
 	private int state = 0;
 
 	// Use this for initialization
@@ -41,12 +42,9 @@ public class Photo : MonoBehaviour {
         }
 		if (animator.GetInteger ("AnimState") == 5 ||animator.GetInteger ("AnimState") == 6 ) {
 			plane.SetActive (true);
-			if (play) {
-				plane.GetComponent<PlayWebCam> ().camStream.Play ();
-			} else {
-				plane.GetComponent<PlayWebCam> ().camStream.Pause ();
-			}
-			if (controller.factory) {
+
+			if (captureWebcam) {
+				captureWebcam = false;
 				StartCoroutine (webCam.CapturePNG());
 				animator.SetInteger ("AnimState", 6);
 				Debug.Log("AnimState = " + animator.GetInteger ("AnimState")); 
