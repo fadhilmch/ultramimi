@@ -41,7 +41,7 @@ public class anakMove : MonoBehaviour
             {
                 endMarker.position = new Vector3(xMove, endMarker.position.y, endMarker.position.z);
                 t += Time.deltaTime;
-                transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 0.75f*t * speed);
+                transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 0.5f*t * speed);
                 if (transform.position.y == endMarker.position.y)
                 {
                     state = 1;

@@ -108,6 +108,7 @@
     <Compile Include="Assets\Script\changeDisplay.cs" />
     <Compile Include="Assets\Script\countDown.cs" />
     <Compile Include="Assets\Script\enableCam.cs" />
+    <Compile Include="Assets\Script\jepret.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
