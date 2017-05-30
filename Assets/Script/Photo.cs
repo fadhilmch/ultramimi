@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Photo : MonoBehaviour {
-
+    public AudioClip sound;
+    private AudioSource source;
     private Animator animator;
     private Controller controller;
 	private PlayWebCam webCam;
@@ -14,6 +15,7 @@ public class Photo : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         controller = GetComponent<Controller>();
 		webCam = plane.GetComponent<PlayWebCam> ();
@@ -46,7 +48,8 @@ public class Photo : MonoBehaviour {
 			if (captureWebcam) {
 				captureWebcam = false;
 				StartCoroutine (webCam.CapturePNG());
-				animator.SetInteger ("AnimState", 6);
+                source.PlayOneShot(sound, 1f);
+                animator.SetInteger ("AnimState", 6);
 				Debug.Log("AnimState = " + animator.GetInteger ("AnimState")); 
 			}
 		} else {

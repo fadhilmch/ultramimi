@@ -38,7 +38,7 @@ public class Factory : MonoBehaviour
         }
         if (audiostate == true)
         {
-            source.PlayOneShot(sound, .2f);
+            source.PlayOneShot(sound, 2f);
             audiostate = false;
         }
     }

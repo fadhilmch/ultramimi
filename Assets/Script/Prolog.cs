@@ -61,7 +61,7 @@ public class Prolog : MonoBehaviour
 
         if (audiostate == true)
         {
-            source.PlayOneShot(sound, .2f);
+            source.PlayOneShot(sound, .7f);
             audiostate = false;
         }
     }

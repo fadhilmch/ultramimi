@@ -38,7 +38,7 @@ public class Store : MonoBehaviour
 
         if (audiostate == true)
         {
-            source.PlayOneShot(sound, .05f);
+            source.PlayOneShot(sound, .7f);
             audiostate = false;
         }
     }
