@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class Prolog : MonoBehaviour
 {
+    public AudioClip sound;
+    private AudioSource source;
     public bool tapActiva = false;
     private Animator animator;
     private Controller controller;
 
+
+    private bool audiostate = false;
+    private bool laststate = false;
+    private bool laststate2 = false;
     // Use this for initialization
     void Start()
     {
+
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         controller = GetComponent<Controller>();
     }
@@ -24,6 +32,9 @@ public class Prolog : MonoBehaviour
             {
                 animator.SetInteger("AnimState", 1);
                 controller.bendera = false;
+                if (laststate == false)
+                    audiostate = true;
+                laststate = true;
             }
         }
 
@@ -31,6 +42,8 @@ public class Prolog : MonoBehaviour
         {
             animator.SetInteger("AnimState", 0);
             controller.tapActive = false;
+            laststate = false;
+            laststate2 = false;
         }
 
         if (animator.GetInteger("AnimState") == 1)
@@ -39,9 +52,17 @@ public class Prolog : MonoBehaviour
             {
                 animator.SetInteger("AnimState", 2);
                 controller.tapActive = true;
+                if (laststate2 == false)
+                    audiostate = true;
+                laststate2 = true;
             }
         }
 
 
+        if (audiostate == true)
+        {
+            source.PlayOneShot(sound, .2f);
+            audiostate = false;
+        }
     }
 }

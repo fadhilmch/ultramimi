@@ -18,7 +18,6 @@ public class PlayWebCam : MonoBehaviour {
 		string filePath = Application.dataPath + "/SnapShot.png";
         myRender.material.mainTexture = _TextureFromCamera;
         camStream.Pause();
-
 		System.IO.File.WriteAllBytes (filePath, bytes);
 	}
 

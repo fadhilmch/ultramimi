@@ -96,6 +96,7 @@
     <Compile Include="Assets\Script\Prolog.cs" />
     <Compile Include="Assets\Script\Rumah.cs" />
     <Compile Include="Assets\Script\SerialHandler.cs" />
+    <Compile Include="Assets\Script\SoundEffect.cs" />
     <Compile Include="Assets\Script\Store.cs" />
     <Compile Include="Assets\Script\Swipe.cs" />
     <Compile Include="Assets\Script\SwipeClose.cs" />

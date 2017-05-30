@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class CloudMove : MonoBehaviour {
 
+    public AudioClip sound;
+    private AudioSource source;
     private Controller controller;
+
     private float speed = 1f;
     public Transform startMarker;
     public Transform endMarker;
@@ -16,8 +19,14 @@ public class CloudMove : MonoBehaviour {
     private int yMove=0;
     private int state = 0;
 
-	// Use this for initialization
-	void Start () {
+
+    private bool audiostate = false;
+    private bool laststate = false;
+
+
+    // Use this for initialization
+    void Start () {
+        source = GetComponent<AudioSource>();
         controller = GetComponent<Controller>();
         spriterenderer = GetComponent<SpriteRenderer>();
         start = spriterenderer.color;
@@ -38,12 +47,16 @@ public class CloudMove : MonoBehaviour {
             t = 0f;
             yMove = Random.Range(-7, 7);
             state = 0;
-         }
+            laststate = false;
+        }
 
         if (controller.anak == true)
         {
             endMarker.position = new Vector3(endMarker.position.x, yMove, endMarker.position.z);
             t += Time.deltaTime;
+            if (laststate == false)
+                audiostate = true;
+            laststate = true;
             transform.position = Vector3.Lerp(startMarker.position, endMarker.position, t * speed);
             spriterenderer.material.color = Color.Lerp(start, end, t/2);
             if (spriterenderer.material.color.a == -1.0f)
@@ -57,9 +70,15 @@ public class CloudMove : MonoBehaviour {
             }
                      
         }
-           
-            
-     
+
+        if (audiostate == true)
+        {
+            source.PlayOneShot(sound, .05f);
+            audiostate = false;
+        }
+
+
+
     }
 
      

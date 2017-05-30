@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Rumah : MonoBehaviour
 {
-
+    public AudioClip sound;
+    private AudioSource source;
     private Animator animator;
     private Controller controller;
-
+    private bool audiostate = false;
+    private bool laststate = false;
     // Use this for initialization
     void Start()
     {
+
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         controller = GetComponent<Controller>();
     }
@@ -19,8 +23,22 @@ public class Rumah : MonoBehaviour
     void Update()
     {
         if (controller.rumah == true)
+        {
             animator.SetInteger("AnimState", 1);
+            if (laststate == false)
+                audiostate = true;
+            laststate = true;
+        }
         else if (controller.rumah == false)
+        {
             animator.SetInteger("AnimState", 0);
+            laststate = false;
+        }
+
+        if (audiostate == true)
+        {
+            source.PlayOneShot(sound, .2f);
+            audiostate = false;
+        }
     }
 }
