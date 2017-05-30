@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prolog : MonoBehaviour {
-
+public class Prolog : MonoBehaviour
+{
+    public bool tapActiva = false;
     private Animator animator;
     private Controller controller;
 
@@ -17,17 +18,30 @@ public class Prolog : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (controller.prolog == true)
-            animator.SetInteger("AnimState", 1);
-        else if (controller.prolog == false)
-            animator.SetInteger("AnimState", 0);
-        else if (controller.bendera == true && controller.prolog == true)
-            animator.SetInteger("AnimState", 2);
-        else if (controller.bendera == false && controller.prolog == true)
+        if (animator.GetInteger("AnimState") == 0)
+        {
+            if (controller.prolog == true)
+            {
+                animator.SetInteger("AnimState", 1);
+                controller.bendera = false;
+            }
+        }
+
+        if (controller.prolog == false)
         {
             animator.SetInteger("AnimState", 0);
-            controller.prolog =false;
+            controller.tapActive = false;
         }
+
+        if (animator.GetInteger("AnimState") == 1)
+        {
+            if (controller.bendera == true)
+            {
+                animator.SetInteger("AnimState", 2);
+                controller.tapActive = true;
+            }
+        }
+
 
     }
 }

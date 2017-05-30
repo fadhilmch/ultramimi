@@ -84,7 +84,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\AnimationAnak.cs" />
     <Compile Include="Assets\Script\ChangeScene.cs" />
+    <Compile Include="Assets\Script\CloudMove.cs" />
     <Compile Include="Assets\Script\Controller.cs" />
     <Compile Include="Assets\Script\Factory.cs" />
     <Compile Include="Assets\Script\Fading.cs" />
@@ -96,7 +98,15 @@
     <Compile Include="Assets\Script\SerialHandler.cs" />
     <Compile Include="Assets\Script\Store.cs" />
     <Compile Include="Assets\Script\Swipe.cs" />
+    <Compile Include="Assets\Script\SwipeClose.cs" />
+    <Compile Include="Assets\Script\SwipeRumah.cs" />
+    <Compile Include="Assets\Script\TapAppearPabrik.cs" />
+    <Compile Include="Assets\Script\TapClosePabrik.cs" />
+    <Compile Include="Assets\Script\TapProlog.cs" />
+    <Compile Include="Assets\Script\TapStore.cs" />
+    <Compile Include="Assets\Script\anakMove.cs" />
     <Compile Include="Assets\Script\changeDisplay.cs" />
+    <Compile Include="Assets\Script\countDown.cs" />
     <Compile Include="Assets\Script\enableCam.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

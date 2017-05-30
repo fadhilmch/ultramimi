@@ -20,6 +20,7 @@ public class Factory : MonoBehaviour
     {
         if (controller.factory == true)
             animator.SetInteger("AnimState", 1);
+        
         else if (controller.factory == false)
             animator.SetInteger("AnimState", 0);
     }

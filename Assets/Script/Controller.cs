@@ -13,9 +13,16 @@ public class Controller : MonoBehaviour {
     public bool anak = false;
     public bool jawaban = false;
     public bool bendera = false;
+    public bool lastAnak = false;
+    public bool stateAnak = false;
+    public bool tapActive = false;
+
+    private float t = 0f;
+    
 
 
-	private SerialHandler serialHandler;
+
+    private SerialHandler serialHandler;
 	public GameObject gameObject;
 
 	// Use this for initialization
@@ -49,6 +56,16 @@ public class Controller : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.E))
             bendera = !bendera;
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            anak = true;
+        }
+        /*
+        if(farm == true)
+        {
+            t += Time.deltaTime
+        }*/
+        
         if (gameObject.GetComponent<SerialHandler>().serial_is_open) {
 			if (gameObject.GetComponent<SerialHandler>().farm_is_swiped)
 				farm = !farm;
@@ -66,6 +83,14 @@ public class Controller : MonoBehaviour {
                 jawaban = !jawaban;
             if (gameObject.GetComponent<SerialHandler>().bendera_is_touched)
                 bendera = !bendera;
+            if (gameObject.GetComponent<SerialHandler>().anak_is_tiuped)
+            {
+                anak = !anak;
+            }
+
+            
         }
+    
+
     }
 }

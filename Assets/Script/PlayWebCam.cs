@@ -10,12 +10,14 @@ public class PlayWebCam : MonoBehaviour {
 	public IEnumerator CapturePNG()
 	{
 		yield return new WaitForEndOfFrame ();
-		camStream.Pause ();
+		
 		Texture2D _TextureFromCamera = new Texture2D (GetComponent<Renderer> ().material.mainTexture.width, GetComponent<Renderer> ().material.mainTexture.height);
 		_TextureFromCamera.SetPixels ((GetComponent<Renderer> ().material.mainTexture as WebCamTexture).GetPixels ());
 		_TextureFromCamera.Apply ();
 		byte[] bytes = _TextureFromCamera.EncodeToPNG ();
 		string filePath = "SavedPhoto.png";
+        myRender.material.mainTexture = _TextureFromCamera;
+        camStream.Pause();
 
 		System.IO.File.WriteAllBytes (filePath, bytes);
 	}
