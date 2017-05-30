@@ -17,8 +17,15 @@ public class Controller : MonoBehaviour {
     public bool stateAnak = false;
     public bool tapActive = false;
 
-    private float t = 0f;
-    
+    private float tFarm = 0f;
+    private float tFactory = 0f;
+    private float tStore = 0f;
+    private float trumah = 0f;
+    private float tchange = 0f;
+    private float tprolog = 0f;
+    private float tbendera = 0f;
+
+
 
 
 
@@ -60,12 +67,77 @@ public class Controller : MonoBehaviour {
         {
             anak = true;
         }
-        /*
+        
         if(farm == true)
         {
-            t += Time.deltaTime
-        }*/
-        
+            tFarm += Time.deltaTime;
+            if (tFarm > 25f)
+            {
+                farm = false;
+                tFarm = 0f;
+            }
+        }
+
+        if (factory == true)
+        {
+            tFactory += Time.deltaTime;
+            if (tFactory > 20f)
+            {
+                factory = false;
+                tFactory = 0f;
+            }
+        }
+
+        if (store == true)
+        {
+            tStore += Time.deltaTime;
+            if (tStore > 25f)
+            {
+                store = false;
+                tStore = 0f;
+            }
+        }
+
+        if (rumah == true)
+        {
+            trumah += Time.deltaTime;
+            if (trumah > 25f)
+            {
+                rumah = false;
+                trumah = 0f;
+            }
+        }
+
+        if (change == true)
+        {
+            tchange += Time.deltaTime;
+            if (tchange > 120f)
+            {
+                change = false;
+                tchange = 0f;
+            }
+        }
+
+        if (prolog == true&&bendera==false)
+        {
+            tprolog += Time.deltaTime;
+            if (tprolog > 20f)
+            {
+                prolog = false;
+                tprolog = 0f;
+            }
+        }
+
+        if (bendera == true)
+        {
+            tbendera += Time.deltaTime;
+            if (tbendera > 20f)
+            {
+                prolog = false;
+                tbendera = 0f;
+            }
+        }
+
         if (serHandler.GetComponent<SerialHandler>().serial_is_open) {
 			if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
 				farm = !farm;
