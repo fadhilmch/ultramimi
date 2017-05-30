@@ -23,7 +23,7 @@ public class Controller : MonoBehaviour {
 
 
     private SerialHandler serialHandler;
-	public GameObject gameObject;
+	public GameObject serHandler;
 
 	// Use this for initialization
 	void Start () {
@@ -66,24 +66,24 @@ public class Controller : MonoBehaviour {
             t += Time.deltaTime
         }*/
         
-        if (gameObject.GetComponent<SerialHandler>().serial_is_open) {
-			if (gameObject.GetComponent<SerialHandler>().farm_is_swiped)
+        if (serHandler.GetComponent<SerialHandler>().serial_is_open) {
+			if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
 				farm = !farm;
-			if (gameObject.GetComponent<SerialHandler>().factory_is_touched)
+			if (serHandler.GetComponent<SerialHandler>().factory_is_touched)
 				factory = !factory;
-            if (gameObject.GetComponent<SerialHandler>().store_is_touched)
+            if (serHandler.GetComponent<SerialHandler>().store_is_touched)
                 store = !store;
-            if (gameObject.GetComponent<SerialHandler>().rumah_is_swiped)
+            if (serHandler.GetComponent<SerialHandler>().rumah_is_swiped)
                 rumah = !rumah;
-            if (gameObject.GetComponent<SerialHandler>().prolog_is_touched)
+            if (serHandler.GetComponent<SerialHandler>().prolog_is_touched)
                 prolog = !prolog;
-            if (gameObject.GetComponent<SerialHandler>().change_is_touched)
+            if (serHandler.GetComponent<SerialHandler>().change_is_touched)
                 change = !change;
-            if (gameObject.GetComponent<SerialHandler>().jawaban_is_touched)
+            if (serHandler.GetComponent<SerialHandler>().jawaban_is_touched)
                 jawaban = !jawaban;
-            if (gameObject.GetComponent<SerialHandler>().bendera_is_touched)
+            if (serHandler.GetComponent<SerialHandler>().bendera_is_touched)
                 bendera = !bendera;
-            if (gameObject.GetComponent<SerialHandler>().anak_is_tiuped)
+            if (serHandler.GetComponent<SerialHandler>().anak_is_tiuped)
             {
                 anak = !anak;
             }

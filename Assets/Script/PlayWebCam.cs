@@ -15,7 +15,7 @@ public class PlayWebCam : MonoBehaviour {
 		_TextureFromCamera.SetPixels ((GetComponent<Renderer> ().material.mainTexture as WebCamTexture).GetPixels ());
 		_TextureFromCamera.Apply ();
 		byte[] bytes = _TextureFromCamera.EncodeToPNG ();
-		string filePath = "SavedPhoto.png";
+		string filePath = Application.dataPath + "/SnapShot.png";
         myRender.material.mainTexture = _TextureFromCamera;
         camStream.Pause();
 
