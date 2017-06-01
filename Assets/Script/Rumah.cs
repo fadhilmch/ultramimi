@@ -37,7 +37,7 @@ public class Rumah : MonoBehaviour
 
         if (audiostate == true)
         {
-            source.PlayOneShot(sound, 1f);
+            source.PlayOneShot(sound, 2f);
             audiostate = false;
         }
     }

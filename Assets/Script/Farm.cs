@@ -35,7 +35,7 @@ public class Farm : MonoBehaviour {
 
         if (audiostate == true)
         {
-            source.PlayOneShot(sound, .5f);
+            source.PlayOneShot(sound, .7f);
             audiostate = false;
         }
 
