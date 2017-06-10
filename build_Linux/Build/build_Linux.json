@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "build_Linux.data.unityweb",
+"asmCodeUrl": "build_Linux.asm.code.unityweb",
+"asmMemoryUrl": "build_Linux.asm.memory.unityweb",
+"asmFrameworkUrl": "build_Linux.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
