@@ -37,9 +37,20 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-# End of https://www.gitignore.io/api/unity
-<<<<<<< HEAD
-Library/UnityAssemblies/
-=======
-Library/
->>>>>>> 5962611e3c159c04e84fabca6128b436ad944d96
+.DS_Store
+Library/AssetImportState
+Library/AssetServerCacheV3
+Library/FailedAssetImports.txt
+Library/ScriptAssemblies
+Library/ScriptMapper
+Library/assetDatabase3
+Library/cache
+Library/expandedItems
+Library/metadata
+Library/previews
+Library/guidmapper
+Temp
+*.csproj
+*.pidb
+*.sln
+
