@@ -32,7 +32,7 @@ public class anakMove : MonoBehaviour
         {
             transform.position = startMarker.position;
             t = 0f;
-            xMove = Random.Range(4, 22);
+            xMove = Random.Range(4, 23);
         }
 
         if (controller.anak == true)
