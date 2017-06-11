@@ -5,7 +5,7 @@ using UnityEngine;
 public class anakMove : MonoBehaviour
 {
     private Controller controller;
-    private float speed = 1f;
+    private float speed = 3f;
     public Transform startMarker;
     public Transform endMarker;
     public Transform restartMarker;
@@ -32,7 +32,7 @@ public class anakMove : MonoBehaviour
         {
             transform.position = startMarker.position;
             t = 0f;
-            xMove = Random.Range(5, 25);
+            xMove = Random.Range(5, 23);
         }
 
         if (controller.anak == true)
