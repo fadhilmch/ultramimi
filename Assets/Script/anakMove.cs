@@ -32,7 +32,11 @@ public class anakMove : MonoBehaviour
         {
             transform.position = startMarker.position;
             t = 0f;
+<<<<<<< HEAD
+            xMove = Random.Range(4, 23);
+=======
             xMove = Random.Range(4, 12);
+>>>>>>> fe04c6e428ec3a9836a501cfe09f318dc39eea53
         }
 
         if (controller.anak == true)
