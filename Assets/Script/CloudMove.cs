@@ -45,7 +45,7 @@ public class CloudMove : MonoBehaviour {
             spriterenderer.material.color = start;
             transform.position = startMarker.position;
             t = 0f;
-            yMove = Random.Range(-7, 10);
+            yMove = Random.Range(-7, 7);
             state = 0;
             laststate = false;
         }
