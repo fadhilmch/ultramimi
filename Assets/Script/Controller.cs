@@ -32,6 +32,7 @@ public class Controller : MonoBehaviour {
     private SerialHandler serialHandler;
 	public GameObject serHandler;
 
+
 	// Use this for initialization
 	void Start () {
 		
@@ -159,8 +160,6 @@ public class Controller : MonoBehaviour {
             {
                 anak = !anak;
             }
-
-            
         }
     
 

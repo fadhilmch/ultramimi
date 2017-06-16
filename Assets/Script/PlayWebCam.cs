@@ -4,18 +4,20 @@ using System.Collections.Generic;
 
 public class PlayWebCam : MonoBehaviour {
 	public WebCamTexture camStream;
-    WebCamDevice[] device;
-	Renderer myRender;
+    private WebCamDevice[] device;
+	private Renderer myRender;
+	private string monthVar;
 
 	public IEnumerator CapturePNG()
 	{
 		yield return new WaitForEndOfFrame ();
-		
-		Texture2D _TextureFromCamera = new Texture2D (GetComponent<Renderer> ().material.mainTexture.width, GetComponent<Renderer> ().material.mainTexture.height);
-		_TextureFromCamera.SetPixels ((GetComponent<Renderer> ().material.mainTexture as WebCamTexture).GetPixels ());
+		monthVar = System.DateTime.Now.ToString ("yyyyMMddhhmmss");
+		Texture2D _TextureFromCamera = new Texture2D (camStream.width, camStream.height);
+		_TextureFromCamera.SetPixels (camStream.GetPixels());
 		_TextureFromCamera.Apply ();
 		byte[] bytes = _TextureFromCamera.EncodeToPNG ();
-		string filePath = Application.dataPath + "/SnapShot.png";
+		string filePath = Application.dataPath + "/Snap/SnapShot-"+ monthVar +".png";
+		Debug.Log (filePath);
         myRender.material.mainTexture = _TextureFromCamera;
         camStream.Pause();
 		System.IO.File.WriteAllBytes (filePath, bytes);
@@ -24,7 +26,9 @@ public class PlayWebCam : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         device = WebCamTexture.devices;
-		camStream = new WebCamTexture(device[device.Length-1].name);
+		camStream = new WebCamTexture(device[0].name,1920,1080,30);
+		Debug.Log ("Connected to " + device [0].name);
+		Debug.Log (camStream.deviceName);
 		myRender = GetComponent<Renderer> ();
 		myRender.material.mainTexture = camStream;
 		camStream.Play ();
