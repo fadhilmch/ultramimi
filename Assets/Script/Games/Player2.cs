@@ -14,15 +14,15 @@ public class Player2 : MonoBehaviour {
 		controller = GetComponent<PlayerController> ();
 
 		player1Coordinate = new Vector2[] {
-			new Vector2 (6.93f, -2.4f),
-			new Vector2 (5.36f, -2.4f),
-			new Vector2 (3.55f, -2.4f)
+			new Vector2 (6.93f, -3.29f),
+			new Vector2 (5.36f, -3.29f),
+			new Vector2 (3.55f, -3.29f)
 		};
 
 		player2Coordinate = new Vector2[] {
-			new Vector2(-3.25f, -2.4f),
-			new Vector2(-4.99f,-2.4f),
-			new Vector2(-6.7f,-2.4f)
+			new Vector2(-3.25f, -3.29f),
+			new Vector2(-4.99f,-3.29f),
+			new Vector2(-6.7f,-3.29f)
 		};
 
 			
@@ -33,7 +33,7 @@ public class Player2 : MonoBehaviour {
 		controller.movingPlayer2 = controller.movingPlayer1 > 1 ? 1 : controller.movingPlayer2;
 		controller.movingPlayer2 = controller.movingPlayer1 < -1 ? -1 : controller.movingPlayer2;
 
-		transform.position = player2Coordinate [controller.movingPlayer2];
+		transform.position = player2Coordinate [controller.movingPlayer2+1];
 		print (transform.position);
 
 		}
