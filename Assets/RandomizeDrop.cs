@@ -3,35 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomizeDrop : MonoBehaviour {
-	public int milkCount = 20;
+	public enum ObjectType{Milk = 0, Tree = 1};
+	public enum ObjectSide{Left = 0, Right = 1};
 	public int obstacleCount = 10;
-	public int counterP1 = 10;
-	public int counterP2 = 60;
+	public int counter = 60;
 	public float spawnTime = 1.1f;
-	public GameObject milk;
+	public GameObject sampleObject;
+	public ObjectType objectType = ObjectType.Milk;
+	public ObjectSide objectSide = ObjectSide.Left;
 
-	private Vector3[] spawnCoordinateP2;
-	private Vector3[] spawnCoordinateP1;
+	private Vector3[] spawnCoordinate;
 	private float spawnCoolDown;
+	private int minIndex, maxIndex;
 	// Use this for initialization
 	void Start () {
-		spawnCoordinateP2 = new Vector3[]
-		{
-			new Vector3(6.93f, 5.73f,0),
-			new Vector3(5.36f,5.73f,0),
-			new Vector3(3.55f,5.73f,0)
-		};	
-	
-		spawnCoordinateP1 = new Vector3[]
+		if (objectType == ObjectType.Milk) {
+			minIndex = 3 * (int)objectSide;
+			maxIndex = 3 * ((int)objectSide + 1);
+		} else {
+			minIndex = 6 + (2 * (int)objectSide);
+			maxIndex = 6 + (2 * ((int)objectSide+1));
+		}
+
+		spawnCoordinate = new Vector3[]
 		{
 			new Vector3(-3.25f, 5.73f,0),
 			new Vector3(-4.99f,5.73f,0),
-			new Vector3(-6.7f,5.73f,0)
+			new Vector3(-6.7f,5.73f,0),
+			new Vector3(6.93f, 5.73f,0),
+			new Vector3(5.36f,5.73f,0),
+			new Vector3(3.55f,5.73f,0),
+			new Vector3(-2.00f,5.73f,0),
+			new Vector3(-8.33f,5.73f,0),
+			new Vector3(8.33f, 5.73f,0),
+			new Vector3(2.05f,5.73f,0)
 		};
 
 		spawnCoolDown = spawnTime;
-
-		//InvokeRepeating ("SpawnMilkP2", spawnTime, spawnTime );
 	}
 
 	void Update()
@@ -40,24 +48,17 @@ public class RandomizeDrop : MonoBehaviour {
 			spawnCoolDown -= Time.deltaTime;
 		} else {
 			spawnCoolDown = spawnTime;
-			SpawnMilkP1 ();
+			spawnObject(sampleObject);
 		}
 		Debug.Log (spawnCoolDown);
 	}
 	
 	// Update is called once per frame
-	void SpawnMilkP1 () {
-		Instantiate (milk, spawnCoordinateP1 [Random.Range (0, 3)], new Quaternion ());
-
+	void spawnObject (GameObject sample) {
+		Instantiate (sample, spawnCoordinate [Random.Range (minIndex, maxIndex)], new Quaternion ());
 	}
 
 
-		public bool CanSpawn
-	{
-		get{
-			return spawnCoolDown <= 0f;
-		}
-	}
 	/*
 	void SpawnMilkP2 () {
 		if (counterP2 > 1) {
