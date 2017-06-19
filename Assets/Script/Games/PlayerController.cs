@@ -4,37 +4,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	public int movingPlayer1 = 0; 
-	public int movingPlayer2 = 0;
+	public int[] movingPlayer = {0,0}; 
+
 
 	void Start () {
-		movingPlayer1 = 0; 
-		movingPlayer2 = 0;
+		
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown("right"))
 		{
-			movingPlayer1 += 1;
+			movingPlayer[1] += 1;
 		}
 
 		if(Input.GetKeyDown("left"))
 		{
-			movingPlayer1 += -1;
+			movingPlayer[1] += -1;
 		}
 
 		if(Input.GetKeyDown(KeyCode.A))
 		{
-			movingPlayer2 += 1;
+			movingPlayer[0] += 1;
 		}
 
 		if(Input.GetKeyDown(KeyCode.D))
 		{
-			movingPlayer2 += -1;
+			movingPlayer[0] += -1;
 		}
 
-
-
+		movingPlayer[0] = Mathf.Clamp (movingPlayer[0], -1, 1);
+		movingPlayer[1] = Mathf.Clamp (movingPlayer[1], -1, 1);
 	}
 }

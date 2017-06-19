@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour {
-
+	public int point = 5;
 	// Use this for initialization
 	void Start () {
 		
@@ -15,7 +15,10 @@ public class Collectable : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D target){
-		if (target.gameObject.tag == "Player")
+		
+		if (target.gameObject.tag == "Player") {
+			target.gameObject.GetComponent<Player> ().totalScore += point;
 			Destroy (gameObject);
+		}
 	}
 }
