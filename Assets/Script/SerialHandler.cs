@@ -20,7 +20,7 @@ public class SerialHandler : MonoBehaviour {
     
 
 	/**/
-	[Tooltip("The serial port where the Arduino is connected")]
+	[Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
 	public static string port = "COM6";
 	/* The baudrate of the serial port. */
 	[Tooltip("The baudrate of the serial port")]
