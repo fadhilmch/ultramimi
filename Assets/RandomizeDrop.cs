@@ -17,28 +17,24 @@ public class RandomizeDrop : MonoBehaviour {
 	void Start () {
 		spawnCoordinateP2 = new Vector3[]
 		{
-<<<<<<< HEAD
 			new Vector3(6.93f, 5.73f,0),
 			new Vector3(5.36f,5.73f,0),
 			new Vector3(3.55f,5.73f,0)
-=======
+			/*
 			new Vector2(6.93f, 0),
 			new Vector2(5.36f,0),
-			new Vector2(3.55f,0)
->>>>>>> e37c7ca181022af36423c8700a63f722ab639044
+			new Vector2(3.55f,0)*/
 		};	
 	
 		spawnCoordinateP1 = new Vector3[]
 		{
-<<<<<<< HEAD
 			new Vector3(-3.25f, 5.73f,0),
 			new Vector3(-4.99f,5.73f,0),
 			new Vector3(-6.7f,5.73f,0)
-=======
+/*
 			new Vector2(-3.25f, 0),
 			new Vector2(-4.99f,0),
-			new Vector2(-6.7f,0)
->>>>>>> e37c7ca181022af36423c8700a63f722ab639044
+			new Vector2(-6.7f,0)*/
 		};
 
 		InvokeRepeating ("SpawnMilkP1", spawnTime + Random.Range(0,0.4f), spawnTime + Random.Range(0,0.2f));

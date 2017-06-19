@@ -30,10 +30,10 @@ public class Player2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		controller.movingPlayer1 = controller.movingPlayer1 > 1 ? 1 : controller.movingPlayer1;
-		controller.movingPlayer1 = controller.movingPlayer1 < -1 ? -1 : controller.movingPlayer1;
+		controller.movingPlayer2 = controller.movingPlayer1 > 1 ? 1 : controller.movingPlayer2;
+		controller.movingPlayer2 = controller.movingPlayer1 < -1 ? -1 : controller.movingPlayer2;
 
-		transform.position = player1Coordinate [controller.movingPlayer1];
+		transform.position = player2Coordinate [controller.movingPlayer2];
 		print (transform.position);
 
 		}
