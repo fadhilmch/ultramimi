@@ -24,12 +24,12 @@ public class PlayerController : MonoBehaviour {
 			movingPlayer1 += -1;
 		}
 
-		if(Input.GetKeyDown("A"))
+		if(Input.GetKeyDown(KeyCode.A))
 		{
 			movingPlayer2 += 1;
 		}
 
-		if(Input.GetKeyDown("D"))
+		if(Input.GetKeyDown(KeyCode.D))
 		{
 			movingPlayer2 += -1;
 		}

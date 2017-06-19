@@ -12,7 +12,8 @@ public class Movements : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		if(gameObject != null)
+			Destroy (gameObject, 3f);
 	}
 	
 	// Update is called once per frame
