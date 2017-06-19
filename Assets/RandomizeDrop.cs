@@ -5,6 +5,7 @@ using UnityEngine;
 public class RandomizeDrop : MonoBehaviour {
 	public int milkCount = 20;
 	public int obstacleCount = 10;
+	public int counter = 60;
 
 	private Vector2[] spawnCoordinateP2;
 	private Vector2[] spawnCoordinateP1;
@@ -13,17 +14,19 @@ public class RandomizeDrop : MonoBehaviour {
 	void Start () {
 		spawnCoordinateP2 = new Vector2[]
 		{
-			new Vector2(-4.48, 0),
-			new Vector2(-6.2,0),
-			new Vector2(-7.92,0)
+			new Vector2(6.93, 0),
+			new Vector2(5.36,0),
+			new Vector2(3.55,0)
 		};	
 
-		spawnCoordinateP2 = new Vector2[]
+		spawnCoordinateP1 = new Vector2[]
 		{
-			new Vector2(-13.55, 0),
-			new Vector2(-15.2,0),
-			new Vector2(-16.92,0)
+			new Vector2(-3.25, 0),
+			new Vector2(-4.99,0),
+			new Vector2(-6.7,0)
 		};
+
+
 	}
 	
 	// Update is called once per frame
