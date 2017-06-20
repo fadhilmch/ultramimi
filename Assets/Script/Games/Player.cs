@@ -33,6 +33,6 @@ public class Player : MonoBehaviour {
 
 	void onTriggerEnter2D(Collider2D otherCollider)
 	{
-		totalScore += otherCollider.gameObject.GetComponent<Collectable> ().point;
+		//totalScore += otherCollider.gameObject.GetComponent<Collectable> ().point;
 	}
 }
