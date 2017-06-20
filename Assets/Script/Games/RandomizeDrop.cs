@@ -27,16 +27,16 @@ public class RandomizeDrop : MonoBehaviour {
 
 		spawnCoordinate = new Vector3[]
 		{
-			new Vector3(-3.25f, 5.73f,0),
-			new Vector3(-4.99f,5.73f,0),
-			new Vector3(-6.7f,5.73f,0),
-			new Vector3(6.93f, 5.73f,0),
-			new Vector3(5.36f,5.73f,0),
-			new Vector3(3.55f,5.73f,0),
-			new Vector3(-2.00f,5.73f,0),
-			new Vector3(-8.33f,5.73f,0),
-			new Vector3(8.33f, 5.73f,0),
-			new Vector3(2.05f,5.73f,0)
+			new Vector3(-3.25f, 5.73f,0.68f),
+			new Vector3(-4.99f,5.73f,0.68f),
+			new Vector3(-6.7f,5.73f,0.68f),
+			new Vector3(6.93f, 5.73f,0.68f),
+			new Vector3(5.36f,5.73f,0.68f),
+			new Vector3(3.55f,5.73f,0.68f),
+			new Vector3(-2.00f,5.73f,0.68f),
+			new Vector3(-8.33f,5.73f,0.68f),
+			new Vector3(8.33f, 5.73f,0.68f),
+			new Vector3(2.05f,5.73f,0.68f)
 		};
 
 		spawnCoolDown = spawnTime;
@@ -50,7 +50,6 @@ public class RandomizeDrop : MonoBehaviour {
 			spawnCoolDown = spawnTime;
 			spawnObject(sampleObject);
 		}
-		Debug.Log (spawnCoolDown);
 	}
 	
 	// Update is called once per frame
