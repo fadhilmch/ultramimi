@@ -5,6 +5,40 @@ using UnityEngine;
 using System.Text;
 
 public class SerialHandler : MonoBehaviour {
+	//Scene 1
+	public GameObject prologObject;
+	public GameObject farmObject;
+	public GameObject factoryObject;
+	public GameObject storeObject;
+	public GameObject rumahObject;
+
+	//Scene Games 2
+	public GameObject player1KiriObject;
+	public GameObject player1KananObject;
+	public GameObject player2KiriObject;
+	public GameObject player2KananObject;
+
+
+	public enum TouchObject{
+		Prolog = 0,
+		Farm = 1,
+		Factory = 2,
+		Store = 3,
+		Rumah = 4,
+		Player1Kiri = 5,
+		Player1Kanan = 6,
+		Player2Kiri = 7,
+		Player2Kanan = 8
+	};
+
+	public enum SwipeObject{
+		Anak = 0
+	};
+
+	public enum BlowObject{
+		Farm = 0,
+		Rumah = 1,
+	};
 
     private const int prologTouch = 0;
     private const int benderaTouch = 1;
@@ -25,18 +59,16 @@ public class SerialHandler : MonoBehaviour {
 	/* The baudrate of the serial port. */
 	[Tooltip("The baudrate of the serial port")]
 	public static int baudrate = 9600;
-	public bool serial_is_open = false;
 
+	public bool serial_is_open = false;
 	public bool farm_is_swiped = false;
 	public bool rumah_is_swiped= false;
-
 	public bool prolog_is_touched  = false;
     public bool change_is_touched = false;
     public bool factory_is_touched = false;
     public bool store_is_touched = false;
     public bool jawaban_is_touched = false;
     public bool bendera_is_touched = false;
-
     public bool anak_is_tiuped = false;
 
     private bool farm = false;
@@ -115,6 +147,7 @@ public class SerialHandler : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		// Initialize serial protocol
 		serialPort.Parity = Parity.None;
 		serialPort.StopBits = StopBits.One;
 		serialPort.DataBits = 8;
@@ -149,6 +182,7 @@ public class SerialHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		serial_is_open = serialPort.IsOpen;
+
 		lastFarm = farm;
 		lastFactory = factory;
 		lastStore = store;
