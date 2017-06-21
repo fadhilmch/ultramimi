@@ -205,7 +205,7 @@ public class GameConroller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		serialOpen = serialPort.IsOpen;
+        serialOpen =serialPort==null? false : serialPort.IsOpen;
 
 		for (int i = 0; i < state.Length; i++) {
 			lastState = state;
@@ -217,9 +217,13 @@ public class GameConroller : MonoBehaviour {
 
 
 		byte[] cmd = {0x6A};
-		serialPort.Write (cmd, 0, cmd.Length);
-		serialPort.BaseStream.Flush();
-		string temp = serialPort.ReadLine();
+        if(serialPort != null)
+        {
+            serialPort.Write(cmd, 0, cmd.Length);
+            serialPort.BaseStream.Flush();
+            string temp = serialPort.ReadLine();
+        }
+		
 
 		byte []arr = System.Text.Encoding.ASCII.GetBytes(temp);
 
