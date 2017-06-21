@@ -44,11 +44,13 @@ public class RandomizeDrop : MonoBehaviour {
 
 	void Update()
 	{
-		if (spawnCoolDown > 0) {
-			spawnCoolDown -= Time.deltaTime;
-		} else {
-			spawnCoolDown = spawnTime;
-			spawnObject(sampleObject);
+		if (GameController.gameState == GameController.GameState.Play) {
+			if (spawnCoolDown > 0) {
+				spawnCoolDown -= Time.deltaTime;
+			} else {
+				spawnCoolDown = spawnTime;
+				spawnObject (sampleObject);
+			}
 		}
 	}
 	

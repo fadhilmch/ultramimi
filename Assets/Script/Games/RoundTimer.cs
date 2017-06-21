@@ -12,9 +12,13 @@ public class RoundTimer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		timeLeft -= Time.deltaTime;
-		countDown.text = timeLeft.ToString ("0");
-		if (timeLeft < 0)
-			countDown.text = "Finished!";
+		if (GameController.gameState == GameController.GameState.Play) {
+			timeLeft -= Time.deltaTime;
+			countDown.text = timeLeft.ToString ("0");
+			if (timeLeft < 0) {
+				countDown.text = "Finished!";
+				GameController.gameState = GameController.GameState.Finished;
+			}
+		}
 	}
 }

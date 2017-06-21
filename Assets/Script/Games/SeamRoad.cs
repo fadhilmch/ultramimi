@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class SeamRoad : MonoBehaviour {
 	private float groundVerticalLength;
-	private BoxCollider2D groundCollider;
 	public int roadCount = 1;
-
+	public float loopHeight = -18.77f;
 	private float seamCooldown;
 
 	// Use this for initialization
-	private void awake()
+	private void awake() 
 	{
-		groundCollider = GetComponent<BoxCollider2D> ();
-		groundVerticalLength = groundCollider.size.y;
+		
 	}
 
 
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (transform.position.y + " " + groundVerticalLength);
-		if (transform.position.y < -18.77) {
+		if (transform.position.y < loopHeight) {
 			RepositionBackground();
 		} 
 	}
@@ -29,7 +26,6 @@ public class SeamRoad : MonoBehaviour {
 	{
 		Debug.Log ("Reposition");
 		Vector3 groundOffset = new Vector3 (transform.position.x, 0f, transform.position.z);
-
 		transform.position = groundOffset;
 	}
 }
