@@ -25,8 +25,10 @@ public class Movements : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if (rigidbodyComponent == null)
-			rigidbodyComponent = GetComponent<Rigidbody2D> ();
-		rigidbodyComponent.velocity = movement;
+		if (GameController.gameState == GameController.GameState.Play) {
+			if (rigidbodyComponent == null)
+				rigidbodyComponent = GetComponent<Rigidbody2D> ();
+			rigidbodyComponent.velocity = movement;
+		}
 	}
 }
