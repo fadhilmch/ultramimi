@@ -19,7 +19,7 @@ public class GameConroller : MonoBehaviour {
 	private bool serialOpen = false;
 	public SerialPort serialPort = new SerialPort(port,baudrate);
 	char buff;
-
+    private string temp;
 	//Scene 1
 	/*public GameObject prologObject;
 	public GameObject farmObject;
@@ -215,13 +215,13 @@ public class GameConroller : MonoBehaviour {
 		StateControl (farmObject, sensorValue [(int)State.Farm], objectState [(int)State.Farm]);
 		StateControl (storeObject, sensorValue [(int)State.Store], objectState [(int)State.Store]);
 
-
+        
 		byte[] cmd = {0x6A};
         if(serialPort != null)
         {
             serialPort.Write(cmd, 0, cmd.Length);
             serialPort.BaseStream.Flush();
-            string temp = serialPort.ReadLine();
+            temp = serialPort.ReadLine();
         }
 		
 
