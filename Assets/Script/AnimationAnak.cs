@@ -12,6 +12,7 @@ public class AnimationAnak : MonoBehaviour {
 	void Start () {
         anak = GetComponent<anakMove>();
         animator = GetComponent<Animator>();
+        controller = GetComponent<Controller>();
 	}
 	
 	// Update is called once per frame

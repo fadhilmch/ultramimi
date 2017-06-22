@@ -28,14 +28,14 @@ public class Photo : MonoBehaviour {
             animator.SetInteger("AnimState", 1);
             state = 1;
         }
-        if (state == 1 && controller.factory == false && controller.jawaban==false)
+        if (state == 1 && controller.factory == false)
         {
             Debug.Log("Masuk");
             animator.SetInteger("Jawaban", 1);
             state = 2;
             Reset();
         }
-        if (state == 1 && controller.jawaban == true && controller.factory == true)
+        if (state == 1 &&controller.factory == true)
         {
             Debug.Log("Masuk 2");
             animator.SetInteger("Jawaban", 2);
@@ -60,7 +60,7 @@ public class Photo : MonoBehaviour {
     private void Reset()
     {
         controller.factory = false;
-        controller.jawaban = false;
+        //controller.jawaban = false;
         //animator.SetInteger("Jawaban", 0);
     }
 }

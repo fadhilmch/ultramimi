@@ -213,47 +213,59 @@ public class GameConroller : MonoBehaviour {
 		}
 
 		ManualControl ();
-		StateControl (farmObject, sensorValue [(int)State.Farm], objectState [(int)State.Farm]);
-		StateControl (storeObject, sensorValue [(int)State.Store], objectState [(int)State.Store]);
+		//StateControl (farmObject, sensorValue [(int)State.Farm], objectState [(int)State.Farm]);
+		//StateControl (storeObject, sensorValue [(int)State.Store], objectState [(int)State.Store]);
 
 
 		byte[] cmd = {0x6A};
 
-       
 
-        if(serialPort != null)
+        Debug.Log(serialPort == null);
+        try
         {
             serialPort.Write(cmd, 0, cmd.Length);
             serialPort.BaseStream.Flush();
             temp = serialPort.ReadLine();
+            byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
+
+            string dataTouch = intToBin(arr[2]);
+            string dataSwipe = intToBin(arr[4]);
+            string dataTiup = intToBin(arr[6]);
+
+            for (int i = 0; i < (int)TouchID.Size; i++)
+            {
+                UpdateValue(state[i], (int)SensorType.Touch, dataTouch, i);
+                print(i);
+            }
+
+            for (int i = 0; i < (int)BlowID.Size; i++)
+            {
+                UpdateValue(state[i + (int)TouchID.Size], SensorType.Blow, dataTiup, i);
+            }
+
+            for (int i = 0; i < (int)SwipeID.Size; i++)
+            {
+                UpdateValue(state[i + (int)TouchID.Size + (int)BlowID.Size], SensorType.Swipe, dataSwipe, i);
+            }
+
+            for (int i = 0; i < state.Length; i++)
+            {
+                sensorValue[i] = CheckState(state[i], lastState[i]);
+            }
+
+            StateControl(farmObject, sensorValue[(int)State.Farm], objectState[(int)State.Farm]);
+
         }
+        catch
+        {
+
+        }
+            
+            
+        
 		
 
-		byte []arr = System.Text.Encoding.ASCII.GetBytes(temp);
-
-		string dataTouch = intToBin (arr[2]);
-		string dataSwipe = intToBin (arr[4]);
-		string dataTiup = intToBin (arr [6]);
-
-		for (int i = 0; i < (int)TouchID.Size; i++) {
-			UpdateValue (state [i], (int)SensorType.Touch, dataTouch, i);
-			print (i);
-		}
-
-		for (int i = 0; i < (int)BlowID.Size; i++) {
-			UpdateValue (state [i + (int)TouchID.Size], SensorType.Blow, dataTiup, i);
-		}
-
-		for (int i = 0; i < (int)SwipeID.Size; i++) {
-			UpdateValue (state [i + (int)TouchID.Size + (int)BlowID.Size], SensorType.Swipe, dataSwipe, i);
-		}
-
-		for (int i = 0; i < state.Length; i++){
-			sensorValue[i] = CheckState(state[i],lastState[i]);			
-		}
-
-		StateControl (farmObject, sensorValue [(int)State.Farm], objectState [(int)State.Farm]);
-
+	
 
 	}
 			

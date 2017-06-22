@@ -8,12 +8,14 @@ public class ChangeScene : MonoBehaviour {
     public string scene;
 
     private Controller controller;
+    private Animator animator;
 
     private Fading fading;
 
 	// Use this for initialization
 	void Start () {
         controller = GetComponent<Controller>();
+        animator = GetComponent<Animator>();
         fading = GetComponent<Fading>();
 	}
 	

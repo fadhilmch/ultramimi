@@ -5,8 +5,9 @@ using UnityEngine;
 public class Factory : MonoBehaviour
 {
     public AudioClip sound;
+    public bool triggerTemp = false;
     private AudioSource source;
-    private Animator animator;
+    public Animator animator;
     private Controller controller;
 
 
@@ -30,16 +31,29 @@ public class Factory : MonoBehaviour
             if (laststate == false)
                 audiostate = true;
             laststate = true;
+            //controller.factoryTemp = false;
         }
         else if (controller.factory == false)
         {
-            animator.SetInteger("AnimState", 0);
+           // animator.SetInteger("AnimState", 0);
             laststate = false;
         }
         if (audiostate == true)
         {
             source.PlayOneShot(sound, 5f);
             audiostate = false;
+        }
+        if (animator.GetInteger("AnimState") == 1)
+        {
+            if(controller.factoryTemp == true)
+            {
+                GameObject.Find("Temp").GetComponent<Animator>().SetInteger("AnimState", 0);
+                controller.factory = false;
+            }
+        }
+        if(triggerTemp)
+        {
+            GameObject.Find("Temp").GetComponent<Animator>().SetInteger("AnimState", 1);
         }
     }
 }

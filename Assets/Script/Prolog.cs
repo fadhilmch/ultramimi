@@ -7,9 +7,9 @@ public class Prolog : MonoBehaviour
     public AudioClip sound;
     private AudioSource source;
     public bool tapActiva = false;
-    private Animator animator;
+    public Animator animator;
     private Controller controller;
-
+    private float t = 0f;
 
     private bool audiostate = false;
     private bool laststate = false;
@@ -56,10 +56,28 @@ public class Prolog : MonoBehaviour
                     audiostate = true;
                 laststate2 = true;
             }
+
+            t += Time.deltaTime;
+            if (t > 20f)
+            {
+               
+                animator.SetInteger("AnimState", 0);
+                t = 0;
+                controller.prolog = false;
+            }
         }
 
-
-        if (audiostate == true)
+        if (animator.GetInteger("AnimState") == 2)
+        {
+            t += Time.deltaTime;
+            if (t > 25f)
+            {
+                animator.SetInteger("AnimState", 0);
+                t = 0;
+                controller.prolog = false;
+            }
+        }
+            if (audiostate == true)
         {
             source.PlayOneShot(sound, .7f);
             audiostate = false;

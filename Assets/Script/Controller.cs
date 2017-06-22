@@ -2,8 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/*----------------------------------------------------------------------------------------------------------------------
+    Touch:
+    0 - Prolog-
+    1 - Suhu Farm*
+    2 - Factory-
+    3 - Suhu Factory-
+    4 - Beruang
+    5 - Gajah
+    6 - Store
+    7 - Singa
+    8 - Games 1
+    9 - Games 2
+    10 - P2 Kanan
+    11 - P2 Kiri
+    12 - P1 Kanan
+    13 - P1 Kiri
+    14 - 
+    15 - 
+    16 - Farm Atas
+    17 - Farm Bawah
+    18 - Rumah Kiri
+    19 - Rumah Kanan
+
+    Swipe:
+    0 - Farm atas 
+    1 - Farm bawah
+    2 - Rumah Kiri
+    3 - Rumah Kanan
+    4 - 
+    5 - 
+
+    Blow:
+    0 - Anak
+
+
+----------------------------------------------------------------------------------------------------------------------*/
 public class Controller : MonoBehaviour {
 
+    public bool factoryTemp = false;
+    public bool beruang = false;
+    public bool gajah = false;
+    public bool singa = false;
+    public bool games1 = false;
+    public bool games2 = false;
+    public bool p1kiri = false;
+    public bool p1kanan = false;
+    public bool p2kiri = false;
+    public bool p2kanan = false;
+    public bool farmAtas = false;
+    public bool farmBawah = false;
+    public bool rumahKiri = false;
+    public bool rumahKanan = false;
     public bool farm = false;
     public bool factory = false;
     public bool store = false;
@@ -11,11 +63,12 @@ public class Controller : MonoBehaviour {
     public bool change = false;
     public bool prolog = false;
     public bool anak = false;
-    public bool jawaban = false;
     public bool bendera = false;
     public bool lastAnak = false;
     public bool stateAnak = false;
     public bool tapActive = false;
+    public bool sesuatu = false;
+    public bool sesuatu1 = false;
 
     private float tFarm = 0f;
     private float tFactory = 0f;
@@ -24,6 +77,7 @@ public class Controller : MonoBehaviour {
     private float tchange = 0f;
     private float tprolog = 0f;
     private float tbendera = 0f;
+    private float tgames = 0f;
 
 
 
@@ -37,16 +91,16 @@ public class Controller : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (Input.GetKeyDown(KeyCode.A))
             farm = !farm;
 
         if (Input.GetKeyDown(KeyCode.S))
             factory = !factory;
 
-        if(Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
             store = !store;
 
         if (Input.GetKeyDown(KeyCode.F))
@@ -58,18 +112,22 @@ public class Controller : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W))
             prolog = !prolog;
 
-        if (Input.GetKeyDown(KeyCode.Z))
-            jawaban = !jawaban;
-
         if (Input.GetKeyDown(KeyCode.E))
             bendera = !bendera;
+        if (Input.GetKeyDown(KeyCode.M))
+            games2 = !games2;
+        if (Input.GetKeyDown(KeyCode.N))
+            games1 = !games1;
+
+        if (Input.GetKeyDown(KeyCode.L))
+            factoryTemp = !factoryTemp;
 
         if (Input.GetKeyDown(KeyCode.P))
         {
             anak = true;
         }
-        
-        if(farm == true)
+
+        if (farm == true)
         {
             tFarm += Time.deltaTime;
             if (tFarm > 25f)
@@ -82,7 +140,7 @@ public class Controller : MonoBehaviour {
         if (factory == true)
         {
             tFactory += Time.deltaTime;
-            if (tFactory > 20f)
+            if (tFactory > 50f)
             {
                 factory = false;
                 tFactory = 0f;
@@ -118,11 +176,11 @@ public class Controller : MonoBehaviour {
                 tchange = 0f;
             }
         }
-
-        if (prolog == true&&bendera==false)
+        /*
+        if (prolog == true && bendera == false)
         {
             tprolog += Time.deltaTime;
-            if (tprolog > 20f)
+            if (tprolog > 10f)
             {
                 prolog = false;
                 tprolog = 0f;
@@ -132,36 +190,69 @@ public class Controller : MonoBehaviour {
         if (bendera == true)
         {
             tbendera += Time.deltaTime;
-            if (tbendera > 20f)
+            if (tbendera > 10f)
             {
                 prolog = false;
                 tbendera = 0f;
             }
         }
+        */
 
-        if (serHandler.GetComponent<SerialHandler>().serial_is_open) {
-			if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
-				farm = !farm;
-			if (serHandler.GetComponent<SerialHandler>().factory_is_touched)
-				factory = !factory;
-            if (serHandler.GetComponent<SerialHandler>().store_is_touched)
-                store = !store;
+
+        if (serHandler.GetComponent<SerialHandler>().serial_is_open)
+        {
+
+            if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
+                farm = !farm;
             if (serHandler.GetComponent<SerialHandler>().rumah_is_swiped)
                 rumah = !rumah;
+
+
             if (serHandler.GetComponent<SerialHandler>().prolog_is_touched)
                 prolog = !prolog;
-            if (serHandler.GetComponent<SerialHandler>().change_is_touched)
-                change = !change;
-            if (serHandler.GetComponent<SerialHandler>().jawaban_is_touched)
-                jawaban = !jawaban;
             if (serHandler.GetComponent<SerialHandler>().bendera_is_touched)
                 bendera = !bendera;
-            if (serHandler.GetComponent<SerialHandler>().anak_is_tiuped)
-            {
-                anak = !anak;
-            }
-        }
-    
+            if (serHandler.GetComponent<SerialHandler>().factory_is_touched)
+                factory = !factory;
+            if (serHandler.GetComponent<SerialHandler>().factoryTemp_is_touched)
+                factoryTemp = !factoryTemp;
+            if (serHandler.GetComponent<SerialHandler>().beruang_is_touched)
+                beruang = !beruang;
+            if (serHandler.GetComponent<SerialHandler>().gajah_is_touched)
+                gajah = !gajah;
+            if (serHandler.GetComponent<SerialHandler>().store_is_touched)
+                store = !store;
+            if (serHandler.GetComponent<SerialHandler>().singa_is_touched)
+                singa = !singa;
+            if (serHandler.GetComponent<SerialHandler>().games1_is_touched)
+                games1 = !games1;
+            if (serHandler.GetComponent<SerialHandler>().games2_is_touched)
+                games2 = !games2;
+            if (serHandler.GetComponent<SerialHandler>().p2kanan_is_touched)
+                p2kanan = !p2kanan;
+            if (serHandler.GetComponent<SerialHandler>().p2kiri_is_touched)
+                p2kiri = !p2kiri;
+            if (serHandler.GetComponent<SerialHandler>().p1kanan_is_touched)
+                p1kanan = !p1kanan;
+            if (serHandler.GetComponent<SerialHandler>().p1kiri_is_touched)
+                p2kiri = !p1kiri;
+            if (serHandler.GetComponent<SerialHandler>().sesuatu1_is_touched)
+                sesuatu1 = !sesuatu1;
+            if (serHandler.GetComponent<SerialHandler>().sesuatu_is_touched)
+                sesuatu = !sesuatu;
+            if (serHandler.GetComponent<SerialHandler>().farmAtas_is_touched)
+                farmAtas = !farmAtas;
+            if (serHandler.GetComponent<SerialHandler>().farmBawah_is_touched)
+                farmBawah = !farmBawah;
+            if (serHandler.GetComponent<SerialHandler>().rumahKiri_is_touched)
+                rumahKiri = !rumahKiri;
+            if (serHandler.GetComponent<SerialHandler>().rumahKanan_is_touched)
+                rumahKanan = !rumahKanan;
 
+            if (serHandler.GetComponent<SerialHandler>().anak_is_tiuped)
+                anak = !anak;
+        }
     }
+
 }
+    
