@@ -19,9 +19,16 @@ public class GameConroller : MonoBehaviour {
 	private bool serialOpen = false;
 	public SerialPort serialPort = new SerialPort(port,baudrate);
 	char buff;
+<<<<<<< HEAD
     private string temp;
 	//Scene 1
 	/*public GameObject prologObject;
+=======
+    string temp = "";
+
+    //Scene 1
+    /*public GameObject prologObject;
+>>>>>>> 91779ba81c631334cbadfe407d5691e0d333b4b6
 	public GameObject farmObject;
 	public GameObject factoryObject;
 	public GameObject storeObject;
@@ -33,7 +40,7 @@ public class GameConroller : MonoBehaviour {
 	public GameObject player2KiriObject;
 	public GameObject player2KananObject;
 */
-	private enum SensorType{
+    private enum SensorType{
 		Touch,
 		Swipe,
 		Blow
@@ -217,6 +224,9 @@ public class GameConroller : MonoBehaviour {
 
         
 		byte[] cmd = {0x6A};
+
+       
+
         if(serialPort != null)
         {
             serialPort.Write(cmd, 0, cmd.Length);
