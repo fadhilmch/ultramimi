@@ -13,22 +13,22 @@ public class PlayerController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown("right"))
+		if(Input.GetKeyDown("right") || SerialHandler.p2kanan_is_touched)
 		{
 			movingPlayer[1] += 1;
 		}
 
-		if(Input.GetKeyDown("left"))
+		if(Input.GetKeyDown("left") || SerialHandler.p2kiri_is_touched)
 		{
 			movingPlayer[1] += -1;
 		}
 
-		if(Input.GetKeyDown(KeyCode.A))
+		if(Input.GetKeyDown(KeyCode.A) || SerialHandler.p1kiri_is_touched)
 		{
 			movingPlayer[0] += 1;
 		}
 
-		if(Input.GetKeyDown(KeyCode.D))
+		if(Input.GetKeyDown(KeyCode.D) || SerialHandler.p1kanan_is_touched)
 		{
 			movingPlayer[0] += -1;
 		}

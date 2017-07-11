@@ -199,57 +199,57 @@ public class Controller : MonoBehaviour {
         */
 
 
-        if (serHandler.GetComponent<SerialHandler>().serial_is_open)
+        if (SerialHandler.serial_is_open)
         {
 
-            if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
+            if (SerialHandler.farm_is_swiped)
                 farm = !farm;
-            if (serHandler.GetComponent<SerialHandler>().rumah_is_swiped)
+            if (SerialHandler.rumah_is_swiped)
                 rumah = !rumah;
 
 
-            if (serHandler.GetComponent<SerialHandler>().prolog_is_touched)
+            if (SerialHandler.prolog_is_touched)
                 prolog = !prolog;
-            if (serHandler.GetComponent<SerialHandler>().bendera_is_touched)
+            if (SerialHandler.bendera_is_touched)
                 bendera = !bendera;
-            if (serHandler.GetComponent<SerialHandler>().factory_is_touched)
+            if (SerialHandler.factory_is_touched)
                 factory = !factory;
-            if (serHandler.GetComponent<SerialHandler>().factoryTemp_is_touched)
+            if (SerialHandler.factoryTemp_is_touched)
                 factoryTemp = !factoryTemp;
-            if (serHandler.GetComponent<SerialHandler>().beruang_is_touched)
+            if (SerialHandler.beruang_is_touched)
                 beruang = !beruang;
-            if (serHandler.GetComponent<SerialHandler>().gajah_is_touched)
+            if (SerialHandler.gajah_is_touched)
                 gajah = !gajah;
-            if (serHandler.GetComponent<SerialHandler>().store_is_touched)
+            if (SerialHandler.store_is_touched)
                 store = !store;
-            if (serHandler.GetComponent<SerialHandler>().singa_is_touched)
+            if (SerialHandler.singa_is_touched)
                 singa = !singa;
-            if (serHandler.GetComponent<SerialHandler>().games1_is_touched)
+            if (SerialHandler.games1_is_touched)
                 games1 = !games1;
-            if (serHandler.GetComponent<SerialHandler>().games2_is_touched)
+            if (SerialHandler.games2_is_touched)
                 games2 = !games2;
-            if (serHandler.GetComponent<SerialHandler>().p2kanan_is_touched)
+            if (SerialHandler.p2kanan_is_touched)
                 p2kanan = !p2kanan;
-            if (serHandler.GetComponent<SerialHandler>().p2kiri_is_touched)
+            if (SerialHandler.p2kiri_is_touched)
                 p2kiri = !p2kiri;
-            if (serHandler.GetComponent<SerialHandler>().p1kanan_is_touched)
+            if (SerialHandler.p1kanan_is_touched)
                 p1kanan = !p1kanan;
-            if (serHandler.GetComponent<SerialHandler>().p1kiri_is_touched)
+            if (SerialHandler.p1kiri_is_touched)
                 p2kiri = !p1kiri;
-            if (serHandler.GetComponent<SerialHandler>().sesuatu1_is_touched)
+            if (SerialHandler.sesuatu1_is_touched)
                 sesuatu1 = !sesuatu1;
-            if (serHandler.GetComponent<SerialHandler>().sesuatu_is_touched)
+            if (SerialHandler.sesuatu_is_touched)
                 sesuatu = !sesuatu;
-            if (serHandler.GetComponent<SerialHandler>().farmAtas_is_touched)
+            if (SerialHandler.farmAtas_is_touched)
                 farmAtas = !farmAtas;
-            if (serHandler.GetComponent<SerialHandler>().farmBawah_is_touched)
+            if (SerialHandler.farmBawah_is_touched)
                 farmBawah = !farmBawah;
-            if (serHandler.GetComponent<SerialHandler>().rumahKiri_is_touched)
+            if (SerialHandler.rumahKiri_is_touched)
                 rumahKiri = !rumahKiri;
-            if (serHandler.GetComponent<SerialHandler>().rumahKanan_is_touched)
+            if (SerialHandler.rumahKanan_is_touched)
                 rumahKanan = !rumahKanan;
 
-            if (serHandler.GetComponent<SerialHandler>().anak_is_tiuped)
+            if (SerialHandler.anak_is_tiuped)
                 anak = !anak;
         }
     }

@@ -31,7 +31,7 @@ public class SerialHandler : MonoBehaviour {
     private const int rumahSwipe = 1;
 
     private const int anakTiup = 0;
-    
+    public static string outputSensor;
 
 	/**/
 	[Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
@@ -40,33 +40,33 @@ public class SerialHandler : MonoBehaviour {
 	[Tooltip("The baudrate of the serial port")]
 	public static int baudrate = 9600;
 
-	public bool serial_is_open = false;
-	public bool farm_is_swiped = false;
-	public bool rumah_is_swiped= false;
+	public static bool serial_is_open = false;
+	public static bool farm_is_swiped = false;
+	public static bool rumah_is_swiped= false;
 
 
-    public bool prolog_is_touched = false;
-    public bool bendera_is_touched = false;
-    public bool factory_is_touched = false;
-    public bool factoryTemp_is_touched = false;
-    public bool beruang_is_touched = false;
-    public bool gajah_is_touched = false;
-    public bool store_is_touched = false;
-    public bool singa_is_touched = false;
-    public bool games1_is_touched = false;
-    public bool games2_is_touched = false;
-    public bool p2kanan_is_touched = false;
-    public bool p2kiri_is_touched = false;
-    public bool p1kanan_is_touched = false;
-    public bool p1kiri_is_touched = false;
-    public bool sesuatu1_is_touched = false;
-    public bool sesuatu_is_touched = false;
-    public bool farmAtas_is_touched = false;
-    public bool farmBawah_is_touched = false;
-    public bool rumahKiri_is_touched = false;
-    public bool rumahKanan_is_touched = false;
-
-    public bool anak_is_tiuped = false;
+    public static bool prolog_is_touched = false;
+    public static bool bendera_is_touched = false;
+    public static bool factory_is_touched = false;
+    public static bool factoryTemp_is_touched = false;
+    public static bool beruang_is_touched = false;
+    public static bool gajah_is_touched = false;
+    public static bool store_is_touched = false;
+    public static bool singa_is_touched = false;
+    public static bool games1_is_touched = false;
+    public static bool games2_is_touched = false;
+    public static bool p2kanan_is_touched = false;
+    public static bool p2kiri_is_touched = false;
+    public static bool p1kanan_is_touched = false;
+    public static bool p1kiri_is_touched = false;
+    public static bool sesuatu1_is_touched = false;
+    public static bool sesuatu_is_touched = false;
+    public static bool farmAtas_is_touched = false;
+    public static bool farmBawah_is_touched = false;
+    public static bool rumahKiri_is_touched = false;
+    public static bool rumahKanan_is_touched = false;
+    public static bool[] array_is_touched = new bool[9];
+    public static bool anak_is_tiuped = false;
 
 
     public bool prolog  = false;
@@ -122,6 +122,20 @@ public class SerialHandler : MonoBehaviour {
     
 	public SerialPort serialPort = new SerialPort(port,baudrate);
 	char buff;
+
+    private void updateArrayTouch()
+    {
+        array_is_touched[0] = prolog_is_touched;
+        array_is_touched[1] = beruang_is_touched;
+        array_is_touched[2] = store_is_touched;
+        array_is_touched[3] = p2kiri_is_touched;
+        array_is_touched[4] = p2kanan_is_touched;
+        array_is_touched[5] = p1kanan_is_touched;
+        array_is_touched[6] = p1kiri_is_touched;
+        array_is_touched[7] = rumahKanan_is_touched;
+        array_is_touched[8] = rumahKiri_is_touched;
+
+    }
 
 	bool checkState(bool now, bool past)
 	{
@@ -236,51 +250,52 @@ public class SerialHandler : MonoBehaviour {
         lastFarm = farm;
         lastRumah = rumah;
         lastAnak = anak;
+        try
+        {
+            byte[] cmd = { 0x6A };
+            serialPort.Write(cmd, 0, cmd.Length);
+            serialPort.BaseStream.Flush();
 
-		byte[] cmd = {0x6A};
-		serialPort.Write (cmd, 0, cmd.Length);
-		serialPort.BaseStream.Flush();
+            string temp = serialPort.ReadLine();
 
-		string temp = serialPort.ReadLine();
-
-		byte []arr = System.Text.Encoding.ASCII.GetBytes(temp);
-
-
-        //Debug.Log (temp);
+            byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
 
 
-        string dataTouch = intToBin(arr[2]) + intToBin(arr[3]) + intToBin(arr[4]);
-        dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7) + dataTouch.Substring(16, 6);
-        string dataSwipe = intToBin(arr[6]);
-        string dataTiup = intToBin(arr[8]);
+            //Debug.Log (temp);
+
+
+            string dataTouch =   intToBin(arr[4]) + intToBin(arr[3]) + intToBin(arr[2]);
+           dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7) + dataTouch.Substring(16, 6);
+            string dataSwipe = intToBin(arr[6]);
+            string dataTiup = intToBin(arr[8]);
 
 
 
-        prolog = checkTouch (dataTouch, prologTouch)==1;
-        bendera = checkTouch (dataTouch, benderaTouch)==1;
-        factory = checkTouch (dataTouch, factoryTouch)==1;
-        factoryTemp = checkTouch (dataTouch, factoryTempTouch)==1;
-        beruang = checkTouch (dataTouch, beruangTouch)==1;
-        gajah = checkTouch (dataTouch, gajahTouch)==1;
-        store = checkTouch (dataTouch, storeTouch)==1;
-        singa = checkTouch (dataTouch, singaTouch)==1;
-        games1 = checkTouch (dataTouch, games1Touch)==1;
-        games2 = checkTouch (dataTouch, games2Touch)==1;
-        p2kanan = checkTouch (dataTouch, p2kananTouch)==1;
-        p2kiri = checkTouch (dataTouch, p2kiriTouch)==1;
-        p1kanan = checkTouch (dataTouch, p1kananTouch)==1;
-        p1kiri = checkTouch (dataTouch, p1kiriTouch)==1;
-        sesuatu1 = checkTouch (dataTouch, sesuatu1Touch)==1;
-        sesuatu = checkTouch (dataTouch, sesuatuTouch)==1;
-        farmAtas = checkTouch (dataTouch, farmAtasTouch)==1;
-        farmBawah = checkTouch (dataTouch, farmBawahTouch)==1;
-        rumahKiri = checkTouch (dataTouch, rumahKiriTouch)==1;
-        rumahKanan = checkTouch (dataTouch, rumahKananTouch)==1;
+            prolog = checkTouch(dataTouch, prologTouch) == 1;
+            bendera = checkTouch(dataTouch, benderaTouch) == 1;
+            factory = checkTouch(dataTouch, factoryTouch) == 1;
+            factoryTemp = checkTouch(dataTouch, factoryTempTouch) == 1;
+            beruang = checkTouch(dataTouch, beruangTouch) == 1;
+            gajah = checkTouch(dataTouch, gajahTouch) == 1;
+            store = checkTouch(dataTouch, storeTouch) == 1;
+            singa = checkTouch(dataTouch, singaTouch) == 1;
+            games1 = checkTouch(dataTouch, games1Touch) == 1;
+            games2 = checkTouch(dataTouch, games2Touch) == 1;
+            p2kanan = checkTouch(dataTouch, p2kananTouch) == 1;
+            p2kiri = checkTouch(dataTouch, p2kiriTouch) == 1;
+            p1kanan = checkTouch(dataTouch, p1kananTouch) == 1;
+            p1kiri = checkTouch(dataTouch, p1kiriTouch) == 1;
+            sesuatu1 = checkTouch(dataTouch, sesuatu1Touch) == 1;
+            sesuatu = checkTouch(dataTouch, sesuatuTouch) == 1;
+            farmAtas = checkTouch(dataTouch, farmAtasTouch) == 1;
+            farmBawah = checkTouch(dataTouch, farmBawahTouch) == 1;
+            rumahKiri = checkTouch(dataTouch, rumahKiriTouch) == 1;
+            rumahKanan = checkTouch(dataTouch, rumahKananTouch) == 1;
 
-        farm = checkSwipe (dataSwipe, farmSwipe)==1;
-        rumah = checkSwipe (dataSwipe, rumahSwipe)==1;
+            farm = checkSwipe(dataSwipe, farmSwipe) == 1;
+            rumah = checkSwipe(dataSwipe, rumahSwipe) == 1;
 
-        anak = checkTiup (dataTiup, anakTiup)==1;
+            anak = checkTiup(dataTiup, anakTiup) == 1;
         
 
 
@@ -297,7 +312,11 @@ public class SerialHandler : MonoBehaviour {
         Debug.Log("swipe " + dataSwipe);
         Debug.Log("touch " + dataTouch);
         Debug.Log("raw " + temp);
+        }
+        catch
+        {
 
+        }
         farm_is_swiped = checkState ( farm, lastFarm );
         rumah_is_swiped = checkState ( rumah, lastRumah );
 
@@ -324,5 +343,8 @@ public class SerialHandler : MonoBehaviour {
         rumahKanan_is_touched = checkState ( rumahKanan, lastRumahKanan );
 
         anak_is_tiuped = checkState ( anak , lastAnak );
-}
+
+   
+        
+    }
 }

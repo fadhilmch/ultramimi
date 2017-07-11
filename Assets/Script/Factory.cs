@@ -25,33 +25,35 @@ public class Factory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.factory == true)
+        if (animator.GetInteger("AnimState") == 0)
         {
-            animator.SetInteger("AnimState", 1);
-            if (laststate == false)
-                audiostate = true;
-            laststate = true;
-            //controller.factoryTemp = false;
+            if (controller.factory == true)
+            {
+                animator.SetInteger("AnimState", 1);
+                controller.factoryTemp = false;
+            }
+   
         }
-        else if (controller.factory == false)
-        {
-           // animator.SetInteger("AnimState", 0);
-            laststate = false;
-        }
-        if (audiostate == true)
-        {
-            source.PlayOneShot(sound, 5f);
-            audiostate = false;
-        }
+
+
         if (animator.GetInteger("AnimState") == 1)
         {
-            if(controller.factoryTemp == true)
+            if (controller.factoryTemp == true)
             {
                 GameObject.Find("Temp").GetComponent<Animator>().SetInteger("AnimState", 0);
-                controller.factory = false;
             }
         }
-        if(triggerTemp)
+
+        if (animator.GetInteger("AnimState") == 2)
+        {
+            if (controller.factory == false)
+            {
+                animator.SetInteger("AnimState", 0);
+                controller.factoryTemp = false;
+            }
+        }
+
+        if (triggerTemp)
         {
             GameObject.Find("Temp").GetComponent<Animator>().SetInteger("AnimState", 1);
         }

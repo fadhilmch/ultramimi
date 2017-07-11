@@ -60,7 +60,7 @@ public class SummonMimi : MonoBehaviour {
             if(counter > 0f)
             {
                 counter -= Time.deltaTime;
-                if(sensorDummy[coordinateToSensor[currentPos]])
+                if(SerialHandler.array_is_touched[currentPos])
                 {
                     PointSystem.pointStatus[miminum] = true;
                     miminum = miminum + 1;
@@ -73,7 +73,7 @@ public class SummonMimi : MonoBehaviour {
                         counter = 1;
                         Debug.Log("Game State : " + GameController.gameState);
                     }
-                    sensorDummy[coordinateToSensor[currentPos]] = false;
+                    SerialHandler.array_is_touched[currentPos] = false;
                 }
             }
             else

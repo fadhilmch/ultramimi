@@ -56,7 +56,7 @@ public class PhotoController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(isTriggered)
+		if(isTriggered || SerialHandler.factory_is_touched || Input.GetKeyDown(KeyCode.U))
         {
             if(photoState == PhotoState.Enter)
             {

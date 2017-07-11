@@ -39,7 +39,6 @@ public class WebCamUI : MonoBehaviour {
         myRender = GetComponent<RawImage>();
         displayImage = new Texture2D(1920, 1080);
         myRender.material.mainTexture = camStream;
-
         camStream.Play();
     }
 	
