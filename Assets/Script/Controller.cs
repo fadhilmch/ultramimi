@@ -137,7 +137,7 @@ public class Controller : MonoBehaviour {
                 tbendera = 0f;
             }
         }
-
+        /*
         if (serHandler.GetComponent<SerialHandler>().serial_is_open) {
 			if (serHandler.GetComponent<SerialHandler>().farm_is_swiped)
 				farm = !farm;
@@ -159,10 +159,11 @@ public class Controller : MonoBehaviour {
             {
                 anak = !anak;
             }
-
+        
             
         }
-    
+        */
+
 
     }
 }

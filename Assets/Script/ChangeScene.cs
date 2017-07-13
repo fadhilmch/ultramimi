@@ -40,4 +40,6 @@ public class ChangeScene : MonoBehaviour {
         controller.rumah = false;
         controller.prolog = false;
     }
+
+    
 }
