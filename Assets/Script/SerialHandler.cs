@@ -4,58 +4,106 @@ using UnityEngine;
 using System.IO.Ports;
 using System.Text;
 
-public class DataSensor : System.Object
+public class SensorCode : System.Object
 {
-    public bool sensor;
-    public bool sensorIsTriggered;
-    public bool lastSensor;
+    //run generator in util folder, edit the size first!
+    public static int T0 = 0, T1 = 1, T2 = 2, T3 = 3, T4 = 4, T5 = 5, T6 = 6, T7 = 7, T8 = 8, T9 = 9, T10 = 10, T11 = 11, S0 = 12, S1 = 13, S2 = 14, S3 = 15, S4 = 16, S5 = 17, B0 = 13, size = 19;
 }
 
+public class DataSensor : System.Object
+{
+    private bool sensor = false;
+    public bool IsTriggered = false;
+    private bool lastSensor = false;
+
+    public void isToggled()
+    {
+        if (sensor && !lastSensor)
+            IsTriggered = true;
+        else
+            IsTriggered = false;
+
+        lastSensor = sensor;
+    }
+
+    public void checkTouch(string input, int index)
+    {
+        if (input[index] == '0')
+            sensor = false;
+        else
+            sensor = true;
+    }
+
+    public void checkSwipe(string input, int index)
+    {
+        if (input[2 * index + 1] == '0' && input[2 * index] == '0')
+            sensor = false;
+        else if (input[2 * index + 1] == '1' && input[2 * index] == '0')
+            sensor = true;
+        else if (input[2 * index + 1] == '0' && input[2 * index] == '1')
+            sensor = true;
+        else
+            sensor = false;
+    }
+
+    public void checkBlow(string input, int index)
+    {
+        if (input[index] == '0')
+            sensor = false;
+        else
+            sensor = true;
+    }
+}
+
+public enum TouchSensor
+{
+    Prolog,
+    TempFarm,
+    Factory,
+    TempFactory,
+    Beruang,
+    Gajah,
+    Store,
+    Singa,
+    Games1,
+    Games2,
+    P2Kanan,
+    P2Kiri,
+    P1Kanan,
+    P1Kiri,
+    Sesuatu1,
+    Sesuatu2,
+    FarmAtas,
+    FarmBawah,
+    RumahKiri,
+    RumahKanan,
+    Size
+};
+
+public enum SwipeSensor
+{
+    Farm,
+    Rumah,
+    Size
+};
+
+public enum BlowSensor
+{
+    Anak,
+    Size
+};
 
 public class SerialHandler : MonoBehaviour
 {
 
-    public enum TouchSensor
+    public static DataSensor[] touchSensor = new DataSensor[(int)TouchSensor.Size];
+    public static DataSensor[] swipeSensor = new DataSensor[(int)SwipeSensor.Size];
+    public static DataSensor[] blowSensor = new DataSensor[(int)BlowSensor.Size];
+    public static bool getSensorTrig(int index)
     {
-        Prolog,
-        TempFarm,
-        Factory,
-        TempFactory,
-        Beruang,
-        Gajah,
-        Store,
-        Singa,
-        Games1,
-        Games2,
-        P2Kanan,
-        P2Kiri,
-        P1Kanan,
-        P1Kiri,
-        Sesuatu1,
-        Sesuatu2,
-        FarmAtas,
-        FarmBawah,
-        RumahKiri,
-        RumahKanan,
-        Size
-    };
+        return true;
+    }
 
-    public enum SwipeSensor
-    {
-        Farm,
-        Rumah,
-        Size
-    };
-
-    public enum BlowSensor
-    {
-        Anak,
-        Size
-    };
-
-    public DataSensor[] touchSensor = new DataSensor[(int)TouchSensor.Size];
-    public DataSensor[] swipeSensor = new DataSensor[(int)SwipeSensor.Size];
-    public DataSensor[] blowSensor = new DataSensor[(int)BlowSensor.Size];
 
     [Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
     [SerializeField]
@@ -66,49 +114,11 @@ public class SerialHandler : MonoBehaviour
     public static int baudrate = 9600;
 
     public SerialPort serialPort = new SerialPort(port, baudrate);
-    public bool serial_is_open = false;
-    char buff;
+    public static bool serial_is_open = false;
+    byte[] cmd = { 0x6A };
 
 
-    bool checkState(bool now, bool past)
-    {
-        if (now && !past)
-        {
-            return true;
-        }
-        else
-            return false;
-    }
-
-    int checkTouch(string input, int index)
-    {
-        if (input[index] == '0')
-            return 0;
-        else
-            return 1;
-    }
-
-    int checkSwipe(string input, int index)
-    {
-        if (input[2 * index + 1] == '0' && input[2 * index] == '0')
-            return 0;
-        else if (input[2 * index + 1] == '1' && input[2 * index] == '0')
-            return 1;
-        else if (input[2 * index + 1] == '0' && input[2 * index] == '1')
-            return 1;
-        else
-            return 2;
-    }
-
-    int checkBlow(string input, int index)
-    {
-        if (input[index] == '0')
-            return 0;
-        else
-            return 1;
-    }
-
-    string intToBin(byte n)
+    private string intToBinaryString(byte n)
     {
 
         string output = "";
@@ -127,43 +137,8 @@ public class SerialHandler : MonoBehaviour
         return output;
     }
 
-    void Initialization()
+    private void openSerialCommunication()
     {
-        // Assign all value to false
-        for (int i = 0; i < (int)TouchSensor.Size; i++)
-        {
-            touchSensor[i].sensor = false;
-            touchSensor[i].lastSensor = false;
-            touchSensor[i].sensorIsTriggered = false;
-        }
-
-        for (int i = 0; i < (int)SwipeSensor.Size; i++)
-        {
-            swipeSensor[i].sensor = false;
-            swipeSensor[i].lastSensor = false;
-            swipeSensor[i].sensorIsTriggered = false;
-        }
-
-        for (int i = 0; i < (int)BlowSensor.Size; i++)
-        {
-            blowSensor[i].sensor = false;
-            blowSensor[i].lastSensor = false;
-            blowSensor[i].sensorIsTriggered = false;
-        }
-
-
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        Initialization();
-
-        // Initialize serial protocol
-        serialPort.Parity = Parity.None;
-        serialPort.StopBits = StopBits.One;
-        serialPort.DataBits = 8;
-
         if (serialPort != null)
         {
             if (serialPort.IsOpen)
@@ -191,47 +166,80 @@ public class SerialHandler : MonoBehaviour
         }
     }
 
+    private void retainSerialCommunication()
+    {
+        if (serialPort == null)
+        {
+            if (serialPort.IsOpen)
+            {
+                serialPort.Close();
+                Debug.Log("Closing port, because it was already open!");
+            }
+            else
+            {
+                serialPort.Open();
+                serialPort.ReadTimeout = 50;
+                Debug.Log("Port Opened!");
+            }
+        }
+        else
+        {
+            if (serialPort.IsOpen)
+            {
+                print("Port is already open");
+            }
+            else
+            {
+                print("Port == null");
+            }
+        }
+    }
+
+    void Start()
+    {
+        // Initialize serial protocol
+        serialPort.Parity = Parity.None;
+        serialPort.StopBits = StopBits.One;
+        serialPort.DataBits = 8;
+
+        openSerialCommunication();
+    }
+
     // Update is called once per frame
     void Update()
     {
         serial_is_open = serialPort.IsOpen;
-
-
-        byte[] cmd = { 0x6A };
         serialPort.Write(cmd, 0, cmd.Length);
         serialPort.BaseStream.Flush();
 
-        // Store the received message in temp variable
         string temp = serialPort.ReadLine();
 
-        // Encode string to array
         byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
 
-        string dataTouch = intToBin(arr[2]) + intToBin(arr[3]) + intToBin(arr[4]);
+        string dataTouch = intToBinaryString(arr[2]) + intToBinaryString(arr[3]) + intToBinaryString(arr[4]);
         dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7) + dataTouch.Substring(16, 6);
 
-        string dataSwipe = intToBin(arr[6]);
-
-        string dataBlow = intToBin(arr[8]);
-        //GameController1 test;
+        string dataSwipe = intToBinaryString(arr[6]);
+        string dataBlow = intToBinaryString(arr[8]);
 
         for (int i = 0; i < (int)TouchSensor.Size; i++)
         {
-            touchSensor[i].sensor = checkTouch(dataTouch, i) == 1;
-            touchSensor[i].sensorIsTriggered = checkState(touchSensor[i].sensor, touchSensor[i].lastSensor);
+            touchSensor[i].checkTouch(dataTouch, i);
+            touchSensor[i].isToggled();
         }
 
         for (int i = 0; i < (int)SwipeSensor.Size; i++)
         {
-            swipeSensor[i].sensor = checkSwipe(dataSwipe, i) == 1;
-            swipeSensor[i].sensorIsTriggered = checkState(swipeSensor[i].sensor, swipeSensor[i].lastSensor);
+            swipeSensor[i].checkSwipe(dataSwipe, i);
+            swipeSensor[i].isToggled();
         }
 
-        for (int i = 0; i < (int)TouchSensor.Size; i++)
+        for (int i = 0; i < (int)BlowSensor.Size; i++)
         {
-            blowSensor[i].sensor = checkBlow(dataBlow, i) == 1;
-            blowSensor[i].sensorIsTriggered = checkState(blowSensor[i].sensor, blowSensor[i].lastSensor);
+            blowSensor[i].checkBlow(dataBlow, i);
+            blowSensor[i].isToggled();
         }
 
+        retainSerialCommunication();
     }
 }

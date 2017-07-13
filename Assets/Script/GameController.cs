@@ -39,9 +39,9 @@ using UnityEngine;
 
 ----------------------------------------------------------------------------------------------------------------------*/
 [System.Serializable]
-public class Interraction : System.Object
+public class Interaction : System.Object
 {
-    public enum InterractionObject
+    public enum InteractionObject
     {
         Prolog,
         TempFarm,
@@ -69,44 +69,6 @@ public class Interraction : System.Object
         Size
     };
 
-    public enum TouchSensor
-    {
-        Prolog,
-        TempFarm,
-        Factory,
-        TempFactory,
-        Beruang,
-        Gajah,
-        Store,
-        Singa,
-        Games1,
-        Games2,
-        P2Kanan,
-        P2Kiri,
-        P1Kanan,
-        P1Kiri,
-        Sesuatu1,
-        Sesuatu2,
-        FarmAtas,
-        FarmBawah,
-        RumahKiri,
-        RumahKanan,
-        Size
-    };
-
-    public enum SwipeSensor
-    {
-        Farm,
-        Rumah,
-        Size
-    };
-
-    public enum BlowSensor
-    {
-        Anak,
-        Size
-    };
-
     public enum SensorType
     {
         Touch,
@@ -115,7 +77,11 @@ public class Interraction : System.Object
     };
 
     public GameObject game;
-    public InterractionObject interractionObject;
+    public AudioClip sound_effect1;
+    public AudioClip sound_effect2;
+    public AudioSource source;
+    public Animator animator;
+    public InteractionObject interactionObject;
     public KeyCode keyCode;
     public SensorType sensorType;
     public float timeOut;
@@ -124,87 +90,52 @@ public class Interraction : System.Object
 
 public class GameController : MonoBehaviour
 {
-    public GameObject serHandler;
     private float counter;
 
-    [SerializeField] private Interraction[] interraction = new Interraction[(int)Interraction.InterractionObject.Size];
+    [SerializeField] private Interaction[] interaction = new Interaction[(int)Interaction.InteractionObject.Size];
 
+    void Toggle(bool value)
+    {
+        value = !value;
+    }
 
     // Use this for initialization
     void Start()
     {
-
+ 
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < (int)Interraction.InterractionObject.Size; i++)
+        for (int i = 0; i < (int)Interaction.InteractionObject.Size; i++)
         {
-            if (Input.GetKeyDown(interraction[i].keyCode))
+            // Read input from keyboard
+            if (Input.GetKeyDown(interaction[i].keyCode))
             {
-                if (interraction[i].sensorType == Interraction.SensorType.Blow)
-                    interraction[i].value = true;
+                if (interaction[i].sensorType == Interaction.SensorType.Blow)
+                    interaction[i].value = true;
                 else
-                    interraction[i].value = !interraction[i].value;
+                    Toggle(interaction[i].value); 
             }
 
-            if (interraction[i].value == true)
+            // Time out control
+            if (interaction[i].value == true)
             {
                 counter += Time.deltaTime;
-                if (counter > interraction[i].timeOut)
+                if (counter > interaction[i].timeOut)
                 {
-                    interraction[i].value = false;
+                    Toggle(interaction[i].value);
                     counter = 0;
                 }
             }
 
-            if (serHandler.GetComponent<SerialHandler>().serial_is_open)
+            // Read input from serial handler
+            if (SerialHandler.serial_is_open)
             {
-                if (interraction[i].sensorType == Interraction.SensorType.Touch)
-                {
-                    if (serHandler.GetComponent<SerialHandler>().touchSensor[i].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
-                else if (interraction[i].sensorType == Interraction.SensorType.Swipe)
-                {
-                    if (serHandler.GetComponent<SerialHandler>().swipeSensor[i - (int)Interraction.TouchSensor.Size].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
-                else
-                {
-                    if (serHandler.GetComponent<SerialHandler>().blowSensor[i - (int)Interraction.TouchSensor.Size - (int)Interraction.SwipeSensor.Size].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
+                interaction[i].value = SerialHandler.getSensorTrig(i);
             }
-            if (interraction[i].game.name != "Games Menu" && interraction[i].game.name != "Factory" && interraction[i].game.name != "Prolog")
-            {
-                if (interraction[i].value == true)
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
-                }
-                else
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
-                }
-            }
-            else if (interraction[i].game.name == "Prolog")
-            {
-                if (interraction[i].value == true)
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
-                }
-                else
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
-                }
-            }
+            
         }
 
 
