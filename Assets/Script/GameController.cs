@@ -1,108 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 /*----------------------------------------------------------------------------------------------------------------------
     Touch:
     0 - Prolog
-    1 - Suhu Farm*
+    1 - Prolog Sub
     2 - Factory
-    3 - Suhu Factory
-    4 - Beruang
-    5 - Gajah
-    6 - Store
-    7 - Singa
-    8 - Games 1
-    9 - Games 2
-    10 - P2 Kanan
-    11 - P2 Kiri
-    12 - P1 Kanan
-    13 - P1 Kiri
-    14 - 
-    15 - 
-    16 - Farm Atas
-    17 - Farm Bawah
-    18 - Rumah Kiri
-    19 - Rumah Kanan
+    3 - Store
+    4 - Games
+  
+    5 - Farm Atas
+    6 - Farm Bawah
+    7 - Rumah Kiri
+    8 - Rumah Kanan
 
     Swipe:
     0 - Farm atas 
     1 - Farm bawah
     2 - Rumah Kiri
     3 - Rumah Kanan
-    4 - 
-    5 - 
 
     Blow:
     0 - Anak
-
-
 ----------------------------------------------------------------------------------------------------------------------*/
 [System.Serializable]
-public class Interraction : System.Object
+public class Interaction : System.Object
 {
-    public enum InterractionObject
+    public enum InteractionObject
     {
         Prolog,
-        TempFarm,
+        Prolog_Sub,
         Factory,
-        TempFactory,
-        Beruang,
-        Gajah,
         Store,
-        Singa,
-        Games1,
-        Games2,
-        P2Kanan,
-        P2Kiri,
-        P1Kanan,
-        P1Kiri,
-        Sesuatu1,
-        Sesuatu2,
-        FarmAtas,
-        FarmBawah,
-        RumahKiri,
-        RumahKanan,
-        FarmSwipe,
-        RumahSwipe,
-        Anak,
-        Size
-    };
-
-    public enum TouchSensor
-    {
-        Prolog,
-        TempFarm,
-        Factory,
-        TempFactory,
-        Beruang,
-        Gajah,
-        Store,
-        Singa,
-        Games1,
-        Games2,
-        P2Kanan,
-        P2Kiri,
-        P1Kanan,
-        P1Kiri,
-        Sesuatu1,
-        Sesuatu2,
-        FarmAtas,
-        FarmBawah,
-        RumahKiri,
-        RumahKanan,
-        Size
-    };
-
-    public enum SwipeSensor
-    {
+        Games,
         Farm,
         Rumah,
-        Size
-    };
-
-    public enum BlowSensor
-    {
         Anak,
         Size
     };
@@ -114,100 +49,185 @@ public class Interraction : System.Object
         Blow
     };
 
+    public enum OutputType
+    {
+        Direct,
+        One_Stage,
+        Two_Stage,
+        Change_Scene
+    };
+    
+    public string name;
     public GameObject game;
-    public InterractionObject interractionObject;
-    public KeyCode keyCode;
     public SensorType sensorType;
+    public KeyCode keyCode;
+    public OutputType outputType;
+    public AudioClip sound_effect1;
+    public float volume1;
+    public AudioClip sound_effect2;
+    public float volume2;
     public float timeOut;
+    [HideInInspector]
     public bool value;
+    [HideInInspector]
+    public float counter;
+    [HideInInspector]
+    public bool audiostate;
+    [HideInInspector]
+    public bool audiostate2;
 }
 
 public class GameController : MonoBehaviour
 {
-    public GameObject serHandler;
-    private float counter;
+    private Fading fading;
+    public string sceneName;
 
-    [SerializeField] private Interraction[] interraction = new Interraction[(int)Interraction.InterractionObject.Size];
+    //private bool audiostate = true;
+    //private bool audiostate2 = true;
+    
+    private int state = 0;
 
+    public Interaction[] interaction = new Interaction[(int)Interaction.InteractionObject.Size];
+
+    void PlaySoundEffect(int soundNumber, float volume, AudioClip soundEffect, AudioClip soundEffect2, AudioSource source)
+    {
+        switch (soundNumber)
+        {
+            case 1:
+                    source.PlayOneShot(soundEffect, volume);
+                break;
+
+            case 2:
+                    source.PlayOneShot(soundEffect2, volume);
+                break;
+        }
+
+    }
+
+    void NewScene()
+    {
+        float fadeTime = fading.BeginFade(1);
+        SceneManager.LoadScene(sceneName);
+    }
 
     // Use this for initialization
     void Start()
     {
-
+        fading = GetComponent<Fading>();
+        for (int i = 0; i < (int)Interaction.InteractionObject.Size; i++)
+        {
+            interaction[i].audiostate = false;
+            interaction[i].audiostate2 = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < (int)Interraction.InterractionObject.Size; i++)
+        for (int i = 0; i < (int)Interaction.InteractionObject.Size; i++)
         {
-            if (Input.GetKeyDown(interraction[i].keyCode))
+            // Read input from keyboard
+            if (Input.GetKeyDown(interaction[i].keyCode))
             {
-                if (interraction[i].sensorType == Interraction.SensorType.Blow)
-                    interraction[i].value = true;
+                Debug.Log("Key " + interaction[i].keyCode + " Pressed");
+                if (interaction[i].sensorType == Interaction.SensorType.Blow)
+                    interaction[i].value = true;
                 else
-                    interraction[i].value = !interraction[i].value;
+                    interaction[i].value = !interaction[i].value; 
             }
 
-            if (interraction[i].value == true)
+            // Time out control
+            if (interaction[i].value == true)
             {
-                counter += Time.deltaTime;
-                if (counter > interraction[i].timeOut)
+                interaction[i].counter += Time.deltaTime;
+                if (interaction[i].counter > interaction[i].timeOut)
                 {
-                    interraction[i].value = false;
-                    counter = 0;
+                    interaction[i].value = !interaction[i].value;
+                    interaction[i].counter = 0;
+                    Debug.Log(interaction[i].game + " is timeout");
                 }
             }
 
-            if (serHandler.GetComponent<SerialHandler>().serial_is_open)
+            else if (interaction[i].value == false)
             {
-                if (interraction[i].sensorType == Interraction.SensorType.Touch)
-                {
-                    if (serHandler.GetComponent<SerialHandler>().touchSensor[i].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
-                else if (interraction[i].sensorType == Interraction.SensorType.Swipe)
-                {
-                    if (serHandler.GetComponent<SerialHandler>().swipeSensor[i - (int)Interraction.TouchSensor.Size].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
-                else
-                {
-                    if (serHandler.GetComponent<SerialHandler>().blowSensor[i - (int)Interraction.TouchSensor.Size - (int)Interraction.SwipeSensor.Size].sensorIsTriggered)
-                    {
-                        interraction[i].value = !interraction[i].value;
-                    }
-                }
+                interaction[i].counter = 0;
             }
-            if (interraction[i].game.name != "Games Menu" && interraction[i].game.name != "Factory" && interraction[i].game.name != "Prolog")
+
+            // Read input from serial handler
+            if (SerialHandler.serial_is_open)
             {
-                if (interraction[i].value == true)
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
-                }
-                else
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
-                }
+                interaction[i].value = SerialHandler.getSensorTrig(i);
             }
-            else if (interraction[i].game.name == "Prolog")
+
+            
+            switch (interaction[i].outputType)
             {
-                if (interraction[i].value == true)
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
-                }
-                else
-                {
-                    interraction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
-                }
+                case Interaction.OutputType.Direct:
+
+                    break;
+
+                case Interaction.OutputType.One_Stage:
+
+                    if (interaction[i].value == true)
+                    {
+                        interaction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
+                        if (interaction[i].game.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("PlaySoundEffect")) 
+                            PlaySoundEffect(1, interaction[i].volume1, interaction[i].sound_effect1, interaction[i].sound_effect2, interaction[i].game.GetComponent<AudioSource>());
+                        interaction[i].audiostate = false;
+                    }
+
+                    else
+                    {
+                        interaction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
+                        interaction[i].audiostate = true;
+                    }
+
+                    break;
+
+                case Interaction.OutputType.Two_Stage:
+
+                    if (interaction[i].value == true && state == 0)
+                    {
+                        interaction[i].game.GetComponent<Animator>().SetInteger("AnimState", 1);
+                        if (interaction[i].game.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("PlaySoundEffect"))
+                            PlaySoundEffect(1, interaction[i].volume1, interaction[i].sound_effect1, interaction[i].sound_effect2, interaction[i].game.GetComponent<AudioSource>());
+                        state = 1;
+                        interaction[i].audiostate = false;
+                    }
+
+                    else if (interaction[i].value == false && state == 1)
+                    {
+                        interaction[i].game.GetComponent<Animator>().SetInteger("AnimState", 2);
+                        if (interaction[i].game.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("PlaySoundEffect"))
+                            PlaySoundEffect(2, interaction[i].volume2, interaction[i].sound_effect1, interaction[i].sound_effect2, interaction[i].game.GetComponent<AudioSource>());
+                        state = 2;
+                        interaction[i].audiostate2 = false;
+                    }
+
+                    else if (interaction[i].value == true && state == 2)
+                    {
+                        interaction[i].game.GetComponent<Animator>().SetInteger("AnimState", 0);
+                        interaction[i].audiostate = true;
+                        interaction[i].audiostate2 = true;
+                        state = 0;
+                    }
+
+                    break;
+
+                case Interaction.OutputType.Change_Scene:
+                    if (interaction[i].value == true)
+                    {
+                        interaction[i].value = false;
+                        NewScene();
+                    }
+                    break;
+
             }
+
         }
 
 
     }
 }
+
 
