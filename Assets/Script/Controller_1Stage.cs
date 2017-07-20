@@ -22,15 +22,14 @@ public class Controller_1Stage : MonoBehaviour
         if (Input.GetKeyDown(interaction.keyCode))
         {
             interaction.value = !interaction.value;
-            Debug.Log(interaction.value);
         }
 
-        if (SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
+        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             interaction.value = !interaction.value;
         }
-
-        if (interaction.value == true)
+        
+        if (interaction.value)
         {
             animator.SetInteger("AnimState", 1);
             interaction.counter += Time.deltaTime;
