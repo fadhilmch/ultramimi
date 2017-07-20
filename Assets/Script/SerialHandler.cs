@@ -10,16 +10,17 @@ public class SensorCode : System.Object
 	public static int T0 = 0, T1 = 1, T2 = 2, T3 = 3, T4 = 4, T5 = 5, T6 = 6, T7 = 7, T8 = 8, T9 = 9, T10 = 10, T11 = 11, S0 = 12, S1 = 13, S2 = 14, S3 = 15, S4 = 16, S5 = 17, B0 = 13, size = 19;
 }
 
+[System.Serializable]
 public class DataSensor : System.Object
 {
 	private bool sensor = false;
 	private bool lastSensor = false;
+    private const float responseTime = 1.3f;
+    private float responseTimer = responseTime;
 
 	public bool isDown = false;
 	public bool isUp = false;
 	public bool isChanged = false;
-
-
 
 	public void updateData()
 	{
@@ -72,21 +73,10 @@ public class DataSensor : System.Object
 public enum TouchSensor
 {
 	Prolog,
-	TempFarm,
+	PrologSub,
 	Factory,
-	TempFactory,
-	Beruang,
-	Gajah,
 	Store,
-	Singa,
-	Games1,
-	Games2,
-	P2Kanan,
-	P2Kiri,
-	P1Kanan,
-	P1Kiri,
-	Sesuatu1,
-	Sesuatu2,
+	Games,
 	FarmAtas,
 	FarmBawah,
 	RumahKiri,
@@ -116,7 +106,7 @@ public class SerialHandler : MonoBehaviour
 
 	[Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
 	[SerializeField]
-	public static string port = "COM6";
+	public static string port = "COM3";
 
 	[Tooltip("The baudrate of the serial port")]
 	[SerializeField]
@@ -125,6 +115,7 @@ public class SerialHandler : MonoBehaviour
 	public SerialPort serialPort = new SerialPort(port, baudrate);
 	public static bool serial_is_open = false;
 	public static bool state_is_calibrate = false;
+    private static bool serial_is_proper = false;
 	char buff;
 
 	// 0x0A is new line
@@ -133,6 +124,10 @@ public class SerialHandler : MonoBehaviour
 	byte[] cmdCalOne = { 0x6A, 0x01, 0x0A };
 
 	private string[] portNameList;
+    private int portNameLength = 0;
+    private int portNameIndex = 0;
+    private bool start = true;
+
 	private float timer = 0f;
 	private const float timerCount = 5f;
 
@@ -172,8 +167,31 @@ public class SerialHandler : MonoBehaviour
 
 	public static bool getSensorDown(int index)
 	{
-		return false;
-	}
+        if (index < (int)TouchSensor.Size)
+        {
+            return touchSensor[index].isDown;
+        }
+        else
+        {
+            index = index - (int)TouchSensor.Size;
+            if (index < (int)SwipeSensor.Size)
+            {
+                return swipeSensor[index].isDown;
+            }
+            else
+            {
+                index = index - (int)TouchSensor.Size;
+                if (index < (int)BlowSensor.Size)
+                {
+                    return blowSensor[index].isDown;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+    }
 
 
 	private string intToBinaryString(byte n)
@@ -195,11 +213,28 @@ public class SerialHandler : MonoBehaviour
 		return output;
 	}
 
+    private bool checkSerialProper()
+    {
+        if(portNameIndex < portNameLength)
+        {
+            serialPort.PortName = portNameList[portNameIndex];
+            serialPort.Open();
+            return false;
+        }
+        else
+        {
+            portNameList = SerialPort.GetPortNames();
+            portNameLength = portNameList.Length;
+            portNameIndex = 0;
+            return false;
+        }
+    }
 
 	private bool openSerialCommunication()
 	{
 		if (serialPort != null)
 		{
+            Debug.Log("test");
 			if (serialPort.IsOpen)
 			{
 				serialPort.Close();
@@ -210,19 +245,7 @@ public class SerialHandler : MonoBehaviour
 			{
 				serialPort.Open();
 				serialPort.ReadTimeout = 50;
-				serialPort.Write(cmd, 0, cmd.Length);
-				string temp = serialPort.ReadLine();
-				byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
-				if (arr[0] != cmd[0])
-				{
-					serialPort.Close();
-					return false;
-				}
-				else
-				{
-					Debug.Log("Port Opened!");
-					return true;
-				}
+                return true;
 
 			}
 		}
@@ -231,8 +254,9 @@ public class SerialHandler : MonoBehaviour
 			if (serialPort.IsOpen)
 			{
 				print("Port is already open");
-				return true;
-			}
+                return true;
+                
+            }
 			else
 			{
 				print("Port == null");
@@ -272,52 +296,75 @@ public class SerialHandler : MonoBehaviour
 
 	void Start()
 	{
-		// Initialize serial protocol
-		serialPort.Parity = Parity.None;
+        for(int i = 0; i < (int) TouchSensor.Size; i++)
+            touchSensor[i] = new DataSensor();
+        for (int i = 0; i < (int)SwipeSensor.Size; i++)
+            swipeSensor[i] = new DataSensor();
+        for (int i = 0; i < (int)BlowSensor.Size; i++)
+            blowSensor[i] = new DataSensor();
+        // Initialize serial protocol
+        serialPort.Parity = Parity.None;
 		serialPort.StopBits = StopBits.One;
 		serialPort.DataBits = 8;
 
 		portNameList = SerialPort.GetPortNames();
-		if(portNameList.Length > 0)
-			openSerialCommunication();
+        portNameLength = portNameList.Length;
+
+        for (int i = 0; i < portNameLength; i++)
+                  Debug.Log(portNameList[i]);
+        if ( portNameLength > 0)
+        {
+            serial_is_proper = openSerialCommunication();
+        }
+        Debug.Log(touchSensor[0].isChanged);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		serial_is_open = serialPort.IsOpen;
-		serialPort.Write(cmd, 0, cmd.Length);
-		serialPort.BaseStream.Flush();
+        if(serial_is_proper)
+        {
+            serial_is_open = serialPort.IsOpen;
+            serialPort.Write(cmd, 0, cmd.Length);
+            serialPort.BaseStream.Flush();
 
-		string temp = serialPort.ReadLine();
+            string temp = serialPort.ReadLine();
 
-		byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
+            byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
 
-		string dataTouch = intToBinaryString(arr[2]) + intToBinaryString(arr[3]);
-		dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7) ;
+            string dataTouch = intToBinaryString(arr[2]) + intToBinaryString(arr[3]);
+            dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7);
 
-		string dataSwipe = intToBinaryString(arr[5]);
-		string dataBlow = intToBinaryString(arr[7]);
-		string dataCalibrate = intToBinaryString(arr[9]);
+            string dataSwipe = intToBinaryString(arr[5]);
+            string dataBlow = intToBinaryString(arr[7]);
+            string dataCalibrate = intToBinaryString(arr[9]);
 
-		for (int i = 0; i < (int)TouchSensor.Size; i++)
-		{
-			touchSensor[i].checkTouch(dataTouch, i);
-			touchSensor[i].updateData();
-		}
+            for (int i = 0; i < (int)TouchSensor.Size; i++)
+            {
+                touchSensor[i].checkTouch(dataTouch, i);
+                touchSensor[i].updateData();
+            }
 
-		for (int i = 0; i < (int)SwipeSensor.Size; i++)
-		{
-			swipeSensor[i].checkSwipe(dataSwipe, i);
-			swipeSensor[i].updateData();
-		}
+            for (int i = 0; i < (int)SwipeSensor.Size; i++)
+            {
+                swipeSensor[i].checkSwipe(dataSwipe, i);
+                swipeSensor[i].updateData();
+            }
 
-		for (int i = 0; i < (int)BlowSensor.Size; i++)
-		{
-			blowSensor[i].checkBlow(dataBlow, i);
-			blowSensor[i].updateData();
-		}
+            for (int i = 0; i < (int)BlowSensor.Size; i++)
+            {
+                blowSensor[i].checkBlow(dataBlow, i);
+                blowSensor[i].updateData();
+            }
+        }
+		
+		
 
-		retainSerialCommunication();
+		
 	}
+    void OnApplicationQuit()
+    {
+        serialPort.Close();
+        Debug.Log("Port closed!");
+    }
 }
