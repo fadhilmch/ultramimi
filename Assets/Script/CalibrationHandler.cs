@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO.Ports;
 
 public class CalibrationHandler : MonoBehaviour {
+	[SerializeField]
+	private GameObject[] sensorPlacement = new GameObject[(int)TouchSensor.Size];
 
 	[Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
 	[SerializeField]
@@ -28,6 +30,8 @@ public class CalibrationHandler : MonoBehaviour {
 	private int portNameLength = 0;
 	private int portNameIndex = 0;
 	private bool start = true;
+	private int sensorNum = (int)TouchSensor.Size;
+	private int sensorIndex = 0;
 
 	private float timer = 0f;
 	private const float timerCount = 5f;
@@ -35,7 +39,12 @@ public class CalibrationHandler : MonoBehaviour {
 	private bool checkTimer()
 	{
 		timer += Time.deltaTime;
-		return false;
+		if (timer > timerCount)
+			return true;
+		else {
+			timer = 0;
+			return false;
+		}
 	}
 
 	private string intToBinaryString(byte n)
@@ -95,7 +104,9 @@ public class CalibrationHandler : MonoBehaviour {
 
 	void Start()
 	{
-
+		for (int i = 0; i < sensorNum; i++) {
+			sensorPlacement [i].SetActive (false);
+		}
 		// Initialize serial protocol
 		serialPort.Parity = Parity.None;
 		serialPort.StopBits = StopBits.One;
@@ -118,25 +129,20 @@ public class CalibrationHandler : MonoBehaviour {
 	{
 		if (serial_is_proper) {
 			serial_is_open = serialPort.IsOpen;
-			serialPort.Write (cmd, 0, cmd.Length);
-			serialPort.BaseStream.Flush ();
-
-			string temp = serialPort.ReadLine ();
-
-			byte[] arr = System.Text.Encoding.ASCII.GetBytes (temp);
-
-			string dataTouch = intToBinaryString (arr [2]) + intToBinaryString (arr [3]);
-			dataTouch = dataTouch.Substring (0, 7) + dataTouch.Substring (8, 7);
-
-			string dataSwipe = intToBinaryString (arr [5]);
-			string dataBlow = intToBinaryString (arr [7]);
-			string dataCalibrate = intToBinaryString (arr [9]);
-
-			if (dataCalibrate [0] == '1') {
-				serialPort.Write (cmdCal , 0, cmdCal.Length);
+			if (checkTimer()) {
+				serialPort.Write (cmdCal, 0, cmdCal.Length);
 				serialPort.BaseStream.Flush ();
+				if (sensorIndex == 0) {
+					sensorPlacement [sensorIndex].SetActive (true);
+				} else if (sensorIndex < sensorNum) {
+					sensorPlacement [sensorIndex].SetActive (true);
+					sensorPlacement [sensorIndex - 1].SetActive (false);
+				} else {
+					sensorPlacement [sensorIndex - 1].SetActive (false);
+					//exit calibration
+				}
 
-				//loadscene calibrate
+				sensorIndex++;
 			}
 		} else {
 			//exit calibration
