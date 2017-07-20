@@ -301,12 +301,12 @@ public class SerialHandler : MonoBehaviour
 
 	void Start()
 	{
-        for(int i = 0; i < (int) TouchSensor.Size; i++)
+        /*for(int i = 0; i < (int) TouchSensor.Size; i++)
             touchSensor[i] = new DataSensor();
         for (int i = 0; i < (int)SwipeSensor.Size; i++)
             swipeSensor[i] = new DataSensor();
         for (int i = 0; i < (int)BlowSensor.Size; i++)
-            blowSensor[i] = new DataSensor();
+            blowSensor[i] = new DataSensor();*/
         // Initialize serial protocol
         serialPort.Parity = Parity.None;
 		serialPort.StopBits = StopBits.One;
