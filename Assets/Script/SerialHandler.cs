@@ -77,10 +77,15 @@ public enum TouchSensor
 	Factory,
 	Store,
 	Games,
+    Games2,
 	FarmAtas,
 	FarmBawah,
 	RumahKiri,
 	RumahKanan,
+    Player1Kanan,
+    Player1Kiri,
+    Player2Kanan,
+    Player2Kiri,
 	Size
 };
 

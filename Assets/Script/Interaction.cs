@@ -11,6 +11,7 @@ using UnityEngine;
     2 - Factory
     3 - Store
     4 - Games
+    Games 2
   
     5 - Farm Atas
     6 - Farm Bawah

@@ -25,9 +25,9 @@ public class Controller_1Stage : MonoBehaviour
             Debug.Log(interaction.value);
         }
 
-        if (SerialHandler.serial_is_open)
+        if (SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
-            //interaction.value = SerialHandler.getSensorDown((int)interaction.sensorTrigger1);
+            interaction.value = !interaction.value;
         }
 
         if (interaction.value == true)
