@@ -42,16 +42,16 @@ public class ChangeScene : MonoBehaviour {
             interaction.value2 = !interaction.value2;
         }
 
-                /*
-        if (SerialHandler.getSensorDown(interaction.sensorTrigger1)
+
+        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             interaction.value = !interaction.value;
         }
-        if (SerialHandler.getSensorDown(interaction.sensorTrigger2)
+        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
         {
             interaction.value2 = !interaction.value2;
         }
-        */
+
 
         if (state == 0)
         {
