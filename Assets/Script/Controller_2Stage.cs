@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class ChangeScene : MonoBehaviour {
+public class Controller_2Stage : MonoBehaviour {
 
-    public string games_1_scene;
-    public string games_2_scene;
-    public Interaction interaction;
-    private Fading fading;
     private Animator animator;
+    public Interaction interaction;
     private int state = 0;
+
 
     void TimerCount()
     {
@@ -24,9 +21,8 @@ public class ChangeScene : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
-    void Start () {
-        fading = GetComponent<Fading>();
+	// Use this for initialization
+	void Start () {
         animator = GetComponent<Animator>();
 	}
 	
@@ -41,8 +37,7 @@ public class ChangeScene : MonoBehaviour {
         {
             interaction.value2 = !interaction.value2;
         }
-
-                /*
+        /*
         if (SerialHandler.getSensorDown(interaction.sensorTrigger1)
         {
             interaction.value = !interaction.value;
@@ -57,32 +52,31 @@ public class ChangeScene : MonoBehaviour {
         {
             if (interaction.value)
             {
+                animator.SetTrigger("state1");
                 state = 1;
-                animator.SetTrigger("games");
+                interaction.value2 = false;
+                interaction.value = false;
             }
         }
-        if (state == 1)
+
+        else if(state == 1)
         {
-            if (interaction.value)
+            if(interaction.value2)
             {
-                NewScene(games_1_scene);
+                animator.SetTrigger("state2");
+                state = 2;
+                interaction.value2 = false;
+                interaction.value = false;
+                interaction.counter = 0;
             }
-            else if (interaction.value2)
-            {
-                NewScene(games_2_scene);
-            }
+
+            TimerCount();
+            
+        }
+
+        else if (state == 2)
+        {
             TimerCount();
         }
-    }
-
-    public void NewScene(string scene)
-    {
-        float fadeTime =fading.BeginFade(1);
-        //yield return new WaitForSeconds(fadeTime);
-        SceneManager.LoadScene(scene);
-        
-    }
-
-
-    
+	}
 }
