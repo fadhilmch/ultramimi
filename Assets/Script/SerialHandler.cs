@@ -10,7 +10,6 @@ public class SensorCode : System.Object
 	public static int T0 = 0, T1 = 1, T2 = 2, T3 = 3, T4 = 4, T5 = 5, T6 = 6, T7 = 7, T8 = 8, T9 = 9, T10 = 10, T11 = 11, S0 = 12, S1 = 13, S2 = 14, S3 = 15, S4 = 16, S5 = 17, B0 = 13, size = 19;
 }
 
-[System.Serializable]
 public class DataSensor : System.Object
 {
 	private bool sensor = false;
@@ -125,8 +124,8 @@ public class SerialHandler : MonoBehaviour
 
 	// 0x0A is new line
 	byte[] cmd = { 0x6A, 0x0A };
-	byte[] cmdCalZero = { 0x6A, 0x00, 0x0A };
-	byte[] cmdCalOne = { 0x6A, 0x01, 0x0A };
+
+	byte[] cmdCal = { 0x6A, 0x01, 0x0A };
 
 	private string[] portNameList;
     private int portNameLength = 0;
@@ -218,6 +217,7 @@ public class SerialHandler : MonoBehaviour
 		return output;
 	}
 
+	//not yet used but will be used for plug and play
     private bool checkSerialProper()
     {
         if(portNameIndex < portNameLength)
@@ -270,43 +270,15 @@ public class SerialHandler : MonoBehaviour
 		}
 	}
 
-	private void retainSerialCommunication()
-	{
-		if (serialPort == null)
-		{
-			if (serialPort.IsOpen)
-			{
-				serialPort.Close();
-				Debug.Log("Closing port, because it was already open!");
-			}
-			else
-			{
-				serialPort.Open();
-				serialPort.ReadTimeout = 50;
-				Debug.Log("Port Opened!");
-			}
-		}
-		else
-		{
-			if (serialPort.IsOpen)
-			{
-				print("Port is already open");
-			}
-			else
-			{
-				print("Port == null");
-			}
-		}
-	}
 
 	void Start()
 	{
-        /*for(int i = 0; i < (int) TouchSensor.Size; i++)
+        for(int i = 0; i < (int) TouchSensor.Size; i++)
             touchSensor[i] = new DataSensor();
         for (int i = 0; i < (int)SwipeSensor.Size; i++)
             swipeSensor[i] = new DataSensor();
         for (int i = 0; i < (int)BlowSensor.Size; i++)
-            blowSensor[i] = new DataSensor();*/
+            blowSensor[i] = new DataSensor();
         // Initialize serial protocol
         serialPort.Parity = Parity.None;
 		serialPort.StopBits = StopBits.One;
@@ -321,47 +293,56 @@ public class SerialHandler : MonoBehaviour
         {
             serial_is_proper = openSerialCommunication();
         }
-        Debug.Log(touchSensor[0].isChanged);
+		Debug.Log(serial_is_proper);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-        if(serial_is_proper)
-        {
-            serial_is_open = serialPort.IsOpen;
-            serialPort.Write(cmd, 0, cmd.Length);
-            serialPort.BaseStream.Flush();
+		if (serial_is_proper) {
+			serial_is_open = serialPort.IsOpen;
+			serialPort.Write (cmd, 0, cmd.Length);
+			serialPort.BaseStream.Flush ();
 
-            string temp = serialPort.ReadLine();
+			string temp = serialPort.ReadLine ();
 
-            byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
+			byte[] arr = System.Text.Encoding.ASCII.GetBytes (temp);
 
-            string dataTouch = intToBinaryString(arr[2]) + intToBinaryString(arr[3]);
-            dataTouch = dataTouch.Substring(0, 7) + dataTouch.Substring(8, 7);
+			string dataTouch = intToBinaryString (arr [2]) + intToBinaryString (arr [3]);
+			dataTouch = dataTouch.Substring (0, 7) + dataTouch.Substring (8, 7);
 
-            string dataSwipe = intToBinaryString(arr[5]);
-            string dataBlow = intToBinaryString(arr[7]);
-            string dataCalibrate = intToBinaryString(arr[9]);
+			string dataSwipe = intToBinaryString (arr [5]);
+			string dataBlow = intToBinaryString (arr [7]);
+			string dataCalibrate = intToBinaryString (arr [9]);
 
-            for (int i = 0; i < (int)TouchSensor.Size; i++)
-            {
-                touchSensor[i].checkTouch(dataTouch, i);
-                touchSensor[i].updateData();
-            }
 
-            for (int i = 0; i < (int)SwipeSensor.Size; i++)
-            {
-                swipeSensor[i].checkSwipe(dataSwipe, i);
-                swipeSensor[i].updateData();
-            }
+			for (int i = 0; i < (int)TouchSensor.Size; i++) {
+				touchSensor [i].checkTouch (dataTouch, i);
+				touchSensor [i].updateData ();
+			}
 
-            for (int i = 0; i < (int)BlowSensor.Size; i++)
-            {
-                blowSensor[i].checkBlow(dataBlow, i);
-                blowSensor[i].updateData();
-            }
-        }
+			for (int i = 0; i < (int)SwipeSensor.Size; i++) {
+				swipeSensor [i].checkSwipe (dataSwipe, i);
+				swipeSensor [i].updateData ();
+			}
+
+			for (int i = 0; i < (int)BlowSensor.Size; i++) {
+				blowSensor [i].checkBlow (dataBlow, i);
+				blowSensor [i].updateData ();
+			}
+
+			if (dataCalibrate [0] == '1') {
+				serialPort.Write (cmdCal , 0, cmdCal.Length);
+				serialPort.BaseStream.Flush ();
+
+				//loadscene calibrate
+			}
+		} else {
+			if ( portNameLength > 0)
+			{
+				serial_is_proper = openSerialCommunication();
+			}
+		}
 		
 		
 
