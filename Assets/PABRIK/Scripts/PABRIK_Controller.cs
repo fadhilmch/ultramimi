@@ -25,16 +25,17 @@ public class PABRIK_Controller : MonoBehaviour
     [SerializeField]
     RectTransform Clock;
 
+    Animator animator;
+    float HIDE_COOLDOWN = 0.5f;
+    float IDLE_COOLDOWN = 0.5f;
+    float hideCoolDown;
+    float idleCoolDown;
 
     [Header("Debugging")]
-    public string Part3AnimationState;
-    public bool DoPart3_PlayAnimation;
-    public float Part3HotThermometerValue;
-    public bool DoPart3_SetHotThermometerValue;
-    public float Part3TimerValue;
-    public bool DoPart3_SetTimerValue;
-
-    Animator animator;
+    public bool DoHide;
+    public bool DoIdle;
+    public float HotThermometerValue;
+    public bool DoSetHotThermometer;
 
     // Use this for initialization
     void Start()
@@ -45,23 +46,30 @@ public class PABRIK_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DoPart3_PlayAnimation)
+        if (DoHide)
         {
-            DoPart3_PlayAnimation = false;
-            Part3_PlayAnimation(Part3AnimationState);
+            DoHide = false;
+            PlayHide();
         }
 
-        if (DoPart3_SetHotThermometerValue)
+        if (DoIdle)
         {
-            DoPart3_SetHotThermometerValue = false;
-            Part3_SetHotThermometerValue(Part3HotThermometerValue);
+            DoIdle = false;
+            PlayIdle();
         }
 
-        if (DoPart3_SetTimerValue)
+        if (DoSetHotThermometer)
         {
-            DoPart3_SetTimerValue = false;
-            Part3_SetTimerValue(Part3TimerValue);
+            DoSetHotThermometer = false;
+            SetHotThermometerValue(HotThermometerValue);
         }
+
+        if (hideCoolDown > 0)
+            hideCoolDown -= Time.deltaTime;
+
+        if (idleCoolDown > 0)
+            idleCoolDown -= Time.deltaTime;
+
     }
 
     public void Play_Asap()
@@ -125,7 +133,6 @@ public class PABRIK_Controller : MonoBehaviour
     public void ImmediateHidePart1()
     {
         part1animator.Play("PABRIK_STATE2_PART1_IMMEDIATEHIDE");
-        Part3_SetHotThermometerValue(0);
     }
 
     public void ImmediateHidePart2()
@@ -136,12 +143,14 @@ public class PABRIK_Controller : MonoBehaviour
     public void ImmediateHidePart3()
     {
         part3animator.Play("PABRIK_STATE2_PART3_IMMEDIATEHIDE");
+        SetHotThermometerValue(0);
     }
 
     public void ImmediateHidePart4()
     {
         part4animator.Play("PABRIK_STATE2_PART4_IMMEDIATEHIDE");
     }
+
 
     public void HidePart1()
     {
@@ -156,6 +165,7 @@ public class PABRIK_Controller : MonoBehaviour
     public void HidePart3()
     {
         part3animator.Play("PABRIK_STATE2_PART3_HIDE");
+        SetHotThermometerValue(0);
     }
 
     public void HidePart4()
@@ -183,24 +193,49 @@ public class PABRIK_Controller : MonoBehaviour
         part4animator.Play("PABRIK_STATE2_PART4_UNHIDE");
     }
 
-    public void Part3_SetHotThermometerValue(float fillAmount)
+    /// <summary>
+    /// Set besaran termometer di bagian ketiga. Animasi bakalan stop dulu
+    /// dan gak jalan sebelum nilai ini diset >= 1
+    /// </summary>
+    /// <param name="fillAmount"></param>
+    public void SetHotThermometerValue(float fillAmount)
     {
         HotThermometer.fillAmount = fillAmount;
-
         if (fillAmount >= 1)
         {
-            Part3_PlayAnimation("3");
+            part3animator.Play("3");
         }
     }
 
-    public void Part3_SetTimerValue(float rotation)
+    /// <summary>
+    /// Menutup pabrik, hanya berjalan saat pabrik sudah idle
+    /// </summary>
+    public void PlayHide()
     {
-        Clock.localEulerAngles = new Vector3(0, 0, rotation);
+        // pastikan state sekarang benar agar tidak bisa dispam
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
+        {
+            if (hideCoolDown <= 0)
+            {
+                hideCoolDown = HIDE_COOLDOWN;
+                animator.SetTrigger("hide");
+            }
+        }
     }
 
-
-    public void Part3_PlayAnimation(string animationState)
+    /// <summary>
+    /// Memunculkan pabrik lagi, hanya berjalan saat pabrik sudah state terbuka
+    /// </summary>
+    public void PlayIdle()
     {
-        part3animator.Play(animationState);
+        // pastikan state sekarang benar agar tidak bisa dispam
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_showing"))
+        {
+            if (idleCoolDown <= 0)
+            {
+                idleCoolDown = IDLE_COOLDOWN;
+                animator.SetTrigger("idle");
+            }
+        }
     }
 }

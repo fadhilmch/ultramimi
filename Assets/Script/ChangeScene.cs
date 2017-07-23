@@ -20,7 +20,7 @@ public class ChangeScene : MonoBehaviour {
             interaction.counter = 0;
             interaction.value = false;
             interaction.value2 = false;
-            animator.SetTrigger("idle");
+            animator.SetInteger("AnimState",0);
         }
     }
 
@@ -58,7 +58,9 @@ public class ChangeScene : MonoBehaviour {
             if (interaction.value)
             {
                 state = 1;
-                animator.SetTrigger("games");
+                animator.SetInteger("AnimState",1);
+                interaction.value = false;
+                interaction.value2 = false;
             }
         }
         if (state == 1)

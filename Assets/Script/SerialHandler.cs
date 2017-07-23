@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 using System.Text;
-
+using UnityEngine.SceneManagement;
 public class SensorCode : System.Object
 {
 	//run generator in util folder, edit the size first!
@@ -16,28 +16,38 @@ public class DataSensor : System.Object
 	private bool lastSensor = false;
     private const float responseTime = 1.3f;
     private float responseTimer = responseTime;
-
+    private bool startTimer = false;
 	public bool isDown = false;
 	public bool isUp = false;
 	public bool isChanged = false;
 
 	public void updateData()
 	{
-		if (sensor && !lastSensor)
-			isChanged = true;
-		else
-			isChanged = false;
+        if (startTimer == true)
+        {
+            updateTimer();
+        }
+        else
+        {
+            if (sensor && !lastSensor)
+                isChanged = true;
+            else
+                isChanged = false;
 
-		lastSensor = sensor;
+            lastSensor = sensor;
 
-		if (isChanged)
-		{
-			if (sensor)
-				isDown = true;
-			else
-				isDown = false;
-		}
-		isUp = !isDown;
+            if (isChanged)
+            {
+                if (sensor)
+                {
+                    isDown = true;
+                    startTimer = true;
+                }
+                else
+                    isDown = false;
+            }
+            isUp = !isDown;
+        }	
 	}
 
 	public void checkTouch(string input, int index)
@@ -67,6 +77,21 @@ public class DataSensor : System.Object
 		else
 			sensor = true;
 	}
+
+    private bool updateTimer()
+    {
+        responseTimer -= Time.deltaTime;
+        if(responseTimer < 0)
+        {
+            responseTimer = responseTime;
+            startTimer = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 public enum TouchSensor
@@ -110,27 +135,33 @@ public class SerialHandler : MonoBehaviour
 
 	[Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
 	[SerializeField]
-	public static string port = "COM3";
+	public static string port = "COM7";
 
 	[Tooltip("The baudrate of the serial port")]
 	[SerializeField]
 	public static int baudrate = 9600;
 
 	public SerialPort serialPort = new SerialPort(port, baudrate);
-	public static bool serial_is_open = false;
-	public static bool state_is_calibrate = false;
+	public static bool serial_is_open = true;
+	private bool state_is_calibrate = false;
     private static bool serial_is_proper = false;
+	private bool changeSceneStart = false;
+	private float changeSceneTimer = 0f;
+	private const float changeSceneTime = 2f;
 	char buff;
 
 	// 0x0A is new line
-	byte[] cmd = { 0x6A, 0x0A };
-
-	byte[] cmdCal = { 0x6A, 0x01, 0x0A };
+	byte[] cmd = { 0x6A};
+	byte[] cmdCal = { 0x6B};
 
 	private string[] portNameList;
     private int portNameLength = 0;
     private int portNameIndex = 0;
     private bool start = true;
+	private int sensorNum = (int)TouchSensor.Size;
+	private int sensorIndex = 0;
+
+	private GameObject sensorPlacement;
 
 	private float timer = 0f;
 	private const float timerCount = 5f;
@@ -138,7 +169,13 @@ public class SerialHandler : MonoBehaviour
 	private bool checkTimer()
 	{
 		timer += Time.deltaTime;
-		return false;
+		if (timer > timerCount) {
+			timer = 0;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public static bool getSensorTrig(int index)
@@ -248,8 +285,9 @@ public class SerialHandler : MonoBehaviour
 			}
 			else
 			{
+				Debug.Log ("Openning up new comm at " + serialPort.PortName);
 				serialPort.Open();
-				serialPort.ReadTimeout = 50;
+				serialPort.ReadTimeout = 33;
                 return true;
 
 			}
@@ -273,6 +311,7 @@ public class SerialHandler : MonoBehaviour
 
 	void Start()
 	{
+		DontDestroyOnLoad (this.gameObject);
         for(int i = 0; i < (int) TouchSensor.Size; i++)
             touchSensor[i] = new DataSensor();
         for (int i = 0; i < (int)SwipeSensor.Size; i++)
@@ -299,44 +338,102 @@ public class SerialHandler : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (serial_is_proper) {
-			serial_is_open = serialPort.IsOpen;
-			serialPort.Write (cmd, 0, cmd.Length);
-			serialPort.BaseStream.Flush ();
-
-			string temp = serialPort.ReadLine ();
-
-			byte[] arr = System.Text.Encoding.ASCII.GetBytes (temp);
-
-			string dataTouch = intToBinaryString (arr [2]) + intToBinaryString (arr [3]);
-			dataTouch = dataTouch.Substring (0, 7) + dataTouch.Substring (8, 7);
-
-			string dataSwipe = intToBinaryString (arr [5]);
-			string dataBlow = intToBinaryString (arr [7]);
-			string dataCalibrate = intToBinaryString (arr [9]);
-
-
-			for (int i = 0; i < (int)TouchSensor.Size; i++) {
-				touchSensor [i].checkTouch (dataTouch, i);
-				touchSensor [i].updateData ();
-			}
-
-			for (int i = 0; i < (int)SwipeSensor.Size; i++) {
-				swipeSensor [i].checkSwipe (dataSwipe, i);
-				swipeSensor [i].updateData ();
-			}
-
-			for (int i = 0; i < (int)BlowSensor.Size; i++) {
-				blowSensor [i].checkBlow (dataBlow, i);
-				blowSensor [i].updateData ();
-			}
-
-			if (dataCalibrate [0] == '1') {
-				serialPort.Write (cmdCal , 0, cmdCal.Length);
+		if (changeSceneStart) {
+			changeSceneTimer += Time.deltaTime;
+			if (changeSceneTimer > changeSceneTime) {
+				serialPort.Write (cmdCal, 0, cmdCal.Length);
 				serialPort.BaseStream.Flush ();
+				changeSceneStart = false;
+				changeSceneTimer = 0;
+				Debug.Log ("ChangeScene3");
+				state_is_calibrate = !state_is_calibrate;
+				if (state_is_calibrate)
+					SceneManager.LoadScene ("Calibration");
+				else {
+					serialPort.Close ();
+					Debug.Log ("Closing Serial Port");
 
-				//loadscene calibrate
+					SceneManager.LoadScene ("MainScene");
+					
+				}
+			} else {
+
 			}
+		}
+		if (serial_is_proper) {
+			if (state_is_calibrate) {
+				if (checkTimer()) {
+					timer = 0;
+					Debug.Log (cmdCal [0]);
+					serialPort.Write (cmdCal, 0, cmdCal.Length);
+					serialPort.BaseStream.Flush ();
+					if (sensorIndex == 0) {
+						//SceneManager.GetSceneByName("Calibration").GetRootGameObjects().
+						CalibrationHandler.static_sensorPlacement[sensorIndex].SetActive (true);
+					} else if (sensorIndex < sensorNum) {
+						CalibrationHandler.static_sensorPlacement[sensorIndex].SetActive (true);
+						CalibrationHandler.static_sensorPlacement[sensorIndex-1].SetActive (false);
+					} else {
+						CalibrationHandler.static_sensorPlacement[sensorIndex-1].SetActive (false);
+						changeSceneStart = true;
+						Debug.Log ("ChangeScene1");
+					}
+					Debug.Log("sensor index " + sensorIndex);
+					sensorIndex++;
+				}
+			} else {
+				serial_is_open = serialPort.IsOpen;
+				serialPort.Write (cmd,0,cmd.Length);
+
+				serialPort.BaseStream.Flush ();
+				string temp = "";
+				for (int i = 0; i < 10; i++)
+					temp += (char)0;
+
+				try
+				{
+					temp = serialPort.ReadLine ();
+				}
+				catch {
+					Debug.Log ("timeout");
+				}
+
+
+				byte[] arr = System.Text.Encoding.ASCII.GetBytes (temp);
+				string fulltemp = "| ";
+				for (int i = 0; i < 10; i++)
+					fulltemp += intToBinaryString (arr [i]) + " | " ; 
+				Debug.Log (fulltemp);
+
+				string dataTouch = intToBinaryString (arr [2]) + intToBinaryString (arr [3]);
+				dataTouch = dataTouch.Substring (0, 7) + dataTouch.Substring (8, 7);
+
+				string dataSwipe = intToBinaryString (arr [5]);
+				string dataBlow = intToBinaryString (arr [7]);
+				string dataCalibrate = intToBinaryString (arr [9]);
+				Debug.Log(dataTouch + " " + dataSwipe + " " + dataBlow + " " + dataCalibrate);
+
+				for (int i = 0; i < (int)TouchSensor.Size; i++) {
+					touchSensor [i].checkTouch (dataTouch, i);
+					touchSensor [i].updateData ();
+				}
+
+				for (int i = 0; i < (int)SwipeSensor.Size; i++) {
+					swipeSensor [i].checkSwipe (dataSwipe, i);
+					swipeSensor [i].updateData ();
+				}
+
+				for (int i = 0; i < (int)BlowSensor.Size; i++) {
+					blowSensor [i].checkBlow (dataBlow, i);
+					blowSensor [i].updateData ();
+				}
+
+				if (dataCalibrate [0] == '1') {
+					changeSceneStart = true;
+					Debug.Log ("ChangeScene2");
+				}
+			}
+
 		} else {
 			if ( portNameLength > 0)
 			{
