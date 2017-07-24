@@ -50,24 +50,24 @@ public class Interaction : System.Object
 
     public enum SensorTrigger
     {
-        Prolog,
-        PrologSub,
-        Factory,
-        Store,
-        Games1,
-        Games2,
-        FarmAtas,
-        FarmBawah,
-        RumahKiri,
-        RumahKanan,
-        Player1Kanan,
-        Player1Kiri,
-        Player2Kanan,
-        Player2Kiri,
-        Farm,
-        Rumah,
-        Balon,
-        Size
+		Prolog,
+		PrologSub,
+		Player1Kanan,
+		Factory,
+		Store,
+		Games,
+		Games2,
+		FarmBawah,
+		FarmAtas,
+		RumahKiri,
+		RumahKanan,
+		Player1Kiri = 7,
+		Player2Kanan = 5,
+		Player2Kiri = 4,
+        Farm = 11,
+        Rumah = 12,
+        Balon = 13,
+        Size = 14
     };
 
     public KeyCode keyCode;

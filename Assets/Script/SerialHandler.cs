@@ -98,19 +98,19 @@ public enum TouchSensor
 {
 	Prolog,
 	PrologSub,
+	Player1Kanan,
 	Factory,
 	Store,
-	Games,
-    Games2,
-	FarmAtas,
+    Games,
+	Games2,
 	FarmBawah,
+	FarmAtas,
 	RumahKiri,
 	RumahKanan,
-    Player1Kanan,
-    Player1Kiri,
-    Player2Kanan,
-    Player2Kiri,
-	Size
+    Player1Kiri = 7,
+    Player2Kanan = 5,
+    Player2Kiri = 4,
+	Size = 11
 };
 
 public enum SwipeSensor

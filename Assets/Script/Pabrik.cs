@@ -93,7 +93,7 @@ public class Pabrik : MonoBehaviour
 
         }
 
-        else if (Input.GetKey(interaction.keyCode) == false || (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1) == false))
+        else if (Input.GetKey(interaction.keyCode) == false && (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1) == false))
         {
             if (counter < 1)
             {
