@@ -57,8 +57,12 @@ public class Pabrik : MonoBehaviour
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
             {
-                temp += Time.deltaTime / 4f;
-                pabrik.SetHotThermometerValue(temp);
+                if (temp < 1)
+                {
+                    temp += Time.deltaTime / 4f;
+                    pabrik.SetHotThermometerValue(temp);
+                }
+
             }
         }
 
@@ -80,8 +84,11 @@ public class Pabrik : MonoBehaviour
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
             {
-                temp += Time.deltaTime / 4f;
-                pabrik.SetHotThermometerValue(temp);
+                if (temp < 1)
+                {
+                    temp += Time.deltaTime / 4f;
+                    pabrik.SetHotThermometerValue(temp);
+                }
             }
 
         }
