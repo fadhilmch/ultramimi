@@ -12,7 +12,19 @@ public class Farm : MonoBehaviour
     float debounce = 0;
     public float debounceTimeMax = 1;
     public GameObject tangan;
+    bool soundState = false;
+    public AudioSource source;
+    public AudioClip audio1;
 
+    void PlaySound()
+    {
+        if (soundState == false)
+        {
+            source.PlayOneShot(audio1);
+            soundState = true;
+        }
+
+    }
     void TimerCount()
     {
         interaction.counter += Time.deltaTime;
@@ -33,12 +45,14 @@ public class Farm : MonoBehaviour
             {
                 farm.PlayHide();
                 tangan.SetActive(false);
+                PlaySound();
                 timer = true;
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("FARM_showing"))
             {
                 farm.PlayIdle();
                 tangan.SetActive(false);
+                soundState = false;
             }
         }
 
@@ -48,12 +62,14 @@ public class Farm : MonoBehaviour
             {
                 farm.PlayHide();
                 tangan.SetActive(false);
+                PlaySound();
                 timer = true;
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("FARM_showing"))
             {
                 farm.PlayIdle();
                 tangan.SetActive(false);
+                soundState = false;
             }
         }
     }
@@ -63,6 +79,8 @@ public class Farm : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         farm = GetComponent<FARM_Controller>();
+
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -84,7 +102,7 @@ public class Farm : MonoBehaviour
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("FARM_showing"))
         {
-            tangan.SetActive(true);
+            //tangan.SetActive(true);
             ReadInput();
             debounce = 0;
             if (timer == true)

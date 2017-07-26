@@ -11,8 +11,19 @@ public class Store : MonoBehaviour {
     float debounce = 0;
     public float debounceTimeMax = 1;
     public GameObject tangan;
+    bool soundState = false;
+    public AudioSource source;
+    public AudioClip audio1;
 
+    void PlaySound()
+    {
+        if (soundState == false)
+        {
+            source.PlayOneShot(audio1);
+            soundState = true;
+        }
 
+    }
     void TimerCount()
     {
         interaction.counter += Time.deltaTime;
@@ -20,7 +31,7 @@ public class Store : MonoBehaviour {
         {
             interaction.counter = 0;
             store.PlayIdle();
-            tangan.SetActive(false);
+            //tangan.SetActive(false);
             Debug.Log("Farm timeout");
         }
     }
@@ -33,12 +44,15 @@ public class Store : MonoBehaviour {
             {
                 store.PlayHide();
                 tangan.SetActive(false);
+                PlaySound();
                 timer = true;
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("STORE_showing"))
             {
                 store.PlayIdle();
-                tangan.SetActive(false);
+                //tangan.SetActive(false);
+                soundState = false;
+
             }
         }
 
@@ -48,12 +62,14 @@ public class Store : MonoBehaviour {
             {
                 store.PlayHide();
                 tangan.SetActive(false);
+                PlaySound();
                 timer = true;
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("STORE_showing"))
             {
                 store.PlayIdle();
-                tangan.SetActive(false);
+                //tangan.SetActive(false);
+                soundState = false;
             }
         }
     }
@@ -64,6 +80,7 @@ public class Store : MonoBehaviour {
     {
         animator = GetComponent<Animator>();
         store = GetComponent<STORE_Controller>();
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -85,7 +102,7 @@ public class Store : MonoBehaviour {
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("STORE_showing"))
         {
-            tangan.SetActive(true);
+            //tangan.SetActive(false);
             ReadInput();
             debounce = 0;
             if (timer == true)

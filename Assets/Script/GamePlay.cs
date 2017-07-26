@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class GamePlay : MonoBehaviour {
 	public GameObject panelAttention;
@@ -24,6 +25,7 @@ public class GamePlay : MonoBehaviour {
 	public GameOverManager gameOverManager;
 	public GameObject mimi;
 	public GameObject leo;
+    
 
     IEnumerator Start(){
 		yield return new WaitForSeconds (3);
@@ -109,5 +111,10 @@ public class GamePlay : MonoBehaviour {
         isPlayer2AllowMove = false;
         yield return new WaitForSeconds(2);
         isPlayer2AllowMove = true;
+    }
+
+    public void ChangeScene(string nameScene)
+    {
+        SceneManager.LoadScene(nameScene);        
     }
 }

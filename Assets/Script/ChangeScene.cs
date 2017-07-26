@@ -12,6 +12,32 @@ public class ChangeScene : MonoBehaviour {
     private Animator animator;
     private int state = 0;
 
+    private float reactionTime = 1f;
+    private float reactionTimer = 0f;
+    private bool startReactionTimer = false;
+
+    bool reactionTimerCount()
+    {
+        if(startReactionTimer)
+        {
+            reactionTimer += Time.deltaTime;
+            if (reactionTimer > reactionTime)
+            {
+                reactionTimer = 0;
+                startReactionTimer = false;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     void TimerCount()
     {
         interaction.counter += Time.deltaTime;
@@ -21,6 +47,7 @@ public class ChangeScene : MonoBehaviour {
             interaction.value = false;
             interaction.value2 = false;
             animator.SetInteger("AnimState",0);
+            state = 0;
         }
     }
 
@@ -32,17 +59,21 @@ public class ChangeScene : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        interaction.value = false;
+        interaction.value2 = false;
 
-        if (Input.GetKeyDown(interaction.keyCode))
+        if (Input.GetKeyDown(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             interaction.value = !interaction.value;
+            Debug.Log("masuk 1");
         }
-        if (Input.GetKeyDown(interaction.keyCode2))
+        if (Input.GetKeyDown(interaction.keyCode2) || SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
         {
             interaction.value2 = !interaction.value2;
+            Debug.Log("masuk 2");
         }
 
-
+        
         if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             interaction.value = !interaction.value;
@@ -61,19 +92,29 @@ public class ChangeScene : MonoBehaviour {
                 animator.SetInteger("AnimState",1);
                 interaction.value = false;
                 interaction.value2 = false;
+                startReactionTimer = true;
             }
         }
-        if (state == 1)
+        else if (animator.GetInteger("AnimState") == 1)
         {
-            if (interaction.value)
+            if(reactionTimerCount())
             {
-                NewScene(games_1_scene);
+                if (interaction.value)
+                {
+                    NewScene(games_1_scene);
+                    animator.SetInteger("AnimState", 0);
+                    state = 0;
+                }
+                else if (interaction.value2)
+                {
+                    NewScene(games_2_scene);
+                    animator.SetInteger("AnimState", 0);
+                    state = 0;
+                }
+
+                TimerCount();
             }
-            else if (interaction.value2)
-            {
-                NewScene(games_2_scene);
-            }
-            TimerCount();
+            
         }
     }
 

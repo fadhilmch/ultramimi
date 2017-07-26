@@ -38,6 +38,11 @@ namespace hideandseek
                     lastIndexPoints = indexPoint;
                 }
                 Vector3 newPosition = pointSpawnerObjects[indexPoint].transform.position;
+                if (indexPoint == 3 || indexPoint == 4 || indexPoint == 6 || indexPoint == 2)
+                    player.transform.localScale = new Vector3(-1, 1, 1);
+                else
+                    player.transform.localScale = new Vector3(1, 1, 1);
+    
                 player.transform.position = newPosition;
                 gamePlay.ActiveDisactivePoints(indexPoint);
                 if (gamePlay.isChangeObject)

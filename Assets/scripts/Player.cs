@@ -14,6 +14,7 @@ namespace hideandseek
         private ScoreManager scoreManager;
         public Gameplay gamePlay;
         public int currentIndexType = 0;
+        private int indexSpriteKarakter = 0;
 
         void Start()
         {
@@ -24,6 +25,7 @@ namespace hideandseek
         public void SetDie()
         {
             if (!charsType[currentIndexType]) return;
+            gameObject.transform.position = new Vector3(90, 90, 90);
             switch (currentIndexType)
             {
                 case 0:
@@ -66,6 +68,7 @@ namespace hideandseek
             {
                 currentIndexType = numRand;
                 spriteRenderer.sprite = sprites[numRand];
+                /*
                 if (numRand == 0 || numRand == 2 || numRand == 4 || numRand == 6)
                 {
                     gameObject.transform.localScale = new Vector3(1, 1, 1);
@@ -73,8 +76,14 @@ namespace hideandseek
                 else
                 {
                     gameObject.transform.localScale = new Vector3(-1, 1, 1);
-                }
+                }*/
             }
+            indexSpriteKarakter = numRand;
+        }
+
+        public int getPlayerSpriteIndex()
+        {
+            return indexSpriteKarakter;
         }
     }
 }

@@ -28,10 +28,15 @@ namespace hideandseek
         public int[] barScorevalue;
         public int score = 0;
 
+        public AudioSource source;
+        public AudioClip audio1;
+        public AudioClip audio2;
+
         void Start()
         {
             player = GameObject.Find("Player").GetComponent<Player>();
             StartCoroutine(HidePanelAttention());
+            source = GetComponent<AudioSource>();
         }
 
         private IEnumerator HidePanelAttention()
@@ -52,20 +57,22 @@ namespace hideandseek
 
         void Update()
         {
-            if (SerialHandler.getSensorDown((int)TouchSensor.PrologSub))
+            
+            if (SerialHandler.getSensorDown((int)TouchSensor.PrologSub) || Input.GetKeyDown(KeyCode.Q))
                 OnSensorTap(0);
-            if (SerialHandler.getSensorDown((int)TouchSensor.RumahKanan))
+            if (SerialHandler.getSensorDown((int)TouchSensor.RumahKanan) || Input.GetKeyDown(KeyCode.W))
                 OnSensorTap(1);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Factory))
+            if (SerialHandler.getSensorDown((int)TouchSensor.Factory) || Input.GetKeyDown(KeyCode.E))
                 OnSensorTap(2);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Prolog))
+            if (SerialHandler.getSensorDown((int)TouchSensor.Prolog) || Input.GetKeyDown(KeyCode.R))
                 OnSensorTap(3);
-            if (SerialHandler.getSensorDown((int)TouchSensor.FarmAtas))
+            if (SerialHandler.getSensorDown((int)TouchSensor.FarmAtas) || Input.GetKeyDown(KeyCode.T))
                 OnSensorTap(4);
-            if (SerialHandler.getSensorDown((int)TouchSensor.FarmBawah))
+            if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKeyDown(KeyCode.Y))
                 OnSensorTap(5);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Store))
+            if (SerialHandler.getSensorDown((int)TouchSensor.Store) || Input.GetKeyDown(KeyCode.U))
                 OnSensorTap(6);
+                
 
             if (isStart && !isGameOver)
             {
@@ -77,6 +84,7 @@ namespace hideandseek
                 }
                 int timeInINteger = (int)timer;
                 timerText.text = timeInINteger.ToString();
+                //print("s");
             }
         }
 
@@ -86,6 +94,7 @@ namespace hideandseek
             {
                 isChangeObject = true;
                 player.SetDie();
+                source.PlayOneShot(audio1);
             }
             else
             {
@@ -137,7 +146,7 @@ namespace hideandseek
 
         public void GoToScene(string sceneName)
         {
-            //SceneManager.LoadScene(sceneName)
+            SceneManager.LoadScene(sceneName);
         }
 
         public void ChangeValueBar(int index)
@@ -147,6 +156,7 @@ namespace hideandseek
             if (barScorevalue[index] <= 0)
             {
                 barScoreDone[index].SetActive(true);
+                source.PlayOneShot(audio2,5f);
             }
             score++;
             if (score >= 8)
