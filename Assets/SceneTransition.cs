@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneTransition : MonoBehaviour {
-    public string scene;
+    public  string scene;
     private Fading fading;
     public KeyCode key;
     private AudioSource source;
@@ -15,6 +15,14 @@ public class SceneTransition : MonoBehaviour {
     public float volume1 = 1;
     public float volume2 = 1;
     
+	public void loadScene()
+	{
+		source.PlayOneShot(audio1, volume1);
+		float fadeTime = fading.BeginFade(1);
+		//yield return new WaitForSeconds(fadeTime);
+		SceneManager.LoadScene(scene);
+		source.PlayOneShot(audio2, volume2);
+	}
 
     // Use this for initialization
     void Start()
