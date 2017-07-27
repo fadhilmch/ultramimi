@@ -41,7 +41,7 @@ public class Pabrik : MonoBehaviour
     }
     void ReadInput()
     {
-        if (Input.GetKey(interaction.keyCode))
+		if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
             {
@@ -68,7 +68,7 @@ public class Pabrik : MonoBehaviour
             }
         }
 
-     
+     	/*
         else if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
@@ -96,7 +96,7 @@ public class Pabrik : MonoBehaviour
             }
 
         }
-
+		*/
         /*
         else if (Input.GetKey(interaction.keyCode) == false && (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1) == false))
         {
