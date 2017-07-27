@@ -53,6 +53,8 @@ public class DataSensor : System.Object
         }
     }
 
+
+
     public void checkTouch(string input, int index)
     {
         if (input[index] == '0')
@@ -244,6 +246,10 @@ public class SerialHandler : MonoBehaviour
         }
     }
 
+	public void checkSwipeEmulated(int index)
+	{
+		
+	}
 
     private string intToBinaryString(byte n)
     {
