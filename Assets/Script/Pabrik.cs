@@ -54,6 +54,8 @@ public class Pabrik : MonoBehaviour
             {
                 pabrik.DoIdle = true;
                 temp = 0;
+
+                soundState = false;
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
             {
@@ -80,6 +82,8 @@ public class Pabrik : MonoBehaviour
             {
                 pabrik.DoIdle = true;
                 temp = 0;
+
+                soundState = false;
 
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
@@ -151,12 +155,9 @@ public class Pabrik : MonoBehaviour
             {
                 interaction.counter = 0;
                 timer = false;
-                Debug.Log("masuk");
 
             }
             TimerCount();
-            Debug.Log("masuk2");
-            soundState = false;
         }
 
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
