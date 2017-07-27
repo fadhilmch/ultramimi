@@ -10,8 +10,8 @@ namespace hideandseek
     public class Gameplay : MonoBehaviour
     {
 
-        public float timer;
-        public bool isStart = false;
+        public  float timer;
+        public  bool isStart = false;
         public bool isGameOver = false;
         public Text timerText;
         public bool[] pointActive;
@@ -31,6 +31,13 @@ namespace hideandseek
         public AudioSource source;
         public AudioClip audio1;
         public AudioClip audio2;
+        private bool audiostate1 = false;
+        private bool audiostate2 = false;
+        private bool audiostate3 = false;
+        private bool audiostate4 = false;
+        private bool audiostate5 = false;
+        private bool audiostate6 = false;
+        private bool audiostate7 = false;
 
         void Start()
         {
@@ -57,22 +64,92 @@ namespace hideandseek
 
         void Update()
         {
-            
-            if (SerialHandler.getSensorDown((int)TouchSensor.PrologSub) || Input.GetKeyDown(KeyCode.Q))
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.PrologSub) || Input.GetKey(KeyCode.Q))
+            {
                 OnSensorTap(0);
-            if (SerialHandler.getSensorDown((int)TouchSensor.RumahKanan) || Input.GetKeyDown(KeyCode.W))
+                if (audiostate1 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate1 = true;
+                }
+            }
+            else
+                audiostate1 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.RumahKanan) || Input.GetKey(KeyCode.W))
+            {
                 OnSensorTap(1);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Factory) || Input.GetKeyDown(KeyCode.E))
+                if (audiostate2 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate2 = true;
+                }
+            }
+            else
+                audiostate2 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.Factory) || Input.GetKey(KeyCode.E))
+            {
                 OnSensorTap(2);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Prolog) || Input.GetKeyDown(KeyCode.R))
+                if (audiostate3 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate3 = true;
+                }
+            }
+            else
+                audiostate3 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.Prolog) || Input.GetKey(KeyCode.R))
+            {
                 OnSensorTap(3);
-            if (SerialHandler.getSensorDown((int)TouchSensor.FarmAtas) || Input.GetKeyDown(KeyCode.T))
+                if (audiostate4 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate4 = true;
+                }
+            }
+            else
+                audiostate4 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.FarmAtas) || Input.GetKey(KeyCode.T))
+            {
                 OnSensorTap(4);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKeyDown(KeyCode.Y))
+                if (audiostate5 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate5 = true;
+                }
+            }
+            else
+                audiostate5 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKey(KeyCode.Y))
+            {
                 OnSensorTap(5);
-            if (SerialHandler.getSensorDown((int)TouchSensor.Store) || Input.GetKeyDown(KeyCode.U))
+                if (audiostate6 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate6 = true;
+                }
+            }
+            else
+                audiostate6 = false;
+
+            if (SerialHandler.getSensorDown((int)TouchSensor.Store) || Input.GetKey(KeyCode.U))
+            {
                 OnSensorTap(6);
-                
+                if (audiostate7 == false)
+                {
+                    source.PlayOneShot(audio1);
+                    audiostate7 = true;
+                }
+            }
+
+            else
+                audiostate7 = false;
+
 
             if (isStart && !isGameOver)
             {
@@ -94,10 +171,12 @@ namespace hideandseek
             {
                 isChangeObject = true;
                 player.SetDie();
-                source.PlayOneShot(audio1);
+
+                
             }
             else
             {
+                
             }
         }
 
