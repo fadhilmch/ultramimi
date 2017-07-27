@@ -3341,7 +3341,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.71666664
+  - time: 0
     functionName: Pause_Asap
     data: 
     objectReferenceParameter: {fileID: 0}

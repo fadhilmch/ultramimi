@@ -1375,6 +1375,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224262364385217356}
+  - component: {fileID: 225440796849639698}
   m_Layer: 5
   m_Name: buledan-packaging
   m_TagString: Untagged
@@ -1709,7 +1710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1628457463346444
 GameObject:
   m_ObjectHideFlags: 1
@@ -2262,7 +2263,6 @@ GameObject:
   - component: {fileID: 4636099498539618}
   - component: {fileID: 198452070583970530}
   - component: {fileID: 199013817519721082}
-  - component: {fileID: 114853850781333232}
   m_Layer: 0
   m_Name: asap2
   m_TagString: Untagged
@@ -2418,7 +2418,6 @@ GameObject:
   - component: {fileID: 4940804318874864}
   - component: {fileID: 198971621429700666}
   - component: {fileID: 199056851172539796}
-  - component: {fileID: 114502258961585436}
   m_Layer: 0
   m_Name: asap1
   m_TagString: Untagged
@@ -5077,17 +5076,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114502258961585436
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1890816425800114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114509598761983388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6381,17 +6369,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114853850781333232
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1805408388409020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114854705516109734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16987,6 +16964,17 @@ CanvasGroup:
   m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!225 &225440796849639698
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493136618249904}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!225 &225752928445178830
 CanvasGroup:
