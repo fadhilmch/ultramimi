@@ -2811,7 +2811,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: -0.52
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -5956,7 +5956,9 @@ MonoBehaviour:
   debounceTimeMax: 1
   counterTempMax: 8
   tap: {fileID: 0}
-  audio1: {fileID: 8300000, guid: b736befb2a37ede4fa1cb897589dd5ea, type: 3}
+  audio1: {fileID: 8300000, guid: 8f754fa514f92c844bc298fc5f4a6873, type: 3}
+  audio2: {fileID: 8300000, guid: 76ac798cb663fe24ba1aed0afcef06c7, type: 3}
+  soundState: 0
 --- !u!114 &114686168106544180
 MonoBehaviour:
   m_ObjectHideFlags: 1

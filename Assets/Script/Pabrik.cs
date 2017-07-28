@@ -17,6 +17,9 @@ public class Pabrik : MonoBehaviour
     public GameObject tap;
     private AudioSource source;
     public AudioClip audio1;
+	public AudioClip audio2;
+
+	[SerializeField]
     private bool soundState = false;
 
     void TimerCount()
@@ -27,7 +30,9 @@ public class Pabrik : MonoBehaviour
             interaction.counter = 0;
             pabrik.DoIdle = true;
             temp = 0;
+			soundState = false;
         }
+
     }
 
     void PlaySound()
@@ -129,7 +134,8 @@ public class Pabrik : MonoBehaviour
     void Update()
     {
         
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
+		Debug.Log (soundState);
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
         {
             tap.SetActive(true);
             counterTemp = 0;
@@ -172,6 +178,7 @@ public class Pabrik : MonoBehaviour
                 if (temp >= 1)
                 {
                     counterTemp = 0;
+					source.PlayOneShot (audio2);
                 }
             }
 

@@ -14,12 +14,18 @@ public class DataSensor : System.Object
 {
     private bool sensor = false;
     private bool lastSensor = false;
-    public float responseTime = 0f;
-    private float responseTimer = 0f;
     private bool startTimer = false;
+	private bool startSwapTimer = false;
     public bool isDown = false;
     public bool isUp = false;
     public bool isChanged = false;
+	private bool swipeFromZero = false;
+
+	public float responseTime = 0f;
+	private float responseTimer = 0f;
+	private float timerSwipe = 0f;
+	private const float timerSwipeOut = 1f;
+
 
     public void updateData()
     {
@@ -74,6 +80,34 @@ public class DataSensor : System.Object
         else
             sensor = false;
     }
+
+	public void checkEmulatedSwipe(string input, int index)
+	{
+		sensor = false;
+		if (!startSwapTimer) {
+			if (input [index * 2 + 7] == '1') {
+				startSwapTimer = true;
+				swipeFromZero = true;
+			} else if (input [index * 2 + 8] == '1') {
+				startSwapTimer = true;
+				swipeFromZero = false;
+			}
+		} else {
+			if (timerSwipe > timerSwipeOut) {
+				timerSwipe = 0;
+				startSwapTimer = false;
+				Debug.Log ("timeout");
+			} else {
+				timerSwipe += Time.deltaTime;
+				if (input [index * 2 + 7] == '1' && !swipeFromZero) {
+					sensor = true;
+				} else if (input [index * 2 + 8] == '1' && swipeFromZero) {
+					sensor = true;
+				}
+			}
+		}
+	}
+
 
     public void checkBlow(string input, int index)
     {
@@ -136,6 +170,7 @@ public class SerialHandler : MonoBehaviour
 
     public static DataSensor[] touchSensor = new DataSensor[(int)TouchSensor.Size];
     public static DataSensor[] swipeSensor = new DataSensor[(int)SwipeSensor.Size];
+	public static DataSensor[] emulatedSwipeSensor = new DataSensor[(int)SwipeSensor.Size];
     public static DataSensor[] blowSensor = new DataSensor[(int)BlowSensor.Size];
 
     [Tooltip("The serial port where the Arduino is connected (usually COM1-COM9")]
@@ -154,7 +189,7 @@ public class SerialHandler : MonoBehaviour
     private static bool serial_is_proper = false;
     private bool changeSceneStart = false;
     private float changeSceneTimer = 0f;
-	[SerializeField] private const float changeSceneTime = 2f;
+	[SerializeField] private const float changeSceneTime = 4f;
     char buff;
 
     // 0x0A is new line
@@ -174,7 +209,9 @@ public class SerialHandler : MonoBehaviour
     private float timer = 0f;
 	[SerializeField] private const float timerCount = 5f;
 	private float transitionTimer = 0f;
-	[SerializeField] private const float transitionTimerCount = 5f;
+	[SerializeField] private const float transitionTimerCount = 15f;
+
+
 
     private bool checkTimer()
     {
@@ -229,7 +266,7 @@ public class SerialHandler : MonoBehaviour
             index = index - (int)TouchSensor.Size;
             if (index < (int)SwipeSensor.Size)
             {
-                return swipeSensor[index].isDown;
+				return (swipeSensor[index].isDown || emulatedSwipeSensor[index].isDown);
             }
             else
             {
@@ -245,11 +282,6 @@ public class SerialHandler : MonoBehaviour
             }
         }
     }
-
-	public void checkSwipeEmulated(int index)
-	{
-		
-	}
 
     private string intToBinaryString(byte n)
     {
@@ -334,6 +366,8 @@ public class SerialHandler : MonoBehaviour
             touchSensor[i] = new DataSensor();
         for (int i = 0; i < (int)SwipeSensor.Size; i++)
             swipeSensor[i] = new DataSensor();
+		for (int i = 0; i < (int)SwipeSensor.Size; i++)
+			emulatedSwipeSensor[i] = new DataSensor();
         for (int i = 0; i < (int)BlowSensor.Size; i++)
             blowSensor[i] = new DataSensor();
         
@@ -367,22 +401,29 @@ public class SerialHandler : MonoBehaviour
     {
         if (changeSceneStart)
         {
-            changeSceneTimer += Time.deltaTime;
+			Debug.Log ("Changing Scne");
+          
             if (changeSceneTimer > changeSceneTime)
             {
                 serialPort.Write(cmdCal, 0, cmdCal.Length);
                 serialPort.BaseStream.Flush();
                 changeSceneStart = false;
                 changeSceneTimer = 0;
+				sensorIndex = 0;
                 Debug.Log("ChangeScene3");
                 state_is_calibrate = !state_is_calibrate;
 				if (state_is_calibrate) {
 					SceneManager.LoadScene ("Calibration");
 					transitionState = true;
+					Debug.Log ("to calib");
+					changeSceneStart = false;
 				}
                 else
                 {
-                    SceneManager.LoadScene("MainScene");
+                    SceneManager.LoadScene("GABUNG");
+					Debug.Log ("to MainScene");
+					changeSceneStart = false;
+					serialPort.BaseStream.Flush ();
                 }
             }
             else
@@ -395,9 +436,14 @@ public class SerialHandler : MonoBehaviour
             if (state_is_calibrate)
             {
 				if (transitionState) {
+					if (transitionTimer == 0f) {
+						serialPort.Write (cmdCal, 0, cmdCal.Length);
+						serialPort.BaseStream.Flush ();
+					}
 					if (transitionTimer > transitionTimerCount) {
 						transitionState = false;
 						transitionTimer = 0;
+						CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
 					} else {
 						transitionTimer += Time.deltaTime;
 					}
@@ -405,11 +451,9 @@ public class SerialHandler : MonoBehaviour
 					if (checkTimer ()) {
 						timer = 0;
 						Debug.Log (cmdCal [0]);
-						serialPort.Write (cmdCal, 0, cmdCal.Length);
-						serialPort.BaseStream.Flush ();
+
 						if (sensorIndex == 0) {
-							//SceneManager.GetSceneByName("Calibration").GetRootGameObjects().
-							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
+							
 						} else if (sensorIndex < sensorNum) {
 							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
 							CalibrationHandler.static_sensorPlacement [sensorIndex - 1].SetActive (false);
@@ -418,6 +462,8 @@ public class SerialHandler : MonoBehaviour
 							changeSceneStart = true;
 							Debug.Log ("ChangeScene1");
 						}
+						serialPort.Write (cmdCal, 0, cmdCal.Length);
+						serialPort.BaseStream.Flush ();
 						Debug.Log ("sensor index " + sensorIndex);
 						sensorIndex++;
 					}
@@ -442,7 +488,6 @@ public class SerialHandler : MonoBehaviour
                     Debug.Log("timeout");
                 }
 
-
                 byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
                 string fulltemp = "| ";
                 for (int i = 0; i < 10; i++)
@@ -455,25 +500,25 @@ public class SerialHandler : MonoBehaviour
                 string dataSwipe = intToBinaryString(arr[5]);
                 string dataBlow = intToBinaryString(arr[7]);
                 string dataCalibrate = intToBinaryString(arr[9]);
-                Debug.Log(dataTouch + " " + dataSwipe + " " + dataBlow + " " + dataCalibrate);
+				string dataEmulatedSwipe = "";
+				for (int i = 0; i < 2; i++) {
+					dataEmulatedSwipe += (emulatedSwipeSensor [i].isDown ? '1' : '0');
+				}
+				Debug.Log(dataTouch.Substring(0,7) + " " + dataTouch.Substring(7, 4) + " " + dataSwipe.Substring(0,2) + " " + dataEmulatedSwipe + " " + dataBlow + " " + dataCalibrate);
 
                 for (int i = 0; i < (int)TouchSensor.Size; i++)
                 {
                     touchSensor[i].checkTouch(dataTouch, i);
                     touchSensor[i].updateData();
 					ScreensaverTimer.resetTimer ();
-                    /*
-                     * if (i == (int)TouchSensor.Player2Kiri)
-                        Debug.Log(TouchSensor.Player2Kiri + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
-                    if (i == (int)TouchSensor.Player2Kanan)
-                        Debug.Log(TouchSensor.Player2Kanan + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
-                        */
                 }
 
                 for (int i = 0; i < (int)SwipeSensor.Size; i++)
                 {
                     swipeSensor[i].checkSwipe(dataSwipe, i);
                     swipeSensor[i].updateData();
+					emulatedSwipeSensor [i].checkEmulatedSwipe (dataTouch, i);
+					emulatedSwipeSensor [i].updateData();
 					ScreensaverTimer.resetTimer ();
                 }
 
@@ -482,7 +527,6 @@ public class SerialHandler : MonoBehaviour
                     blowSensor[i].checkBlow(dataBlow, i);
                     blowSensor[i].updateData();
 					ScreensaverTimer.resetTimer ();
-                    /*Debug.Log(BlowSensor.Anak + " State is down " + blowSensor[i].isDown + " is Changed " + blowSensor[i].isChanged);*/
                 }
 
                 if (dataCalibrate[0] == '1')

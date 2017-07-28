@@ -12,6 +12,7 @@ public class Farm : MonoBehaviour
     float debounce = 0;
     public float debounceTimeMax = 1;
     public GameObject tangan;
+	[SerializeField]
     bool soundState = false;
     public AudioSource source;
     public AudioClip audio1;
@@ -34,12 +35,13 @@ public class Farm : MonoBehaviour
             farm.PlayIdle();
             Debug.Log("Farm timeout");
             tangan.SetActive(false);
+			soundState = false;
         }
     }
 
     void ReadInput()
     {
-        if (Input.GetKey(interaction.keyCode))
+		if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("FARM_idle"))
             {
@@ -55,8 +57,8 @@ public class Farm : MonoBehaviour
                 soundState = false;
             }
         }
-
-        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
+		/*
+        if (SerialHandler.serial_is_open && )
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("FARM_idle"))
             {
@@ -71,7 +73,7 @@ public class Farm : MonoBehaviour
                 tangan.SetActive(false);
                 soundState = false;
             }
-        }
+        }*/
     }
 
     // Use this for initialization
