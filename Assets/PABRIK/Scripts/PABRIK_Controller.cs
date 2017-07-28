@@ -23,7 +23,7 @@ public class PABRIK_Controller : MonoBehaviour
     [SerializeField]
     Image HotThermometer;
     [SerializeField]
-    RectTransform Clock;
+    PABRIK_Stopwatch_Controller StopwatchController;
 
     Animator animator;
     float HIDE_COOLDOWN = 0.5f;
@@ -36,6 +36,9 @@ public class PABRIK_Controller : MonoBehaviour
     public bool DoIdle;
     public float HotThermometerValue;
     public bool DoSetHotThermometer;
+    public bool DoSetStopwatchValue;//ini buat testing doang!
+    public int StopwatchCurrentValue;
+    public int StopwatchMaxValue;
 
     // Use this for initialization
     void Start()
@@ -62,6 +65,13 @@ public class PABRIK_Controller : MonoBehaviour
         {
             DoSetHotThermometer = false;
             SetHotThermometerValue(HotThermometerValue);
+        }
+
+        // TESTING DOANG!!
+        if (DoSetStopwatchValue)
+        {
+            DoSetStopwatchValue = false;
+            StopwatchController.SetValue(StopwatchCurrentValue, StopwatchMaxValue);
         }
 
         if (hideCoolDown > 0)
