@@ -2418,7 +2418,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 933f72102e858fe4cadcdca014087a4d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.283
+  m_Volume: 0.272
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -14707,7 +14707,7 @@ MonoBehaviour:
   endMarker: {fileID: 1058585597}
   restartMarker: {fileID: 1663178666}
   state: 0
-  audio1: {fileID: 8300000, guid: 781e76e6025f5954eaf480de44b85afb, type: 3}
+  audio1: {fileID: 8300000, guid: 3653a37b0701ddf4cbd944061179ca3e, type: 3}
   volume: 1
   awan: {fileID: 119459225}
 --- !u!82 &1817200447
@@ -15179,7 +15179,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: -0.48
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -15261,6 +15261,7 @@ MonoBehaviour:
     counter: 0
   debounceTimeMax: 1
   tangan: {fileID: 1692927350}
+  soundState: 0
   source: {fileID: 0}
   audio1: {fileID: 8300000, guid: 8887ce07b087c194fbb8a2311503db25, type: 3}
 --- !u!95 &1874055415
