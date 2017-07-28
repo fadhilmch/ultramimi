@@ -23,7 +23,7 @@ public class PABRIK_Controller : MonoBehaviour
     [SerializeField]
     Image HotThermometer;
     [SerializeField]
-    PABRIK_Stopwatch_Controller StopwatchController;
+    public PABRIK_Stopwatch_Controller StopwatchController;
 
     Animator animator;
     float HIDE_COOLDOWN = 0.5f;

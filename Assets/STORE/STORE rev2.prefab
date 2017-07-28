@@ -749,7 +749,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -759,7 +759,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: 0
+  Pan2D: 1
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0
@@ -1997,7 +1997,7 @@ MonoBehaviour:
   interaction:
     keyCode: 102
     keyCode2: 0
-    sensorTrigger1: 3
+    sensorTrigger1: 4
     sensorTrigger2: 0
     timeOut: 10
     value: 0
@@ -2005,8 +2005,9 @@ MonoBehaviour:
     counter: 0
   debounceTimeMax: 1
   tangan: {fileID: 0}
+  soundState: 0
   source: {fileID: 0}
-  audio1: {fileID: 8300000, guid: b736befb2a37ede4fa1cb897589dd5ea, type: 3}
+  audio1: {fileID: 8300000, guid: 3e20f32906de8984ba5ca46d19457753, type: 3}
 --- !u!114 &114912839174766278
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -414,7 +414,7 @@ Prefab:
     - target: {fileID: 114332283404275644, guid: cc3d137c3f9830b47b00e4ced39c7ab9,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc3d137c3f9830b47b00e4ced39c7ab9, type: 2}
@@ -5072,6 +5072,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82606167603841280, guid: 25b2ad18cde7ce145828f23308f7b26b,
+        type: 2}
+      propertyPath: Pan2D
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82606167603841280, guid: 25b2ad18cde7ce145828f23308f7b26b,
+        type: 2}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 25b2ad18cde7ce145828f23308f7b26b, type: 2}
   m_IsPrefabParent: 0
@@ -5473,16 +5483,6 @@ Prefab:
       propertyPath: tangan
       value: 
       objectReference: {fileID: 1430733237}
-    - target: {fileID: 114911690383643110, guid: ff1e61ccb2fdda6458ae03034dc45ff6,
-        type: 2}
-      propertyPath: interaction.sensorTrigger1
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 82346470172130414, guid: ff1e61ccb2fdda6458ae03034dc45ff6,
-        type: 2}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 9cc648292baea824e8fda1fb0fa760e2, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ff1e61ccb2fdda6458ae03034dc45ff6, type: 2}
   m_IsPrefabParent: 0
@@ -8651,6 +8651,16 @@ Prefab:
       propertyPath: tangan
       value: 
       objectReference: {fileID: 331595886}
+    - target: {fileID: 82618099195021290, guid: d80b7be97614b0a49bc384b0efd28293,
+        type: 2}
+      propertyPath: Pan2D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82618099195021290, guid: d80b7be97614b0a49bc384b0efd28293,
+        type: 2}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d80b7be97614b0a49bc384b0efd28293, type: 2}
   m_IsPrefabParent: 0
@@ -12785,7 +12795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: -3.61}
+  m_AnchoredPosition: {x: -0.99, y: -1.48}
   m_SizeDelta: {x: 12.98, y: 13.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1692927350 stripped
@@ -13626,6 +13636,7 @@ MonoBehaviour:
   audio1: {fileID: 8300000, guid: 3653a37b0701ddf4cbd944061179ca3e, type: 3}
   volume: 1
   awan: {fileID: 119459225}
+  sign: {fileID: 1673599985}
 --- !u!82 &1817200447
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13636,8 +13647,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.245
+  m_PlayOnAwake: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -14095,7 +14106,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: -0.48
+  Pan2D: -1
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0

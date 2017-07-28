@@ -19,6 +19,7 @@ public class balloonMove : MonoBehaviour
     public float volume =1;
 
     public GameObject awan;
+	public GameObject sign;
     private Animator animator;
 
     private bool play = false;
@@ -48,6 +49,7 @@ public class balloonMove : MonoBehaviour
             transform.position = startMarker.position;
             t = 0f;
             xMove = Random.Range(-15, 15);
+			sign.SetActive (true);
         }
 
         if (interaction.value == true)
@@ -55,8 +57,9 @@ public class balloonMove : MonoBehaviour
             if (play == false)
             {
                 source.PlayOneShot(audio1, volume);
-                Debug.Log("a");
+                //Debug.Log("a");
                 animator.SetTrigger("burst");
+				sign.SetActive (false);
                 play = true;
             }
             if (state == 0)

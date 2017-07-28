@@ -70,6 +70,9 @@ public class Pabrik : MonoBehaviour
 				if (temp < 1) {
 					temp += Time.deltaTime / 4f;
 					pabrik.SetHotThermometerValue (temp);
+					int stopwatchCount = (int)(temp*4);
+					Debug.Log (stopwatchCount);
+					pabrik.StopwatchController.SetValue ((4-stopwatchCount), 4);
 					if (stateTemp == false) {
 						audio3.Play ();
 						stateTemp = true;

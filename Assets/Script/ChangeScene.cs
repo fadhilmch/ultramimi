@@ -16,6 +16,9 @@ public class ChangeScene : MonoBehaviour {
     private float reactionTimer = 0f;
     private bool startReactionTimer = false;
 	private	AsyncOperation	asyncOperation;
+	public AudioSource source;
+	public AudioClip audio1;
+	private bool statesound = false;
 
     bool reactionTimerCount()
     {
@@ -64,15 +67,16 @@ public class ChangeScene : MonoBehaviour {
         interaction.value = false;
         interaction.value2 = false;
 
-        if (Input.GetKeyDown(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
+        if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             interaction.value = !interaction.value;
-            Debug.Log("masuk 1");
+            //Debug.Log("masuk 1");
         }
-        if (Input.GetKeyDown(interaction.keyCode2) || SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
+        if (Input.GetKey(interaction.keyCode2) || SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
         {
             interaction.value2 = !interaction.value2;
-            Debug.Log("masuk 2");
+
+            //Debug.Log("masuk 2");
         }
 
         if (state == 0)
