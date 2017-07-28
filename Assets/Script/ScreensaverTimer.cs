@@ -21,7 +21,7 @@ public class ScreensaverTimer : MonoBehaviour {
 	void Update () {
 		if (Input.anyKeyDown)
 			resetTimer ();
-		Debug.Log ("timer " + timer);
+		//Debug.Log ("timer " + timer);
 		if (timer < screenSaverTimer) {
 			timer += Time.deltaTime;
 		} else {
