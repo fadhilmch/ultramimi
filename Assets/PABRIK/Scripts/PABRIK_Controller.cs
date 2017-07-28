@@ -68,11 +68,12 @@ public class PABRIK_Controller : MonoBehaviour
         }
 
         // TESTING DOANG!!
+		/*
         if (DoSetStopwatchValue)
         {
             DoSetStopwatchValue = false;
             StopwatchController.SetValue(StopwatchCurrentValue, StopwatchMaxValue);
-        }
+        }*/
 
         if (hideCoolDown > 0)
             hideCoolDown -= Time.deltaTime;

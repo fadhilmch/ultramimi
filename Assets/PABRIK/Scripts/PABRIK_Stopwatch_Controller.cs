@@ -29,7 +29,7 @@ public class PABRIK_Stopwatch_Controller : MonoBehaviour
     /// </summary>
     /// <param name="currentValue">Ini nilai berapa yang mau dilihatkan</param>
     /// <param name="maxValue">Nilai maksimum si stopwatch</param>
-    public void SetValue(int currentValue, int maxValue)
+	public void SetValue(float currentValue, int maxValue, float floatValue)
     {
 
         if (currentValue < 10)
@@ -42,6 +42,6 @@ public class PABRIK_Stopwatch_Controller : MonoBehaviour
             StopwatchText.text = currentValue.ToString();
         }
 
-        BGImage.fillAmount = (float)currentValue / (float)maxValue;
+        BGImage.fillAmount = (float)floatValue;
     }
 }

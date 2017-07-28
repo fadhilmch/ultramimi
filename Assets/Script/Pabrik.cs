@@ -22,6 +22,7 @@ public class Pabrik : MonoBehaviour
 	private bool stateTemp = false;
 	private bool stateBell = false;
 	public GameObject button;
+	int stopwatchCount;
 
 	[SerializeField]
     private bool soundState = false;
@@ -71,10 +72,9 @@ public class Pabrik : MonoBehaviour
 				if (temp < 1) {
 					temp += Time.deltaTime / 4f;
 					pabrik.SetHotThermometerValue (temp);
-					int stopwatchCount = (int)(temp*4);
+					stopwatchCount = (int)(temp*4);
 					button.GetComponent<Animator> ().SetInteger ("AnimState", 1);
-					Debug.Log (stopwatchCount);
-					pabrik.StopwatchController.SetValue ((4-stopwatchCount), 4);
+					pabrik.StopwatchController.SetValue ((4-stopwatchCount), 4,(1-temp));
 					if (stateTemp == false) {
 						audio3.Play ();
 						stateTemp = true;
@@ -185,11 +185,12 @@ public class Pabrik : MonoBehaviour
         {
             ReadInput();
             counterTemp += Time.deltaTime;
-			Debug.Log ("counter " + counterTemp);
+			//Debug.Log ("counter " + counterTemp);
             if (counterTemp > counterTempMax)
             {
-                temp += Time.deltaTime / 2;
+                temp += Time.deltaTime / 4;
                 pabrik.SetHotThermometerValue(temp);
+				pabrik.StopwatchController.SetValue ((4-stopwatchCount), 4,(1-temp));
             }
 			if (temp >= 1)
 			{
