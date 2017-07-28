@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Scene/SerialHandler.unity
     guid: 88cc0e70e339a004abd57d0accfab04b
   - enabled: 1
-    path: Assets/GABUNG/GABUNG.unity
+    path: Assets/Scene/GABUNG.unity
     guid: 7be51f487cdb1e54187277be04423741
   - enabled: 1
-    path: Assets/scenes/ScreenSaver.unity
+    path: Assets/Scene/ScreenSaver.unity
     guid: 3b9084e2821db1f47bc795af0bef04fe
   - enabled: 1
-    path: Assets/scenes/Games2.unity
+    path: Assets/Scene/Games2.unity
     guid: 41d84b247af4b4f4da6108e0d29c3610
   - enabled: 1
-    path: Assets/scenes/Games1.unity
+    path: Assets/Scene/Games1.unity
     guid: a01339540fa52cb41bdeb48ac66c8b35
   - enabled: 1
     path: Assets/Scene/Calibration.unity
