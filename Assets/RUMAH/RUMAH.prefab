@@ -1782,6 +1782,7 @@ MonoBehaviour:
     counter: 0
   debounceTimeMax: 1
   tangan: {fileID: 0}
+  soundState: 0
   source: {fileID: 0}
   audio1: {fileID: 8300000, guid: 8887ce07b087c194fbb8a2311503db25, type: 3}
 --- !u!114 &114741849109165634
