@@ -401,7 +401,8 @@ public class SerialHandler : MonoBehaviour
     {
         if (changeSceneStart)
         {
-            changeSceneTimer += Time.deltaTime;
+			Debug.Log ("Changing Scne");
+          
             if (changeSceneTimer > changeSceneTime)
             {
                 serialPort.Write(cmdCal, 0, cmdCal.Length);
@@ -415,11 +416,14 @@ public class SerialHandler : MonoBehaviour
 					SceneManager.LoadScene ("Calibration");
 					transitionState = true;
 					Debug.Log ("to calib");
+					changeSceneStart = false;
 				}
                 else
                 {
                     SceneManager.LoadScene("GABUNG");
 					Debug.Log ("to MainScene");
+					changeSceneStart = false;
+					serialPort.BaseStream.Flush ();
                 }
             }
             else
@@ -500,7 +504,7 @@ public class SerialHandler : MonoBehaviour
 				for (int i = 0; i < 2; i++) {
 					dataEmulatedSwipe += (emulatedSwipeSensor [i].isDown ? '1' : '0');
 				}
-				Debug.Log(dataTouch.Substring(0,7) + " " + dataTouch.Substring(8, 4) + " " + dataSwipe.Substring(0,2) + " " + dataEmulatedSwipe + " " + dataBlow + " " + dataCalibrate);
+				Debug.Log(dataTouch.Substring(0,7) + " " + dataTouch.Substring(7, 4) + " " + dataSwipe.Substring(0,2) + " " + dataEmulatedSwipe + " " + dataBlow + " " + dataCalibrate);
 
                 for (int i = 0; i < (int)TouchSensor.Size; i++)
                 {
