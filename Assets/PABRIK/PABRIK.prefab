@@ -6035,12 +6035,12 @@ MonoBehaviour:
     value2: 0
     counter: 0
   debounceTimeMax: 1
-  counterTempMax: 8
   tap: {fileID: 0}
   source: {fileID: 0}
   audio1: {fileID: 8300000, guid: 8f754fa514f92c844bc298fc5f4a6873, type: 3}
   audio2: {fileID: 8300000, guid: 76ac798cb663fe24ba1aed0afcef06c7, type: 3}
   audio3: {fileID: 82021867553410006}
+  button: {fileID: 1614245786704570}
   soundState: 0
 --- !u!114 &114686168106544180
 MonoBehaviour:
