@@ -61,57 +61,79 @@ public class ChangeScene : MonoBehaviour {
         animator = GetComponent<Animator>();
 		//StartCoroutine (LoadSyncAsync("Games1"));
 	}
-	
+
+
+	void ReadInput(){
+		if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
+		{
+			interaction.value = !interaction.value;
+
+
+			//Debug.Log("masuk 1");
+		}
+		if (Input.GetKey(interaction.keyCode2) || SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
+		{
+			interaction.value2 = !interaction.value2;
+
+
+			//Debug.Log("masuk 2");
+		}
+	}
 	// Update is called once per frame
 	void Update () {
         interaction.value = false;
         interaction.value2 = false;
 
-        if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
-        {
-            interaction.value = !interaction.value;
-            //Debug.Log("masuk 1");
-        }
-        if (Input.GetKey(interaction.keyCode2) || SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
-        {
-            interaction.value2 = !interaction.value2;
 
-            //Debug.Log("masuk 2");
-        }
 
-        if (state == 0)
-        {
-            if (interaction.value)
-            {
-                state = 1;
-                animator.SetInteger("AnimState",1);
-                interaction.value = false;
-                interaction.value2 = false;
-                startReactionTimer = true;
-            }
-        }
-        else if (animator.GetInteger("AnimState") == 1)
-        {
-            if(reactionTimerCount())
-            {
-                if (interaction.value)
-                {
-                    NewScene(games_1_scene);
+		if (state == 0) {
+			ReadInput ();
+			if (interaction.value) {
+				if (statesound == false) {
+					source.PlayOneShot (audio1);
+					statesound = true;
+				}
+				state = 1;
+				animator.SetInteger ("AnimState", 1);
+				interaction.value = false;
+				interaction.value2 = false;
+				startReactionTimer = true;
+			}
+		} else if (state == 1) {
+			statesound = false;
+			state = 2;
+		}
+
+        //else if (animator.GetInteger("AnimState") == 1)
+		else if (state == 2) {
+			//ReadInput ();	
+
+			if (reactionTimerCount ()) {
+				if (interaction.value) {
+					if (statesound == false) {
+						source.PlayOneShot (audio1);
+						statesound = true;
+					}
+					NewScene (games_1_scene);
 					//LoadGames1();
-                    animator.SetInteger("AnimState", 0);
-                    state = 0;
-                }
-                else if (interaction.value2)
-                {
-                    NewScene(games_2_scene);
-                    animator.SetInteger("AnimState", 0);
-                    state = 0;
-                }
+					animator.SetInteger ("AnimState", 0);
+					state = 3;
+				} else if (interaction.value2) {
+					if (statesound == false) {
+						source.PlayOneShot (audio1);
+						statesound = true;
+					}
+					NewScene (games_2_scene);
+					animator.SetInteger ("AnimState", 0);
+					state = 3;
+				}
 
-                TimerCount();
-            }
+				TimerCount ();
+			}
             
-        }
+		} else if (state == 3) {
+			statesound = false;
+		}
     }
 
     public void NewScene(string scene)
@@ -121,6 +143,10 @@ public class ChangeScene : MonoBehaviour {
         SceneManager.LoadScene(scene);
         
     }
+
+	 IEnumerator Delay(){
+		yield return new WaitForSeconds (10);
+	}
 
 	public	IEnumerator	LoadSyncAsync(string	nameScene){
 
