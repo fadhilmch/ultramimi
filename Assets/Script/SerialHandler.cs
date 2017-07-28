@@ -53,6 +53,8 @@ public class DataSensor : System.Object
         }
     }
 
+
+
     public void checkTouch(string input, int index)
     {
         if (input[index] == '0')
@@ -152,7 +154,7 @@ public class SerialHandler : MonoBehaviour
     private static bool serial_is_proper = false;
     private bool changeSceneStart = false;
     private float changeSceneTimer = 0f;
-    private const float changeSceneTime = 2f;
+	[SerializeField] private const float changeSceneTime = 2f;
     char buff;
 
     // 0x0A is new line
@@ -165,11 +167,14 @@ public class SerialHandler : MonoBehaviour
     private bool start = true;
     private int sensorNum = (int)TouchSensor.Size;
     private int sensorIndex = 0;
+	private bool transitionState = false;
 
     private GameObject sensorPlacement;
 
     private float timer = 0f;
-    private const float timerCount = 5f;
+	[SerializeField] private const float timerCount = 5f;
+	private float transitionTimer = 0f;
+	[SerializeField] private const float transitionTimerCount = 5f;
 
     private bool checkTimer()
     {
@@ -241,6 +246,10 @@ public class SerialHandler : MonoBehaviour
         }
     }
 
+	public void checkSwipeEmulated(int index)
+	{
+		
+	}
 
     private string intToBinaryString(byte n)
     {
@@ -367,8 +376,10 @@ public class SerialHandler : MonoBehaviour
                 changeSceneTimer = 0;
                 Debug.Log("ChangeScene3");
                 state_is_calibrate = !state_is_calibrate;
-                if (state_is_calibrate)
-                    SceneManager.LoadScene("Calibration");
+				if (state_is_calibrate) {
+					SceneManager.LoadScene ("Calibration");
+					transitionState = true;
+				}
                 else
                 {
                     SceneManager.LoadScene("MainScene");
@@ -383,31 +394,34 @@ public class SerialHandler : MonoBehaviour
         {
             if (state_is_calibrate)
             {
-                if (checkTimer())
-                {
-                    timer = 0;
-                    Debug.Log(cmdCal[0]);
-                    serialPort.Write(cmdCal, 0, cmdCal.Length);
-                    serialPort.BaseStream.Flush();
-                    if (sensorIndex == 0)
-                    {
-                        //SceneManager.GetSceneByName("Calibration").GetRootGameObjects().
-                        CalibrationHandler.static_sensorPlacement[sensorIndex].SetActive(true);
-                    }
-                    else if (sensorIndex < sensorNum)
-                    {
-                        CalibrationHandler.static_sensorPlacement[sensorIndex].SetActive(true);
-                        CalibrationHandler.static_sensorPlacement[sensorIndex - 1].SetActive(false);
-                    }
-                    else
-                    {
-                        CalibrationHandler.static_sensorPlacement[sensorIndex - 1].SetActive(false);
-                        changeSceneStart = true;
-                        Debug.Log("ChangeScene1");
-                    }
-                    Debug.Log("sensor index " + sensorIndex);
-                    sensorIndex++;
-                }
+				if (transitionState) {
+					if (transitionTimer > transitionTimerCount) {
+						transitionState = false;
+						transitionTimer = 0;
+					} else {
+						transitionTimer += Time.deltaTime;
+					}
+				} else {
+					if (checkTimer ()) {
+						timer = 0;
+						Debug.Log (cmdCal [0]);
+						serialPort.Write (cmdCal, 0, cmdCal.Length);
+						serialPort.BaseStream.Flush ();
+						if (sensorIndex == 0) {
+							//SceneManager.GetSceneByName("Calibration").GetRootGameObjects().
+							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
+						} else if (sensorIndex < sensorNum) {
+							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
+							CalibrationHandler.static_sensorPlacement [sensorIndex - 1].SetActive (false);
+						} else {
+							CalibrationHandler.static_sensorPlacement [sensorIndex - 1].SetActive (false);
+							changeSceneStart = true;
+							Debug.Log ("ChangeScene1");
+						}
+						Debug.Log ("sensor index " + sensorIndex);
+						sensorIndex++;
+					}
+				}
             }
             else
             {
@@ -447,29 +461,35 @@ public class SerialHandler : MonoBehaviour
                 {
                     touchSensor[i].checkTouch(dataTouch, i);
                     touchSensor[i].updateData();
-                    if (i == (int)TouchSensor.Player2Kiri)
+					ScreensaverTimer.resetTimer ();
+                    /*
+                     * if (i == (int)TouchSensor.Player2Kiri)
                         Debug.Log(TouchSensor.Player2Kiri + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
                     if (i == (int)TouchSensor.Player2Kanan)
                         Debug.Log(TouchSensor.Player2Kanan + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
+                        */
                 }
 
                 for (int i = 0; i < (int)SwipeSensor.Size; i++)
                 {
                     swipeSensor[i].checkSwipe(dataSwipe, i);
                     swipeSensor[i].updateData();
+					ScreensaverTimer.resetTimer ();
                 }
 
                 for (int i = 0; i < (int)BlowSensor.Size; i++)
                 {
                     blowSensor[i].checkBlow(dataBlow, i);
                     blowSensor[i].updateData();
-                    Debug.Log(BlowSensor.Anak + " State is down " + blowSensor[i].isDown + " is Changed " + blowSensor[i].isChanged);
+					ScreensaverTimer.resetTimer ();
+                    /*Debug.Log(BlowSensor.Anak + " State is down " + blowSensor[i].isDown + " is Changed " + blowSensor[i].isChanged);*/
                 }
 
                 if (dataCalibrate[0] == '1')
                 {
                     changeSceneStart = true;
                     Debug.Log("ChangeScene2");
+					ScreensaverTimer.resetTimer ();
                 }
             }
         }

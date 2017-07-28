@@ -75,17 +75,6 @@ public class ChangeScene : MonoBehaviour {
             Debug.Log("masuk 2");
         }
 
-        
-        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
-        {
-            interaction.value = !interaction.value;
-        }
-        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger2))
-        {
-            interaction.value2 = !interaction.value2;
-        }
-
-
         if (state == 0)
         {
             if (interaction.value)
