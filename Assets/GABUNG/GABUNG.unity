@@ -414,22 +414,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc3d137c3f9830b47b00e4ced39c7ab9, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &65201930 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1652942964701248, guid: cc3d137c3f9830b47b00e4ced39c7ab9,
-    type: 2}
-  m_PrefabInternal: {fileID: 65201929}
---- !u!114 &65201931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 65201930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a80a2fec36217a948b264497e3c55a6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &65664681
 GameObject:
   m_ObjectHideFlags: 0
@@ -2432,9 +2416,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 169099de1b9b78147aa57bab9b484a42, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 933f72102e858fe4cadcdca014087a4d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.08
+  m_Volume: 0.283
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -15808,11 +15792,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 95371738001952700, guid: 0615dd3c7ff35f4408944bc1d10766df,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0615dd3c7ff35f4408944bc1d10766df, type: 2}
