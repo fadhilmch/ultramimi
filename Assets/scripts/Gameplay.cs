@@ -38,6 +38,7 @@ namespace hideandseek
         private bool audiostate5 = false;
         private bool audiostate6 = false;
         private bool audiostate7 = false;
+		public	TimerAnimationController	timerAnimatorController;
 
         void Start()
         {
@@ -60,6 +61,8 @@ namespace hideandseek
             isStart = true;
             GetComponent<SpawnerObjectManager>().StartGame();
             CancelInvoke("StartGame");
+			timerAnimatorController.StartTime ();
+
         }
 
         void Update()

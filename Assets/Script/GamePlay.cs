@@ -25,7 +25,7 @@ public class GamePlay : MonoBehaviour {
 	public GameOverManager gameOverManager;
 	public GameObject mimi;
 	public GameObject leo;
-    
+	public	TimerAnimationController	timerAnimatorController;
 
     IEnumerator Start(){
 		yield return new WaitForSeconds (3);
@@ -36,6 +36,7 @@ public class GamePlay : MonoBehaviour {
 
 	private void StartGame()
     {
+		timerAnimatorController.StartTime ();
 		panelGo.SetActive (false);
         panelAttention.SetActive(false);
         spawnerManager[0].StartGame();

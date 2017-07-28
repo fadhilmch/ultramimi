@@ -15,6 +15,7 @@ public class ChangeScene : MonoBehaviour {
     private float reactionTime = 1f;
     private float reactionTimer = 0f;
     private bool startReactionTimer = false;
+	private	AsyncOperation	asyncOperation;
 
     bool reactionTimerCount()
     {
@@ -55,6 +56,7 @@ public class ChangeScene : MonoBehaviour {
     void Start () {
         fading = GetComponent<Fading>();
         animator = GetComponent<Animator>();
+		//StartCoroutine (LoadSyncAsync("Games1"));
 	}
 	
 	// Update is called once per frame
@@ -102,6 +104,7 @@ public class ChangeScene : MonoBehaviour {
                 if (interaction.value)
                 {
                     NewScene(games_1_scene);
+					//LoadGames1();
                     animator.SetInteger("AnimState", 0);
                     state = 0;
                 }
@@ -126,6 +129,18 @@ public class ChangeScene : MonoBehaviour {
         
     }
 
+	public	IEnumerator	LoadSyncAsync(string	nameScene){
 
+		asyncOperation	=	SceneManager.LoadSceneAsync (nameScene);
+		asyncOperation.allowSceneActivation	=	false;
+		while (asyncOperation.progress < 0.9f) {
+			yield return null;
+		}
+		//yield	return	new	WaitForEndOfFrame ();
+	}
+
+	public	void	LoadGames1(){
+		asyncOperation.allowSceneActivation	=	true;
+	}
     
 }
