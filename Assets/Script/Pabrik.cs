@@ -13,11 +13,14 @@ public class Pabrik : MonoBehaviour
     public float debounceTimeMax = 1;
     float debounce = 0;
     float counterTemp = 0;
-    public float counterTempMax = 8;
+    private float counterTempMax = 13;
     public GameObject tap;
-    private AudioSource source;
+	public AudioSource source;
     public AudioClip audio1;
 	public AudioClip audio2;
+	public AudioSource audio3;
+	private bool stateTemp = false;
+	private bool stateBell = false;
 
 	[SerializeField]
     private bool soundState = false;
@@ -31,6 +34,8 @@ public class Pabrik : MonoBehaviour
             pabrik.DoIdle = true;
             temp = 0;
 			soundState = false;
+			stateTemp = false;
+			stateTemp = false;
         }
 
     }
@@ -48,30 +53,36 @@ public class Pabrik : MonoBehaviour
     {
 		if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
-            {
-                pabrik.DoHide = true;
-                PlaySound();
-                tap.SetActive(false);
-                timer = true;
-            }
-            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_showing"))
-            {
-                pabrik.DoIdle = true;
-                temp = 0;
+			if (animator.GetCurrentAnimatorStateInfo (0).IsName ("PABRIK_idle")) {
+				pabrik.DoHide = true;
+				PlaySound ();
+				tap.SetActive (false);
+				timer = true;
+			} else if (animator.GetCurrentAnimatorStateInfo (0).IsName ("PABRIK_showing")) {
+				pabrik.DoIdle = true;
+				temp = 0;
 
-                soundState = false;
-            }
-            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
-            {
-                if (temp < 1)
-                {
-                    temp += Time.deltaTime / 4f;
-                    pabrik.SetHotThermometerValue(temp);
-                }
+				soundState = false;
+				stateTemp = false;
+				stateTemp = false;
 
-            }
+			} else if (animator.GetCurrentAnimatorStateInfo (0).IsName ("PABRIK_state2_part3_show")) {
+				if (temp < 1) {
+					temp += Time.deltaTime / 4f;
+					pabrik.SetHotThermometerValue (temp);
+					if (stateTemp == false) {
+						audio3.Play ();
+						stateTemp = true;
+					}
+
+				}
+
+			}
         }
+		else {
+			audio3.Stop ();
+			stateTemp = false;
+		}
 
      	/*
         else if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
@@ -133,8 +144,6 @@ public class Pabrik : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-		Debug.Log (soundState);
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_idle"))
         {
             tap.SetActive(true);
@@ -169,18 +178,22 @@ public class Pabrik : MonoBehaviour
         else if (animator.GetCurrentAnimatorStateInfo(0).IsName("PABRIK_state2_part3_show"))
         {
             ReadInput();
-
             counterTemp += Time.deltaTime;
+			Debug.Log ("counter " + counterTemp);
             if (counterTemp > counterTempMax)
             {
                 temp += Time.deltaTime / 2;
                 pabrik.SetHotThermometerValue(temp);
-                if (temp >= 1)
-                {
-                    counterTemp = 0;
-					source.PlayOneShot (audio2);
-                }
             }
+			if (temp >= 1)
+			{
+				counterTemp = 0;
+				if (stateBell == false) {
+					source.PlayOneShot (audio2);
+					stateBell = true;
+				}
+				audio3.Stop ();
+			}
 
         }
 
