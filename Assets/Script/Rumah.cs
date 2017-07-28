@@ -11,6 +11,7 @@ public class Rumah : MonoBehaviour {
     float debounce = 0;
     public float debounceTimeMax = 1;
     public GameObject tangan;
+	[SerializeField]
     bool soundState = false;
     public AudioSource source;
     public AudioClip audio1;
@@ -32,13 +33,14 @@ public class Rumah : MonoBehaviour {
             interaction.counter = 0;
             rumah.PlayIdle();
             tangan.SetActive(false);
+			soundState = false;
             Debug.Log("Farm timeout");
         }
     }
 
     void ReadInput()
     {
-        if (Input.GetKey(interaction.keyCode))
+		if (Input.GetKey(interaction.keyCode) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("RUMAH_idle"))
             {
@@ -54,8 +56,8 @@ public class Rumah : MonoBehaviour {
                 soundState = false;
             }
         }
-
-        if (SerialHandler.serial_is_open && SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
+		/*
+        if (SerialHandler.serial_is_open && )
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("RUMAH_idle"))
             {
@@ -70,7 +72,7 @@ public class Rumah : MonoBehaviour {
                 tangan.SetActive(false);
                 soundState = false;
             }
-        }
+        }*/
     }
 
 
