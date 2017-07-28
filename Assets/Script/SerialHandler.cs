@@ -154,7 +154,7 @@ public class SerialHandler : MonoBehaviour
     private static bool serial_is_proper = false;
     private bool changeSceneStart = false;
     private float changeSceneTimer = 0f;
-	[SerializeField] private const float changeSceneTime = 2f;
+	[SerializeField] private const float changeSceneTime = 4f;
     char buff;
 
     // 0x0A is new line
@@ -174,7 +174,10 @@ public class SerialHandler : MonoBehaviour
     private float timer = 0f;
 	[SerializeField] private const float timerCount = 5f;
 	private float transitionTimer = 0f;
-	[SerializeField] private const float transitionTimerCount = 5f;
+	[SerializeField] private const float transitionTimerCount = 15f;
+	private float[] timerSwipe = new float[0f, 0f];
+	private const float timerSwipeOut = 1f;
+
 
     private bool checkTimer()
     {
@@ -248,7 +251,9 @@ public class SerialHandler : MonoBehaviour
 
 	public void checkSwipeEmulated(int index)
 	{
-		
+		if (touchSensor [index * 2 + 7]) {
+
+		} else if (touchSensor [index * 2 + 8]
 	}
 
     private string intToBinaryString(byte n)
@@ -374,15 +379,18 @@ public class SerialHandler : MonoBehaviour
                 serialPort.BaseStream.Flush();
                 changeSceneStart = false;
                 changeSceneTimer = 0;
+				sensorIndex = 0;
                 Debug.Log("ChangeScene3");
                 state_is_calibrate = !state_is_calibrate;
 				if (state_is_calibrate) {
 					SceneManager.LoadScene ("Calibration");
 					transitionState = true;
+					Debug.Log ("to calib");
 				}
                 else
                 {
-                    SceneManager.LoadScene("MainScene");
+                    SceneManager.LoadScene("GABUNG");
+					Debug.Log ("to MainScene");
                 }
             }
             else
@@ -395,9 +403,14 @@ public class SerialHandler : MonoBehaviour
             if (state_is_calibrate)
             {
 				if (transitionState) {
+					if (transitionTimer == 0f) {
+						serialPort.Write (cmdCal, 0, cmdCal.Length);
+						serialPort.BaseStream.Flush ();
+					}
 					if (transitionTimer > transitionTimerCount) {
 						transitionState = false;
 						transitionTimer = 0;
+						CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
 					} else {
 						transitionTimer += Time.deltaTime;
 					}
@@ -405,11 +418,9 @@ public class SerialHandler : MonoBehaviour
 					if (checkTimer ()) {
 						timer = 0;
 						Debug.Log (cmdCal [0]);
-						serialPort.Write (cmdCal, 0, cmdCal.Length);
-						serialPort.BaseStream.Flush ();
+
 						if (sensorIndex == 0) {
-							//SceneManager.GetSceneByName("Calibration").GetRootGameObjects().
-							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
+							
 						} else if (sensorIndex < sensorNum) {
 							CalibrationHandler.static_sensorPlacement [sensorIndex].SetActive (true);
 							CalibrationHandler.static_sensorPlacement [sensorIndex - 1].SetActive (false);
@@ -418,6 +429,8 @@ public class SerialHandler : MonoBehaviour
 							changeSceneStart = true;
 							Debug.Log ("ChangeScene1");
 						}
+						serialPort.Write (cmdCal, 0, cmdCal.Length);
+						serialPort.BaseStream.Flush ();
 						Debug.Log ("sensor index " + sensorIndex);
 						sensorIndex++;
 					}
@@ -442,7 +455,6 @@ public class SerialHandler : MonoBehaviour
                     Debug.Log("timeout");
                 }
 
-
                 byte[] arr = System.Text.Encoding.ASCII.GetBytes(temp);
                 string fulltemp = "| ";
                 for (int i = 0; i < 10; i++)
@@ -462,12 +474,6 @@ public class SerialHandler : MonoBehaviour
                     touchSensor[i].checkTouch(dataTouch, i);
                     touchSensor[i].updateData();
 					ScreensaverTimer.resetTimer ();
-                    /*
-                     * if (i == (int)TouchSensor.Player2Kiri)
-                        Debug.Log(TouchSensor.Player2Kiri + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
-                    if (i == (int)TouchSensor.Player2Kanan)
-                        Debug.Log(TouchSensor.Player2Kanan + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
-                        */
                 }
 
                 for (int i = 0; i < (int)SwipeSensor.Size; i++)

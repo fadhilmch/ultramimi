@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScreensaverTimer : MonoBehaviour {
 	public static float timer = 0f;
-	private const float screenSaverTimer = 60f;
+	private const float screenSaverTimer = 20f;
 	private const string screenSaverScene = "ScreenSaver";
 	private SceneTransition sceneTransition;
 	public static void resetTimer()
@@ -19,6 +19,9 @@ public class ScreensaverTimer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.anyKeyDown)
+			resetTimer ();
+		Debug.Log ("timer " + timer);
 		if (timer < screenSaverTimer) {
 			timer += Time.deltaTime;
 		} else {
