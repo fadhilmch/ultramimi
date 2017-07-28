@@ -461,29 +461,35 @@ public class SerialHandler : MonoBehaviour
                 {
                     touchSensor[i].checkTouch(dataTouch, i);
                     touchSensor[i].updateData();
-                    if (i == (int)TouchSensor.Player2Kiri)
+					ScreensaverTimer.resetTimer ();
+                    /*
+                     * if (i == (int)TouchSensor.Player2Kiri)
                         Debug.Log(TouchSensor.Player2Kiri + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
                     if (i == (int)TouchSensor.Player2Kanan)
                         Debug.Log(TouchSensor.Player2Kanan + " State is down " + touchSensor[i].isDown + " is Changed " + touchSensor[i].isChanged);
+                        */
                 }
 
                 for (int i = 0; i < (int)SwipeSensor.Size; i++)
                 {
                     swipeSensor[i].checkSwipe(dataSwipe, i);
                     swipeSensor[i].updateData();
+					ScreensaverTimer.resetTimer ();
                 }
 
                 for (int i = 0; i < (int)BlowSensor.Size; i++)
                 {
                     blowSensor[i].checkBlow(dataBlow, i);
                     blowSensor[i].updateData();
-                    Debug.Log(BlowSensor.Anak + " State is down " + blowSensor[i].isDown + " is Changed " + blowSensor[i].isChanged);
+					ScreensaverTimer.resetTimer ();
+                    /*Debug.Log(BlowSensor.Anak + " State is down " + blowSensor[i].isDown + " is Changed " + blowSensor[i].isChanged);*/
                 }
 
                 if (dataCalibrate[0] == '1')
                 {
                     changeSceneStart = true;
                     Debug.Log("ChangeScene2");
+					ScreensaverTimer.resetTimer ();
                 }
             }
         }
