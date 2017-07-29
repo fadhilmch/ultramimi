@@ -12,7 +12,7 @@ public class ChangeScene : MonoBehaviour {
     private Animator animator;
     private int state = 0;
 
-    private float reactionTime = 1f;
+    private float reactionTime = 2f;
     private float reactionTimer = 0f;
     private bool startReactionTimer = false;
 	private	AsyncOperation	asyncOperation;
@@ -106,7 +106,7 @@ public class ChangeScene : MonoBehaviour {
 
         //else if (animator.GetInteger("AnimState") == 1)
 		else if (state == 2) {
-			//ReadInput ();	
+			ReadInput ();	
 
 			if (reactionTimerCount ()) {
 				if (interaction.value) {

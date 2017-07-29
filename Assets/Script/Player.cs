@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 	public float[] targetPosX;
-	public int currentPos = 0;
+	public int currentPos = 1;
 	public int indexKarakter = 0;
 	public GamePlay gamePlay;
 	public GameObject pusing;

@@ -536,36 +536,33 @@ public class SerialHandler : MonoBehaviour
 					dataEmulatedSwipe += (emulatedSwipeSensor [i].isDown ? '1' : '0');
 				}
 				Debug.Log(dataTouch.Substring(0,7) + " " + dataTouch.Substring(7, 4) + " " + dataSwipe.Substring(0,2) + " " + dataEmulatedSwipe + " " + dataBlow + " " + dataCalibrate);
+				if (temp [0] != (char)0) {
+					for (int i = 0; i < (int)TouchSensor.Size; i++) {
+						touchSensor [i].checkTouch (dataTouch, i);
+						touchSensor [i].updateData ();
+						ScreensaverTimer.resetTimer ();
+					}
 
-                for (int i = 0; i < (int)TouchSensor.Size; i++)
-                {
-                    touchSensor[i].checkTouch(dataTouch, i);
-                    touchSensor[i].updateData();
-					ScreensaverTimer.resetTimer ();
-                }
+					for (int i = 0; i < (int)SwipeSensor.Size; i++) {
+						swipeSensor [i].checkSwipe (dataSwipe, i);
+						swipeSensor [i].updateData ();
+						emulatedSwipeSensor [i].checkEmulatedSwipe (dataTouch, i);
+						emulatedSwipeSensor [i].updateData ();
+						ScreensaverTimer.resetTimer ();
+					}
 
-                for (int i = 0; i < (int)SwipeSensor.Size; i++)
-                {
-                    swipeSensor[i].checkSwipe(dataSwipe, i);
-                    swipeSensor[i].updateData();
-					emulatedSwipeSensor [i].checkEmulatedSwipe (dataTouch, i);
-					emulatedSwipeSensor [i].updateData();
-					ScreensaverTimer.resetTimer ();
-                }
+					for (int i = 0; i < (int)BlowSensor.Size; i++) {
+						blowSensor [i].checkBlow (dataBlow, i);
+						blowSensor [i].updateData ();
+						ScreensaverTimer.resetTimer ();
+					}
 
-                for (int i = 0; i < (int)BlowSensor.Size; i++)
-                {
-                    blowSensor[i].checkBlow(dataBlow, i);
-                    blowSensor[i].updateData();
-					ScreensaverTimer.resetTimer ();
-                }
-
-                if (dataCalibrate[0] == '1')
-                {
-                    changeSceneStart = true;
-                    Debug.Log("ChangeScene2");
-					ScreensaverTimer.resetTimer ();
-                }
+					if (dataCalibrate [0] == '1') {
+						changeSceneStart = true;
+						Debug.Log ("ChangeScene2");
+						ScreensaverTimer.resetTimer ();
+					}
+				}
             }
         }
         else
