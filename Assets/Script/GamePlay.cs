@@ -26,6 +26,7 @@ public class GamePlay : MonoBehaviour {
 	public GameObject mimi;
 	public GameObject leo;
 	public	TimerAnimationController	timerAnimatorController;
+	private AsyncOperation ao;
 
     IEnumerator Start(){
 		yield return new WaitForSeconds (3);
@@ -116,6 +117,29 @@ public class GamePlay : MonoBehaviour {
 
     public void ChangeScene(string nameScene)
     {
-        SceneManager.LoadScene(nameScene);        
+		StartCoroutine (AsynchronousLoad (nameScene));
     }
+
+	IEnumerator AsynchronousLoad (string scene)
+	{
+		yield return null;
+
+		ao = SceneManager.LoadSceneAsync(scene);
+		ao.allowSceneActivation = false;
+
+		while (! ao.isDone)
+		{
+			// [0, 0.9] > [0, 1]
+			float progress = Mathf.Clamp01(ao.progress / 0.9f);
+			Debug.Log("Loading progress: " + (progress * 100) + "%");
+
+			// Loading completed
+			if (ao.progress == 0.9f)
+			{
+				ao.allowSceneActivation = true;		//ao.allowSceneActivation = true;
+			}
+
+			yield return null;
+		}
+	}
 }
