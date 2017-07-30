@@ -459,7 +459,7 @@ public class SerialHandler : MonoBehaviour
             }
             else
             {
-
+				changeSceneTimer += Time.deltaTime;
             }
         }
         if (serial_is_proper)
@@ -537,6 +537,7 @@ public class SerialHandler : MonoBehaviour
 				}
 				Debug.Log(dataTouch.Substring(0,7) + " " + dataTouch.Substring(7, 4) + " " + dataSwipe.Substring(0,2) + " " + dataEmulatedSwipe + " " + dataBlow + " " + dataCalibrate);
 				if (temp [0] != (char)0) {
+					Debug.Log ("masuk cuy");
 					for (int i = 0; i < (int)TouchSensor.Size; i++) {
 						touchSensor [i].checkTouch (dataTouch, i);
 						touchSensor [i].updateData ();
