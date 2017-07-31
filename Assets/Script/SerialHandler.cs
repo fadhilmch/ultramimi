@@ -390,6 +390,7 @@ public class SerialHandler : MonoBehaviour
 
     void Start()
     {
+		Cursor.visible = false;
         baudrate_static = baudrate;
         port_static = port;
         DontDestroyOnLoad(this.gameObject);

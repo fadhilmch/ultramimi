@@ -221,6 +221,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: GABUNG
   key: 122
+  interaction:
+    keyCode: 0
+    keyCode2: 0
+    sensorTrigger1: 2
+    sensorTrigger2: 0
+    timeOut: 0
+    value: 0
+    value2: 0
+    counter: 0
   audio1: {fileID: 8300000, guid: 9623ec989ceb7b242862635f2255240a, type: 3}
   audio2: {fileID: 8300000, guid: 96d03e7595fd372419b15c4111c638e4, type: 3}
   volume1: 1

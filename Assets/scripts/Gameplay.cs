@@ -116,7 +116,7 @@ namespace hideandseek
             else
                 audiostate4 = false;
 
-            if (SerialHandler.getSensorDown((int)TouchSensor.FarmAtas) || Input.GetKey(KeyCode.T))
+            if (SerialHandler.getSensorDown((int)TouchSensor.FarmBawah) || Input.GetKey(KeyCode.T))
             {
                 OnSensorTap(4);
                 if (audiostate5 == false)

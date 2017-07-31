@@ -19,7 +19,11 @@ public class ControllerManager : MonoBehaviour
     private bool audio1Kanan = false;
     private bool audio2Kiri = false;
     private bool audio2Kanan = false;
+	private float responseTimer1 = 0f;
+	private const float responseTime1 = 0.2f; 
 
+	private float responseTimer2 = 0f;
+	private const float responseTime2 = 0.2f;
 
     private void Start()
     {
@@ -28,78 +32,92 @@ public class ControllerManager : MonoBehaviour
 
     private void Update()
     {
-        /**if (Input.GetKeyDown(KeyCode.A) || SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri)){ControllerPressed(0);}
-        if (Input.GetKeyDown(KeyCode.D) || SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan)) { ControllerPressed(1); }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || SerialHandler.getSensorDown((int)TouchSensor.Player2Kiri)) { ControllerPressed(2); }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan)) { ControllerPressed(3); }**/
+		if (responseTimer1 > responseTime1) {
+			
+			if(SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri) || Input.GetKey(KeyCode.A))
+			{
+				responseTimer1 = 0f;
+				ControllerPressed (0);
+				mimiControllers[0].color = colorBtnPressed;
+				if(audio1Kiri == false)
+				{
+					source.PlayOneShot(clipPlayer1);
+					audio1Kiri = true;
+				}
+			}
+
+			else
+			{
+				mimiControllers[0].color = colorBtnNormal;
+				audio1Kiri = false;
+			}
+
+			if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKey(KeyCode.D))
+			{
+				responseTimer1 = 0f;
+				ControllerPressed (1);
+				mimiControllers[1].color = colorBtnPressed;
+				if (audio1Kanan == false)
+				{
+					source.PlayOneShot(clipPlayer1);
+					audio1Kanan = true;
+				}
+			}
+			else
+			{
+				mimiControllers[1].color = colorBtnNormal;
+				audio1Kanan = false;
+			}
+		} else {
+			responseTimer1 += Time.deltaTime;
+		}
+
+		if (responseTimer2 > responseTime2) {
+			
+			if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kiri) || Input.GetKey(KeyCode.LeftArrow))
+			{
+				responseTimer2 = 0f;
+				ControllerPressed (2);
+				leonControllers[0].color = colorBtnPressed;
+				if (audio2Kiri == false)
+				{
+					source.PlayOneShot(clipPlayer1);
+					audio2Kiri = true;
+				}
+			}
+			else
+			{
+				leonControllers[0].color = colorBtnNormal;
+				audio2Kiri = false;
+			}
+
+			if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan) || Input.GetKey(KeyCode.RightArrow))
+			{
+				responseTimer2 = 0f;
+				ControllerPressed (3);
+				leonControllers[1].color = colorBtnPressed;
+				if (audio2Kanan == false)
+				{
+					source.PlayOneShot(clipPlayer1);
+					audio2Kanan = true;
+				}
+			}
+			else
+			{
+				leonControllers[1].color = colorBtnNormal;
+				audio2Kanan = false;
+			}
+		} else {
+			responseTimer2 += Time.deltaTime;
+		}
+
+
+
     }
 
     private void FixedUpdate()
     {
-        if(SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri) || Input.GetKey(KeyCode.A))
-        {
-			ControllerPressed (0);
-            mimiControllers[0].color = colorBtnPressed;
-            if(audio1Kiri == false)
-            {
-                source.PlayOneShot(clipPlayer1);
-                audio1Kiri = true;
-            }
-        }
-            
-        else
-        {
-            mimiControllers[0].color = colorBtnNormal;
-            audio1Kiri = false;
-        }
-
-        if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKey(KeyCode.D))
-        {
-			ControllerPressed (1);
-            mimiControllers[1].color = colorBtnPressed;
-            if (audio1Kanan == false)
-            {
-                source.PlayOneShot(clipPlayer1);
-                audio1Kanan = true;
-            }
-        }
-        else
-        {
-            mimiControllers[1].color = colorBtnNormal;
-            audio1Kanan = false;
-        }
-
-        if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kiri) || Input.GetKey(KeyCode.LeftArrow))
-        {
-			ControllerPressed (2);
-            leonControllers[0].color = colorBtnPressed;
-            if (audio2Kiri == false)
-            {
-                source.PlayOneShot(clipPlayer1);
-                audio2Kiri = true;
-            }
-        }
-        else
-        {
-            leonControllers[0].color = colorBtnNormal;
-            audio2Kiri = false;
-        }
-
-        if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan) || Input.GetKey(KeyCode.RightArrow))
-        {
-			ControllerPressed (3);
-            leonControllers[1].color = colorBtnPressed;
-            if (audio2Kanan == false)
-            {
-                source.PlayOneShot(clipPlayer1);
-                audio2Kanan = true;
-            }
-        }
-        else
-        {
-            leonControllers[1].color = colorBtnNormal;
-            audio2Kanan = false;
-        }
+        
     }
 
     public void ControllerPressed(int indexController)

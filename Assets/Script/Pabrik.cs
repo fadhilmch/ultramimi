@@ -37,7 +37,7 @@ public class Pabrik : MonoBehaviour
             temp = 0;
 			soundState = false;
 			stateTemp = false;
-			stateTemp = false;
+			stateBell = false;
         }
 
     }
@@ -66,7 +66,7 @@ public class Pabrik : MonoBehaviour
 
 				soundState = false;
 				stateTemp = false;
-				stateTemp = false;
+				stateBell = false;
 
 			} else if (animator.GetCurrentAnimatorStateInfo (0).IsName ("PABRIK_state2_part3_show")) {
 				if (temp < 1) {

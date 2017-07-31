@@ -678,7 +678,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 191740395}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.23, y: -5.89, z: 0}
+  m_LocalPosition: {x: -9.04, y: -5.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1685407393}
@@ -772,7 +772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &210014823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -780,7 +780,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 210014822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1.01, y: 1.01, z: 1}
   m_Children:
   - {fileID: 1790182051}
@@ -5777,7 +5777,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 514214826}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.13, y: -7.89, z: 0}
+  m_LocalPosition: {x: 9.33, y: -7.35, z: 0}
   m_LocalScale: {x: 1.1841421, y: 1.1841421, z: 1.1841421}
   m_Children: []
   m_Father: {fileID: 1254605957}
@@ -5805,7 +5805,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 544748471}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.42, y: -5.96, z: 0}
+  m_LocalPosition: {x: 8.72, y: -5.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1685407393}
@@ -5833,7 +5833,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 573219193}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.52, y: 2.62, z: 0}
+  m_LocalPosition: {x: 9.1, y: 2.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1685407393}
@@ -6887,7 +6887,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1007687132
+  randomSeed: -68133814
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9892,7 +9892,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 883521749}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 8.63, y: 2.57, z: 5.49}
+  m_LocalPosition: {x: 7.86, y: 2.57, z: 5.49}
   m_LocalScale: {x: 2.0388796, y: 2.0388787, z: 2.0388787}
   m_Children: []
   m_Father: {fileID: 279514164}
@@ -9989,7 +9989,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 913343088}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.17, y: -5.79, z: 0}
+  m_LocalPosition: {x: -13.43, y: -5.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1685407393}
@@ -11464,7 +11464,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1355040102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.15, y: 3.18, z: 0}
+  m_LocalPosition: {x: 6.55, y: 3.18, z: 0}
   m_LocalScale: {x: 1.3078117, y: 1.3078117, z: 0.87187445}
   m_Children: []
   m_Father: {fileID: 1129470580}
@@ -11716,7 +11716,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1408650016}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.25, y: -1.88, z: 0}
+  m_LocalPosition: {x: 4.74, y: -1.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1685734613}
@@ -12954,7 +12954,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 62a3e0f34d739614f85dceb54cdbfe03, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.326
+  m_Volume: 0.85
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13440,8 +13440,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2000589545}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.79, y: -2.11, z: 0}
-  m_LocalScale: {x: -1.2499278, y: 1.249928, z: 1.1841422}
+  m_LocalPosition: {x: 7.9, y: -2.29, z: 0}
+  m_LocalScale: {x: -0.98449224, y: 0.98449236, z: 0.9326769}
   m_Children: []
   m_Father: {fileID: 1685734613}
   m_RootOrder: 3

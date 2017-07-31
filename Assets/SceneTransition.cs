@@ -8,7 +8,7 @@ public class SceneTransition : MonoBehaviour {
     private Fading fading;
     public KeyCode key;
     private AudioSource source;
-
+	public Interaction interaction;
     public AudioClip audio1;
     public AudioClip audio2;
 
@@ -43,7 +43,7 @@ public class SceneTransition : MonoBehaviour {
             SceneManager.LoadScene(scene);
             //source.PlayOneShot(audio2, volume2);
         }*/
-        if (Input.GetKeyDown(key))
+		if (Input.GetKeyDown(key) || SerialHandler.getSensorDown((int)interaction.sensorTrigger1))
         {
             source.PlayOneShot(audio1, volume1);
             float fadeTime = fading.BeginFade(1);
