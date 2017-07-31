@@ -28,16 +28,17 @@ public class ControllerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) || SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri)){ControllerPressed(0);}
+        /**if (Input.GetKeyDown(KeyCode.A) || SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri)){ControllerPressed(0);}
         if (Input.GetKeyDown(KeyCode.D) || SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan)) { ControllerPressed(1); }
         if (Input.GetKeyDown(KeyCode.LeftArrow) || SerialHandler.getSensorDown((int)TouchSensor.Player2Kiri)) { ControllerPressed(2); }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan)) { ControllerPressed(3); }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan)) { ControllerPressed(3); }**/
     }
 
     private void FixedUpdate()
     {
         if(SerialHandler.getSensorDown((int)TouchSensor.Player1Kiri) || Input.GetKey(KeyCode.A))
         {
+			ControllerPressed (0);
             mimiControllers[0].color = colorBtnPressed;
             if(audio1Kiri == false)
             {
@@ -54,6 +55,7 @@ public class ControllerManager : MonoBehaviour
 
         if (SerialHandler.getSensorDown((int)TouchSensor.Player1Kanan) || Input.GetKey(KeyCode.D))
         {
+			ControllerPressed (1);
             mimiControllers[1].color = colorBtnPressed;
             if (audio1Kanan == false)
             {
@@ -69,6 +71,7 @@ public class ControllerManager : MonoBehaviour
 
         if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kiri) || Input.GetKey(KeyCode.LeftArrow))
         {
+			ControllerPressed (2);
             leonControllers[0].color = colorBtnPressed;
             if (audio2Kiri == false)
             {
@@ -84,6 +87,7 @@ public class ControllerManager : MonoBehaviour
 
         if (SerialHandler.getSensorDown((int)TouchSensor.Player2Kanan) || Input.GetKey(KeyCode.RightArrow))
         {
+			ControllerPressed (3);
             leonControllers[1].color = colorBtnPressed;
             if (audio2Kanan == false)
             {

@@ -402,10 +402,10 @@ public class SerialHandler : MonoBehaviour
         for (int i = 0; i < (int)BlowSensor.Size; i++)
             blowSensor[i] = new DataSensor();
         
-        touchSensor[(int)TouchSensor.Player1Kiri].responseTime = 0.3f;
-        touchSensor[(int)TouchSensor.Player1Kanan].responseTime = 0.3f;
-        touchSensor[(int)TouchSensor.Player2Kiri].responseTime = 0.3f;
-        touchSensor[(int)TouchSensor.Player2Kanan].responseTime = 0.3f;
+        touchSensor[(int)TouchSensor.Player1Kiri].responseTime = 0.05f;
+        touchSensor[(int)TouchSensor.Player1Kanan].responseTime = 0.05f;
+        touchSensor[(int)TouchSensor.Player2Kiri].responseTime = 0.05f;
+        touchSensor[(int)TouchSensor.Player2Kanan].responseTime = 0.05f;
         
 
         // Initialize serial protocol
