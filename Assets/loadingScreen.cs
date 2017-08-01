@@ -35,13 +35,14 @@ public class loadingScreen : MonoBehaviour {
 		text.SetActive (true);
 		progressBar.SetActive (true);
 		animation.SetActive (true);
-
-		progressBar.transform.localScale = new Vector3 (loadProgress, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+		float loadFloat = progressBar.transform.localScale.x;
+		progressBar.transform.localScale = new Vector3 (0, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
 		AsyncOperation async = SceneManager.LoadSceneAsync(levelToLoad);
 		while (!async.isDone) {
 			loadProgress = (int)(async.progress * 100);
+
 			Debug.Log (loadProgress);
-			progressBar.transform.localScale = new Vector3 (loadProgress, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+			progressBar.transform.localScale = new Vector3 (loadFloat * async.progress, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
 			yield return null;
 		}
 	}
