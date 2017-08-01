@@ -18,6 +18,9 @@ public class PABRIK_Controller : MonoBehaviour
     [SerializeField]
     Animator part4animator;
 
+    [Header("State 1 Components")]
+    [SerializeField]
+    Animator Flag;
 
     [Header("Part 3 components")]
     [SerializeField]
@@ -68,7 +71,7 @@ public class PABRIK_Controller : MonoBehaviour
         }
 
         // TESTING DOANG!!
-		/*
+        /*
         if (DoSetStopwatchValue)
         {
             DoSetStopwatchValue = false;
@@ -248,5 +251,15 @@ public class PABRIK_Controller : MonoBehaviour
                 animator.SetTrigger("idle");
             }
         }
+    }
+
+    public void HideFlag()
+    {
+        Flag.SetTrigger("Hide");
+    }
+
+    public void ShowFlag()
+    {
+        Flag.SetTrigger("Show");
     }
 }
