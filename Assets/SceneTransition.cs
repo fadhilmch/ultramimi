@@ -11,6 +11,7 @@ public class SceneTransition : MonoBehaviour {
 	public Interaction interaction;
     public AudioClip audio1;
     public AudioClip audio2;
+	public GameObject loadingScreen;
 
     public float volume1 = 1;
     public float volume2 = 1;
@@ -20,7 +21,8 @@ public class SceneTransition : MonoBehaviour {
 		source.PlayOneShot(audio1, volume1);
 		float fadeTime = fading.BeginFade(1);
 		//yield return new WaitForSeconds(fadeTime);
-		SceneManager.LoadScene(scene);
+		loadingScreen.GetComponent<loadingScreen>().levelToLoad = scene;
+		loadingScreen.GetComponent<loadingScreen>().startLoading = true;
 		source.PlayOneShot(audio2, volume2);
 	}
 

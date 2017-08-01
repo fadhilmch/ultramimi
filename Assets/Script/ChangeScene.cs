@@ -18,6 +18,8 @@ public class ChangeScene : MonoBehaviour {
 	private	AsyncOperation	asyncOperation;
 	public AudioSource source;
 	public AudioClip audio1;
+
+	public GameObject loadingScreen;
 	private bool statesound = false;
 
     bool reactionTimerCount()
@@ -140,15 +142,15 @@ public class ChangeScene : MonoBehaviour {
     {
         float fadeTime =fading.BeginFade(1);
         //yield return new WaitForSeconds(fadeTime);
-        SceneManager.LoadScene(scene);
-        
+		loadingScreen.GetComponent<loadingScreen>().levelToLoad = scene;
+		loadingScreen.GetComponent<loadingScreen> ().startLoading = true;
     }
 
 	 IEnumerator Delay(){
 		yield return new WaitForSeconds (10);
 	}
 
-	public	IEnumerator	LoadSyncAsync(string	nameScene){
+	/*public	IEnumerator	LoadSyncAsync(string	nameScene){
 
 		asyncOperation	=	SceneManager.LoadSceneAsync (nameScene);
 		asyncOperation.allowSceneActivation	=	false;
@@ -160,6 +162,6 @@ public class ChangeScene : MonoBehaviour {
 
 	public	void	LoadGames1(){
 		asyncOperation.allowSceneActivation	=	true;
-	}
+	}*/
     
 }
