@@ -437,6 +437,7 @@ public class SerialHandler : MonoBehaviour
           
             if (changeSceneTimer > changeSceneTime)
             {
+				//Buat ganti scene, ngejawab ardu
                 serialPort.Write(cmdCal, 0, cmdCal.Length);
                 serialPort.BaseStream.Flush();
                 changeSceneStart = false;
@@ -469,8 +470,10 @@ public class SerialHandler : MonoBehaviour
             {
 				if (transitionState) {
 					if (transitionTimer == 0f) {
+						/*
 						serialPort.Write (cmdCal, 0, cmdCal.Length);
 						serialPort.BaseStream.Flush ();
+						*/
 					}
 					if (transitionTimer > transitionTimerCount) {
 						transitionState = false;

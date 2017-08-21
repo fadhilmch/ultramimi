@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class serialchange : MonoBehaviour {
-
+	private bool firstTime = true;
     public string scene;
     private Fading fading;
 	public GameObject loadingScreen;
@@ -13,12 +13,15 @@ public class serialchange : MonoBehaviour {
         fading = GetComponent<Fading>();
         float fadeTime = fading.BeginFade(1);
         //yield return new WaitForSeconds(fadeTime);
-		loadingScreen.GetComponent<loadingScreen>().levelToLoad = scene;
-		loadingScreen.GetComponent<loadingScreen> ().startLoading = true;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (firstTime) {
+			loadingScreen.GetComponent<loadingScreen> ().levelToLoad = scene;
+			loadingScreen.GetComponent<loadingScreen> ().startLoading = true;
+			firstTime = false;
+		}
 	}
 }

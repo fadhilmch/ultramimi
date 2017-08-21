@@ -25,6 +25,7 @@ public class GamePlay : MonoBehaviour {
 	public GameOverManager gameOverManager;
 	public GameObject mimi;
 	public GameObject leo;
+	public GameObject loadingScene;
 	public	TimerAnimationController	timerAnimatorController;
 	private AsyncOperation ao;
 
@@ -117,7 +118,8 @@ public class GamePlay : MonoBehaviour {
 
     public void ChangeScene(string nameScene)
     {
-		StartCoroutine (AsynchronousLoad (nameScene));
+		loadingScene.GetComponent<loadingScreen> ().levelToLoad = nameScene;
+		loadingScene.GetComponent<loadingScreen> ().startLoading = true;
     }
 
 	IEnumerator AsynchronousLoad (string scene)

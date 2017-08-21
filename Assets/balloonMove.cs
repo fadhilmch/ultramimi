@@ -20,9 +20,12 @@ public class balloonMove : MonoBehaviour
 
     public GameObject awan;
 	public GameObject sign;
+	public GameObject flag;
     private Animator animator;
+	private Vector3 flagAcc = new Vector3 ();
 
-    private bool play = false;
+
+    public bool play = false;
 
     void ReadInput()
     {
@@ -37,6 +40,8 @@ public class balloonMove : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         animator = awan.GetComponent<Animator>();
+		flagAcc = flag.GetComponent<Cloth> ().externalAcceleration;
+
     }
 
     // Update is called once per frame
@@ -61,6 +66,9 @@ public class balloonMove : MonoBehaviour
                 animator.SetTrigger("burst");
 				sign.SetActive (false);
                 play = true;
+
+				flag.GetComponent<Cloth>().externalAcceleration = new Vector3((float)flagAcc.x*2, 4f, -3f );
+
             }
             if (state == 0)
             {
@@ -77,6 +85,7 @@ public class balloonMove : MonoBehaviour
             }
             if (state == 1)
             {
+				flag.GetComponent<Cloth> ().externalAcceleration = flagAcc;
                 t += Time.deltaTime;
                 transform.position = Vector3.Lerp(restartMarker.position, startMarker.position, t * 0.75f);
                 if (transform.position == startMarker.position)

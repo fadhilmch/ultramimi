@@ -25,6 +25,7 @@ namespace hideandseek
         public bool isChangeObject { get; set; }
         public Text[] barScore;
         public GameObject[] barScoreDone;
+		public GameObject loadingScreen;
         public int[] barScorevalue;
         public int score = 0;
 
@@ -217,7 +218,8 @@ namespace hideandseek
             panelGameOver.SetActive(true);
             panelGameOver.GetComponent<PanelGameover>().SetGameoverCondition(state);
             GetComponent<SpawnerObjectManager>().CancelInvokeDisplayObject();
-            StartCoroutine(GoToMenu());
+			loadingScreen.GetComponent<loadingScreen>().levelToLoad = "GABUNG";
+			loadingScreen.GetComponent<loadingScreen>().startLoading = true;
         }
 
         private IEnumerator GoToMenu()
@@ -228,7 +230,8 @@ namespace hideandseek
 
         public void GoToScene(string sceneName)
         {
-            SceneManager.LoadScene(sceneName);
+			loadingScreen.GetComponent<loadingScreen>().levelToLoad = sceneName;
+			loadingScreen.GetComponent<loadingScreen>().startLoading = true;
         }
 
         public void ChangeValueBar(int index)

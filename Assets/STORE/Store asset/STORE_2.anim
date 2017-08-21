@@ -2012,10 +2012,16 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 1.9833333
-        value: -3.97
+        time: 0
+        value: -4.29
         inSlope: 0
         outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 1.9833333
+        value: -3.97
+        inSlope: 0.5774435
+        outSlope: 0.5774435
         tangentMode: 136
       - serializedVersion: 2
         time: 2.2166667
@@ -2083,6 +2089,22 @@ AnimationClip:
     attribute: m_AnchoredPosition.y
     path: Image
     classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: mini market mask/mini market
+    classID: 1
     script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -2447,6 +2469,13 @@ AnimationClip:
       attribute: 538195251
       script: {fileID: 0}
       typeID: 224
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 3119848847
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
@@ -4747,10 +4776,16 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 1.9833333
-        value: -3.97
+        time: 0
+        value: -4.29
         inSlope: 0
         outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 1.9833333
+        value: -3.97
+        inSlope: 0.5774435
+        outSlope: 0.5774435
         tangentMode: 136
       - serializedVersion: 2
         time: 2.2166667
@@ -4818,6 +4853,22 @@ AnimationClip:
     attribute: m_AnchoredPosition.y
     path: Image
     classID: 224
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: mini market mask/mini market
+    classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0

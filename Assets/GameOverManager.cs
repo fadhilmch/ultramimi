@@ -8,6 +8,7 @@ public class GameOverManager : MonoBehaviour {
 	public GameObject panelMimiWin;
 	public GameObject panelLeoWin;
 	public GameObject panelDraw;
+	public GameObject loadingScreen;
 
 	public void SetWin(int index){
 		switch (index) {
@@ -21,12 +22,13 @@ public class GameOverManager : MonoBehaviour {
 			panelDraw.SetActive (true);
 			break;
 		}
-		StartCoroutine (GoToMainMenu ());
+		StartCoroutine (GoToMainMenu());
 	}
 
 	private IEnumerator GoToMainMenu(){
 
 		yield return new WaitForSeconds (5);
-		SceneManager.LoadScene ("GABUNG");
+		loadingScreen.GetComponent<loadingScreen>().levelToLoad = "GABUNG";
+		loadingScreen.GetComponent<loadingScreen>().startLoading = true;;
 	}
 }
